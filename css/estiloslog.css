@@ -1,0 +1,208 @@
+/* Reseteo básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+ 
+}
+body{
+    background-color: #c6eae5;
+    display: grid;
+    min-height: 100dvh;
+grid-template-rows: auto 1fr auto;
+}
+
+
+
+
+
+
+/* Estilo para la barra superior */
+header {
+    font-size:x-large;
+    position: fixed; 
+    width: 100%;
+    height: 60px;
+    top: 0;
+    left: 0;
+    background-color: #022521;
+    color: #021b1a;
+    display: flex;
+    justify-content:space-around;
+    align-items: center;
+    padding: 10px ;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 1000; 
+}
+.logo{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+#titulo {
+  color: aliceblue;
+  text-align: center;
+}
+
+.barrPrin{
+  padding: 30px;
+  justify-content: space-between;
+}
+/* From Uiverse.io by WhiteNervosa */ 
+.barrPrin button {
+  font-size: 12px;
+  color: #e1e1e1;
+  margin: 10px;
+  font-weight: 800;
+  cursor: pointer;
+  position: relative;
+  border: none;
+  background: none;
+  text-transform: uppercase;
+  transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition-duration: 400ms;
+  transition-property: color;
+}
+
+.barrPrin button:focus,
+.barrPrin button:hover {
+  color: #fff;
+}
+
+.barrPrin button:focus:after,
+.barrPrin button:hover:after {
+  width: 100%;
+  left: 0%;
+}
+
+.barrPrin button:after {
+  content: "";
+  pointer-events: none;
+  bottom: -2px;
+  left: 50%;
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  background-color: #fff;
+  transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition-duration: 400ms;
+  transition-property: width, left;
+}
+.search-container {
+    display: flex;
+    align-items: center;
+    position:relative;
+  }
+  
+  .search-bar {
+    width: 0;
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 25px;
+    outline: none;
+    transition: width 0.4s ease-in-out;
+    opacity: 0;
+    visibility: hidden;
+  }
+  
+  .search-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    color: #ccc;
+    margin: 15px;
+    transition: transform 0.4s ease-in-out;
+  }
+  
+  .search-container.active .search-bar {
+    width: 200px;
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .search-container.active .search-button {
+    transform: translateX(-10px);
+  }
+
+.img-circular {
+  width: 40px; 
+  height: 40px; 
+  border-radius: 50%; 
+  object-fit: cover; 
+  /* margin-left: 150px;
+  margin-top: -90px; */
+}
+
+
+.identificador{
+  position:relative;
+  color: aliceblue;}
+
+main input{
+  margin-bottom:20px; 
+}
+
+main input{
+  border: 2px solid #ccc; 
+  border-radius: 15px; 
+  padding: 10px 15px; 
+  font-size: 16px; 
+  outline: none; 
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+
+/* From Uiverse.io by absoluteSTrange */ 
+main button {
+  padding: 17px 40px;
+  border-radius: 10px;
+  border: 0;
+  background-color: #089B36;
+  letter-spacing: 1.5px;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  box-shadow: #034318 0px 10px 0px 0px;
+  color: hsl(0, 0%, 100%);
+  cursor: pointer;
+}
+
+main button:hover {
+  box-shadow: #034318 0px 7px 0px 0px;
+}
+
+main button:active {
+  background-color: #089B36;
+  /*50, 168, 80*/
+  box-shadow: #034318 0px 0px 0px 0px;
+  transform: translateY(5px);
+  transition: 200ms;
+}
+
+
+
+
+
+
+
+footer{
+    font-style: oblique;
+    position: fixed; 
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 90px;
+    background-color: #022521;
+    color: #022521;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+z-index: 1000;
+}
+
+#datos{
+
+    color: aliceblue;
+    text-align: left;
+}

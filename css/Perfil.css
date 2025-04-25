@@ -1,0 +1,38 @@
+.perfilUs{
+    justify-content:space-between;
+    color: aliceblue;
+    font-family:cursive;
+    text-align:left;
+    margin-top: 100px; 
+    display: flex;
+    border: 1px solid #022521;
+    padding: 15px;
+    background-color: #022521;
+    border-radius: 20px;
+    box-shadow: 0 2px 5px black;
+    max-width: 60%;
+    margin: 80px auto; 
+  }
+  
+  .contenedor_publi{
+    justify-content: center;     
+    align-items: center;  
+    color: gray;
+    font-family: fantasy;
+    background-color:#022521 ;
+    border-radius: 10px;
+    width: 500px;
+    height: auto;
+    padding: 20px;   
+    position: absolute;         
+    top: 50%;                  
+    left: 50%;    
+    transform: translate(-50%, -50%);
+  }
+  .img-cirUs{
+    width: 100px; 
+    height: 100px; 
+    border-radius: 50%; 
+    object-fit: cover; 
+  }
+  

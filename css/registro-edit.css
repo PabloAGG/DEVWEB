@@ -1,0 +1,19 @@
+.contenedor_FormReg{
+    margin-top: 65px;
+    margin-bottom: 50px;
+        justify-content: center;
+        color: aliceblue;
+        font-family:fantasy;
+        font-size: x-large;
+        font-style:oblique;
+        text-align:center;
+        display: flex;
+        border: 1px solid #022521;
+        padding: 20px;
+        background-color: #022521;
+        border-radius: 20px;
+        box-shadow: 0 2px 5px black;
+        max-width: 600px; 
+        margin: 40px auto; 
+    
+    }

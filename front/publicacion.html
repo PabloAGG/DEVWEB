@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crea una Publicacion</title>
+    <link rel="stylesheet" href="css/estiloslog.css">
+    <link rel="stylesheet" href="css/Publicacion.css">
+    
+</head>
+<body  class="cuerpo">
+
+ <header>
+  <a href="dashboard.html"><img src="LOGOWEB.jpg" width="60px" height="60px"></a>  <h6 id="titulo">DEVWEB</h6>
+        <div class="identificador">
+             <img src="Gojo.jpg" alt="" class="img-circular">
+              </div>
+      </header>
+<main>
+<div class="EspPub">
+    <form class="espPubform" action="dashboard.html" method="post">
+
+        <input type="text" name="titleP" placeholder="Titulo"><br>
+     
+<label for="descP">Descripcion</label><br>
+        <textarea name="descP" id="descP" aria-label="With textarea"></textarea><br>
+   
+
+      <label for="fpubfot">Agrega una foto</label>
+      <input type="file" name="fpubfot" id="ffoto"><br>
+<label for="select">Categoria</label>
+<select name="select" id="categorias">
+  <option value="value1">Fotografia</option>
+  <option value="value2" selected>Videojuegos</option>
+  <option value="value3">Gastronomia</option>
+  <option value="value4">Moda</option>
+  <option value="value5" >Musica</option>
+  <option value="value6">Politica</option>
+</select>
+<br>
+<!-- <ul class="list-group">
+    <li class="list-group-item">
+      <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+      Fotografia
+    </li>
+    <li class="list-group-item">
+      <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+      Videojuegos
+    </li>
+    <li class="list-group-item">
+      <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+      Gastronomia
+    </li>
+    <li class="list-group-item">
+      <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+      Moda
+    </li>
+    <li class="list-group-item">
+      <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+      Musica
+    </li>
+  </ul> -->
+  <div id="botonesPubli">
+<button class="btnEx" >Publicar</button>
+<button class="btnEx" onclick="location.href='dashboard.html'">carcelar</button></div>
+</form>
+</div>
+</main>
+
+<footer>
+    <p id="datos">DEVWEB<br>Pablo Garcia 2006335<br>Jorge Rodriguez 2007179</p>
+</footer>
+
+</body>
+</html>

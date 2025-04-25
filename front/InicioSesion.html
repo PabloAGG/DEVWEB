@@ -1,0 +1,46 @@
+{
+    "auto-rename-tag.activationOnLanguage": ["html", "xml", "php", "javascript"]
+  }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio Sesion</title>
+    <link rel="stylesheet" href="css/estiloslog.css">
+    <link rel="stylesheet" href="css/InicioSesio.css">
+</head>
+<body class="cuerpo">
+    <header>
+    <img src="LOGOWEB.jpg" width="60px" height="60px">   <h6 id="titulo">DEVWEB</h6>
+    
+ </header>
+<main>
+    <div class="contenedor">
+        <div class="contenedor_login">
+                   
+            <!--Login-->
+            <form id="formLogin" action="dashboard.html"  class="form__log">
+                <h2 id="IS">Iniciar Sesión</h2>
+                <label for="fname">Usuario:</label><br>
+                <input class="inputLogin" type="text" id="fusuario" name="fusuario" placeholder="Nombre de Usuario"><br>
+                <label for="lname">Contraseña:</label><br>
+                <input class="inputLogin" type="password" id="fcontra" name="fcontra" placeholder="Contraseña"><br>
+                <button class="btnEx" >Entrar</button>
+                </form>
+        </div>
+
+        <div class="Contenedor_regus">
+            <p>¿Aún no tienes una cuenta?<br>
+            ¡Registrarse es gratis!</p><br>
+            <button class="btnEx" onclick="location.href='RegistroUs.html'">Registrate!</button>
+
+        </div>
+    </div>
+</main>
+
+    <footer>
+        <p id="datos">DEVWEB<br>Pablo Garcia 2006335<br>Jorge Rodriguez 2007179</p>
+</footer>
+</body>
+</html>

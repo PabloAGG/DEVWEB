@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Busqueda</title>
+    
+ <link rel="stylesheet" href="css/estiloslog.css">
+ <link rel="stylesheet" href="css/BusqAv.css">
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body class="cuerpo">
+    
+  <header>
+
+  <div class="logo">   <a href="dashboard.html"><img src="LOGOWEB.jpg" width="60px" height="60px"></a>   <h6 id="titulo">DEVWEB</h6></div>
+      <div class="barrPrin">
+ <button onclick="location.href='dashboard.html'">Inicio</button>
+ <button onclick="location.href='Perfil.html'">Perfil</button>
+   <button onclick="location.href='BusqAv.html'"> Busq Av</button>
+     <button onclick="location.href='InicioSesion.html'">Cerrar sesion</button>
+          </div>
+          <div class="search-container">
+           <input type="text" class="search-bar" placeholder="Buscar...">
+           <button class="search-button"><i class="fa fa-search"></i></button>
+         </div>
+                 <div class="identificador">
+ <a href="Perfil.html"><img src="Gojo.jpg" alt="" class="img-circular"></a>
+                 </div>
+     
+ </header>
+<main>
+<div class="BusqAv">
+    <form>
+        <h4>Por Fechas</h4>
+<label for="fechain">Fecha de inicio</label>
+<input type="date" name="fechaini" id="fechaini">
+<label for="fechafin">Fecha Fin</label>
+<input type="date" name="fechafin" id="fechafin">
+
+<h4>Por categorias</h4>
+<label for="fcate">Categorias</label>
+<ul class="list-group">
+    <li class="list-group-item">
+      <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+      Fotografia
+    </li>
+    <li class="list-group-item">
+      <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+      Videojuegos
+    </li>
+    <li class="list-group-item">
+      <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+      Gastronomia
+    </li>
+    <li class="list-group-item">
+      <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+      Moda
+    </li>
+    <li class="list-group-item">
+      <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+      Musica
+    </li>
+  </ul>
+<button class="btnEx" type="submit"><i class="fa fa-search"></i></button>
+</form>
+</div>
+
+<div class="Dashbusq">
+    <h2>Publicaciones</h2>
+    <div class="card" style="width: 18rem; height: 18rem;">
+      
+        <div class="card-body">
+          <h5 class="card-title">Titulo Publicacion</h5>
+          <p class="card-text">descripcion de publicacion </p>
+          
+        </div>
+       
+    </div>
+  </main>
+      <footer>
+            <p id="datos">DEVWEB<br>Pablo Garcia 2006335 <br>Jorge Rodriguez 2007179</p>
+        </footer>
+
+        <script src="js/script.js"></script></body>
+</body>
+</html>

@@ -1,0 +1,36 @@
+.contenedor_regus{
+    justify-content:space-evenly;
+    color: aliceblue;
+    font-family:cursive;
+    font-style:oblique;
+    text-align:center;
+    margin-top: 100px; 
+    display: flex;
+    border: 1px solid #022521;
+    padding: 15px;
+    background-color: #022521;
+    border-radius: 20px;
+    box-shadow: 0 2px 5px black;
+    z-index: 900; 
+    max-width: 600px; 
+    margin: 20px auto; 
+}
+
+.contenedor_login {
+    justify-content: center;
+    color: aliceblue;
+    font-family:fantasy;
+    font-size: x-large;
+    font-style:oblique;
+    text-align:center;
+    margin-top: 80px; 
+    display: flex;
+    border: 1px solid #022521;
+    padding: 20px;
+    background-color: #022521;
+    border-radius: 20px;
+    box-shadow: 0 2px 5px black;
+    z-index: 900; 
+    max-width: 600px; 
+    margin: 20px auto; 
+}

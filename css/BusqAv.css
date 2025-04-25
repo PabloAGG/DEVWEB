@@ -1,0 +1,30 @@
+.BusqAv{
+ 
+    justify-content: center;     
+    align-items: center;  
+    color: gray;
+    font-family: fantasy;
+    background-color:#022521 ;
+    border-radius: 10px;
+    width: 500px;
+    height: auto;
+    padding: 20px;   
+    position: absolute;         
+   margin: 80px auto;
+  }
+  
+  .Dashbusq{
+    color: black;
+    background-color: rgb(174, 172, 172);
+    position: absolute;
+    height: 700px;
+    width:700px;
+    top: 80px;
+    left: 600px;
+    justify-content: center;
+    font-family: fantasy;
+    text-align: center;
+    display: flex;
+    border-radius: 20px;
+    z-index: 900;
+  }

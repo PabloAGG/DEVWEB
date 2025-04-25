@@ -1,0 +1,29 @@
+
+.EspPub{
+    justify-content: center;
+    color: #020406;
+    font-family:fantasy;
+    /* font-size: x-large;
+    font-style:oblique;
+    text-align:center; */
+    margin-top: 80px; 
+    display: flex;
+    border: 1px solid #022521;
+    padding: 20px;
+    background-color: #c4c4c4;
+    border-radius: 20px;
+    box-shadow: 0 2px 5px black;
+    max-width: 600px; 
+    margin: 70px auto; 
+  }
+  #descP{
+    width: 90%;
+    height: 100px;
+  }
+  #categorias{
+    margin-bottom: 20px;
+  }
+  #botonesPubli{
+    display: flex;
+    justify-content: space-between;
+  }
