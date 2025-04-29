@@ -1,0 +1,18 @@
+th{
+    background-color: #050e17;
+    text-align: center;
+    color: white;
+    padding: 8px;
+}
+td{
+    text-align: center;
+    padding: 8px;
+    background-color: #6db4fa;
+    color: white;
+    font-weight: bold;
+}
+table{
+    border-collapse:separate;
+    width: 100%;
+    margin: 20px 0;
+}

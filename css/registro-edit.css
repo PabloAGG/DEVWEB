@@ -1,6 +1,5 @@
 .contenedor_FormReg{
-    margin-top: 65px;
-    margin-bottom: 50px;
+    margin: 65px 0;
         justify-content: center;
         color: aliceblue;
         font-family:fantasy;
@@ -77,4 +76,25 @@
     #registro:hover{
         color: rgb(18, 143, 61);
         text-decoration: underline;
+    }
+
+   #img-contenedor{
+margin-bottom: 70px;
+    }
+    .inputImgPerfil {
+        margin-top: 0.1px; /* Más margen para separarlo del formulario */
+        text-align: center; /* Centrado de la imagen */
+    }
+    
+    #imgPerfil {
+        display: block;
+        margin: 15px auto;
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid antiquewhite;
+    }
+    #psw-contenedor,#psw-contenedor2{
+        display:none; 
     }

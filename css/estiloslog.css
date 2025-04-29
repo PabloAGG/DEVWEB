@@ -16,6 +16,7 @@ body{
 
 main{
   margin-top: 80px; /* Ajusta este valor para separar del header */
+  margin-bottom: 80px; /* Ajusta este valor para separar del footer */
   padding: 20px; /* Espacio interno opcional */
 }
 

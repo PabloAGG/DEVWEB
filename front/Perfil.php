@@ -8,7 +8,7 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 $user_id = $_SESSION['user_id'];
-$sql = "SELECT nomUs, nombre,correo, imagen, usAdmin,nacimiento FROM Usuarios WHERE idUsuario = ?";
+$sql = "SELECT nomUs, nombre,correo, usAdmin,nacimiento FROM Usuarios WHERE idUsuario = ?";
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, 'i', $user_id);
 mysqli_stmt_execute($stmt);
@@ -18,14 +18,12 @@ if ($row = mysqli_fetch_assoc($result)) {
     $user_name = $row['nomUs'];
     $full_name = $row['nombre'];
     $user_email = $row['correo'];
-    $profile_image = $row['imagen'];
     $user_role = $row['usAdmin']; 
     $birth_date = $row['nacimiento'];
 } else {
     echo "Error: No se encontró el usuario.";
     exit();
 }
-
 
 
 ?>
@@ -64,7 +62,23 @@ if ($row = mysqli_fetch_assoc($result)) {
 <main>
   <div class="contenedor-column">
 <div class="perfilUs">
-    <img id="imgPerfil" src="Gojo.jpg" alt="Avatar Usuario" class="img-cirUs">
+
+<?php   
+$sqlMultimedia = "SELECT * FROM Usuarios WHERE idUsuario = $user_id";
+$resultadoMultimedia = $conn->query($sqlMultimedia);
+
+if ($resultadoMultimedia && $resultadoMultimedia->num_rows > 0) {
+    if ($media = $resultadoMultimedia->fetch_assoc()) {
+
+        $mime = $media['tipo_Img'] ?? 'image/png';
+        $base64 = base64_encode($media['imagen']);
+
+        echo '<img class="img-cirUs" src="data:' . $mime . ';base64,' . $base64 . '">';
+    }
+} else {?> 
+    
+<img id="imgPerfil" src="../assets/image_default.png"  alt="Avatar Usuario" class="img-cirUs">
+<?php  }   ?>
     <ul id="list-perfil">
         <li><strong>Nombre Usuario:</strong><?php echo $user_name?></li>
         <li><strong>Nombre:</strong> <?php echo $full_name?></li>

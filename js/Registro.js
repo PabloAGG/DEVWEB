@@ -1,3 +1,4 @@
+const pswInput=document.getElementById('psw-change');
 document.addEventListener('DOMContentLoaded', () => {
     // Manejo de errores desde URL
     const urlParams = new URLSearchParams(window.location.search);
@@ -36,6 +37,9 @@ document.addEventListener('DOMContentLoaded', () => {
         validarCampo(nombreCompletoInput, nombreRegex, "El nombre solo puede contener letras y espacios.");
     });
 
+    if(pswInput.checked){
+if(contraseñaInput!==null && contraseñacheck!==null){
+
     contraseñaInput.addEventListener('input', () => {
         const contraseñaRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
         validarCampo(contraseñaInput, contraseñaRegex, 
@@ -50,6 +54,12 @@ document.addEventListener('DOMContentLoaded', () => {
             contraseñacheck.setCustomValidity("");
         }
     });
+}else{
+    alert("Ingrese una contraseña para continuar.");
+    contraseñaInput.setCustomValidity("Ingrese una contraseña para continuar.");
+    return;
+}
+    }
 
     fechaNacimientoInput.addEventListener('input', () => {
         if (!fechaNacimientoInput.value) {
@@ -79,19 +89,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Forzar validación de todos los campos
         esValido = validarCampo(nombreCompletoInput, /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/, "El nombre solo puede contener letras y espacios.") && esValido;
-        esValido = validarCampo(contraseñaInput, /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/, "Contraseña inválida.") && esValido;
         
+        
+        if (pswInput.checked){
+            esValido = validarCampo(contraseñaInput, /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/, "Contraseña inválida.") && esValido;
         if (contraseñaInput.value !== contraseñacheck.value) {
             contraseñacheck.setCustomValidity("Las contraseñas no coinciden.");
             contraseñacheck.reportValidity();
             esValido = false;
         }
-
+ }
         if (!fechaNacimientoInput.value) {
             fechaNacimientoInput.setCustomValidity("Por favor, selecciona una fecha.");
             fechaNacimientoInput.reportValidity();
             esValido = false;
         }
+   
 
         esValido = validarCampo(emailInput, /^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Correo electrónico inválido.") && esValido;
 
@@ -103,6 +116,44 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
+function previewImage() {
+    const fileInput = document.getElementById('imgRuta');
+    const img = document.getElementById('imgPerfil');
+    const imgContainer = document.getElementById('img-contenedor');
+    if (!fileInput || !img) return;
+
+    const file = fileInput.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            img.src = e.target.result;
+            img.style.display = 'block';
+            imgContainer.style.marginBottom='200px'; // Mostrar el contenedor de la imagen
+        };
+        reader.readAsDataURL(file);
+    } else {
+        img.style.display = 'none';
+    }
+}
+
+function togglePasswordVisibility(){
+    const pswCont=document.getElementById('psw-contenedor');
+    const pswCont2=document.getElementById('psw-contenedor2');
+
+    if(pswInput.checked){
+        pswCont.style.display='block';
+        pswCont2.style.display='block';
+        pswCont.required = true;
+        pswCont2.required = true;
+    }else{
+        pswCont.style.display='none';
+        pswCont.required = false;
+        pswCont.value = "";
+        pswCont2.style.display='none';
+        pswCont2.required = false;
+        pswCont2.value = "";
+    }
+}
 // window.onload = function() {
 //     const urlParams = new URLSearchParams(window.location.search);
 //     const error = urlParams.get('error');

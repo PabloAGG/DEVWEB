@@ -36,6 +36,7 @@ if ($row = mysqli_fetch_assoc($result)) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crea una Publicacion</title>
     <link rel="stylesheet" href="../css/estiloslog.css">
+    <link rel="stylesheet" href="../css/Admin.css">
 
     
 </head>
@@ -63,7 +64,6 @@ $result = mysqli_stmt_get_result($stmt);
                     <th>ID</th>
                     <th>Nombre</th>
                     <th>Correo</th>
-                 
                     <th>Rol</th>
                     <th>Nacimiento</th>
                 </tr>
