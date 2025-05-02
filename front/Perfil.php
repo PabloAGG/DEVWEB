@@ -36,6 +36,7 @@ if ($row = mysqli_fetch_assoc($result)) {
     <title>Mi Perfil</title>
     <link rel="stylesheet" href="../css/estiloslog.css">
     <link rel="stylesheet" href="../css/Perfil.css">
+    <link rel="stylesheet" href="../css/Dashboard.css">
     <script src="https://kit.fontawesome.com/093074d40c.js" crossorigin="anonymous"></script>
 </head>
 <body class="cuerpo">
@@ -60,7 +61,7 @@ if ($row = mysqli_fetch_assoc($result)) {
        
    </header>
 <main>
-  <div class="contenedor-column">
+
 <div class="perfilUs">
 
 <?php   
@@ -99,39 +100,57 @@ if($user_role == 1 ){ ?>
 
 </div>
 
-<div class="contenedor_publi">
-<label for="flistpub">Mis Publicaciones</label><br>
-<ul class="list-group"></ul>
-    <li class="list-group-item">
-      <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-      Titulo1
-    </li>
-    <li class="list-group-item">
-      <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-      Titulo2
-    </li>
-    <li class="list-group-item">
-      <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-      Titulo4
-    </li>
-    <li class="list-group-item">
-      <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-      Titulo5
-    </li>
-    <li class="list-group-item">
-      <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-      Titulo6
-    </li>
-  </ul>
-  <button class="btnEx" >Eliminar</button>
-</div>
+<div class="contenedor_Publicaciones">
+<?php
+$query = "SELECT p.*, m.contenido, m.tipo_Img, m.video, u.nomUs AS autor
+          FROM Publicaciones p
+          JOIN Multimedia m ON m.idPubli = p.idPubli
+          JOIN Usuarios u ON u.idUsuario = p.idUsuario
+          WHERE p.estado = 1 AND p.idUsuario=?
+          ORDER BY p.fechaC DESC";
 
+$stmt = mysqli_prepare($conn, $query);
+mysqli_stmt_bind_param($stmt, 'i', $user_id);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+
+while ($row = mysqli_fetch_assoc($result)) {
+    $mime = $row['tipo_Img'] ?? 'image/png';
+    $isVideo = $row['video'];
+    $mediaSrc = 'data:' . $mime . ';base64,' . base64_encode($row['contenido']);
+?>
+<div class="card-container">
+    <div class="card">
+        <div class="card-header">
+            <span class="autor"><?php echo htmlspecialchars($row['autor']); ?></span>
+            <span class="fecha"><?php echo htmlspecialchars($row['fechaC']); ?></span>
+        </div>
+
+        <div class="card-body">
+            <h2><?php echo htmlspecialchars($row['titulo']); ?></h2>
+            <p><?php echo htmlspecialchars($row['descripcion']); ?></p>
+            <?php if ($isVideo): ?>
+                <video class="media" controls>
+                    <source src="<?php echo $mediaSrc; ?>" type="<?php echo $mime; ?>">
+                    Tu navegador no soporta video.
+                </video>
+            <?php else: ?>
+                <img class="media" src="<?php echo $mediaSrc; ?>" alt="Contenido multimedia">
+            <?php endif; ?>
+        </div>
+
+        <div class="card-footer">
+            <button class="btn drop"><i class="fa-solid fa-trash"></i> Eliminar</button>
+            <button class="btn edit"><i class="fa-solid fa-pen"></i> Editar</button>
+        
+        </div>
+    </div>
 </div>
+<?php } ?>
+
+
 </main>
 
-     <footer>
-            <p id="datos">DEVWEB<br>Pablo Garcia 2006335<br>Jorge Rodriguez 2007179</p>
-      </footer>
       <script src="../js/script.js"></script></body>
 </body>
 </html>

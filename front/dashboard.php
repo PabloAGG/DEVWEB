@@ -37,7 +37,8 @@ if ($row = mysqli_fetch_assoc($result)) {
     <title>Pagina principal</title>
    <link rel="stylesheet" href="../css/estiloslog.css">
    <link rel="stylesheet" href="../css/Dashboard.css">
-   
+
+   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
    <script src="https://kit.fontawesome.com/093074d40c.js" crossorigin="anonymous"></script>
 </head>
 <body class="cuerpo">
@@ -63,29 +64,97 @@ if ($row = mysqli_fetch_assoc($result)) {
 <main>
     
     
-<button  class="btnEx" onclick="location.href='publicacion.php'">Publicar</button>       
-       
+<button id="publicar" class="btnEx" onclick="toggleForm()">Publicar</button>       
+<div class="EspPub" id="EspPub" style="display: none;">
+    <form class="espPubform" action="../BACK/Publicar.php" method="post" enctype="multipart/form-data">
+<h2>Crea una Publicacion</h2>
+        <input type="text" name="titleP" class="input" placeholder="Titulo"><br>
+     
+<label for="descP">Descripcion</label><br>
+        <textarea name="descP" id="descP"  class="input" aria-label="With textarea"></textarea><br>
+   
+
+      <label for="fpubfot">Agrega una foto</label>
+      <input type="file" name="fpubfot" id="ffoto"><br>
+
+<label for="select">Categoria</label>
+<select name="select" id="categorias">
+<option value="" disabled selected hidden></option>
+<?php
+$query="SELECT * FROM Categorias";
+$stmt = mysqli_prepare($conn, $query);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+while ($row = mysqli_fetch_assoc($result)) {
+  echo '<option value="' . htmlspecialchars($row['nombre']) . '">' . htmlspecialchars($row['nombre']) . '</option>';
+}
+?>
+</select>
+<br>
+  <div id="botonesPubli">
+<button class="btnEx" type="submit" >Publicar</button>
+<button class="btnEx" type="button" onclick="toggleForm()">carcelar</button></div>
+</form>
+</div>
+
+<div class="contenedor_Publicaciones">
+<?php
+$query = "SELECT p.*, m.contenido, m.tipo_Img, m.video, u.nomUs AS autor
+          FROM Publicaciones p
+          JOIN Multimedia m ON m.idPubli = p.idPubli
+          JOIN Usuarios u ON u.idUsuario = p.idUsuario
+          WHERE p.estado = 1
+          ORDER BY p.fechaC DESC";
+
+$stmt = mysqli_prepare($conn, $query);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+
+while ($row = mysqli_fetch_assoc($result)) {
+    $mime = $row['tipo_Img'] ?? 'image/png';
+    $isVideo = $row['video'];
+    $mediaSrc = 'data:' . $mime . ';base64,' . base64_encode($row['contenido']);
+?>
+<div class="card-container">
+    <div class="card">
+        <div class="card-header">
+            <span class="autor"><?php echo htmlspecialchars($row['autor']); ?></span>
+            <span class="fecha"><?php echo htmlspecialchars($row['fechaC']); ?></span>
+        </div>
+
+        <div class="card-body">
+            <h2><?php echo htmlspecialchars($row['titulo']); ?></h2>
+            <p><?php echo htmlspecialchars($row['descripcion']); ?></p>
+            <?php if ($isVideo): ?>
+                <video class="media" controls>
+                    <source src="<?php echo $mediaSrc; ?>" type="<?php echo $mime; ?>">
+                    Tu navegador no soporta video.
+                </video>
+            <?php else: ?>
+                <img class="media" src="<?php echo $mediaSrc; ?>" alt="Contenido multimedia">
+            <?php endif; ?>
+        </div>
+
+        <div class="card-footer">
+            <button class="btn like"><i class="fa-solid fa-thumbs-up"></i> Me gusta</button>
+            <button class="btn comment"><i class="fa-solid fa-comment"></i> Comentar</button>
+            <button class="btn share"><i class="fa-solid fa-share"></i> Compartir</button>
+        </div>
+    </div>
+</div>
+<?php } ?>
+
+
+
 <div class="Paginas">
-        <ul class="pagination">
-            <li><a href="#">«</a></li>
-            <li><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a class="active" href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#">5</a></li>
-            <li><a href="#">6</a></li>
-            <li><a href="#">7</a></li>
-            <li><a href="#">»</a></li>
-          </ul>
+           <nav aria-label="Paginacion">
+  <ul id="paginacionPublicaciones" class="pagination"> </ul>
+</nav>
 </div>
 
 </main>
 
 
-   <footer>
-            <p id="datos">DEVWEB<br>Pablo Garcia 2006335 <br>Jorge Rodriguez 2007179</p>
-        </footer>
-
 <script src="../js/script.js"></script>
-
+<script src="../js/dashboard.js"></script>
 </html>

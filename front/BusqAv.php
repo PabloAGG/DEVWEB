@@ -111,9 +111,7 @@ if ($row = mysqli_fetch_assoc($result)) {
        
     </div>
   </main>
-      <footer>
-            <p id="datos">DEVWEB<br>Pablo Garcia 2006335 <br>Jorge Rodriguez 2007179</p>
-        </footer>
+ 
 
         <script src="../js/script.js"></script></body>
 </body>

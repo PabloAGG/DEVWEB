@@ -1,49 +1,32 @@
 .perfilUs{
     justify-content: center;
     align-items: center;
-    color: aliceblue;
+    color: rgb(0, 0, 0);
     font-family:Arial, Helvetica, sans-serif;
+    font-size: larger;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
-    gap: 10px;
-    padding: 5px;
-    border: 1px solid #022521;
-    padding: 15px auto;
-    background-color: #022521;
-    border-radius: 20px;
-    box-shadow: 0 2px 5px black;
+    gap: 25px;
+    padding: 15px 15px;
+    background-color: #f9fefd;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0.7);
     width: auto;
-    max-width: 100%;
-    margin: auto 40px; 
+    max-width: 600px;
+   margin: 0 auto;
   }
   #imgPerfil,.btns-perfil{
  justify-self: center;
- align-self: start;
+ align-self: center;
   }
-  .contenedor_publi{
-    justify-content: center;     
-    align-items: center;  
-    color: gray;
-    font-family: fantasy;
-    background-color:#022521 ;
-    border-radius: 10px;
-    width: 500px;
-    height: auto;
-    padding: 20px;   
-    box-shadow: 0 2px 5px black;
-    max-width: 100%;
-  }
+
   .img-cirUs{
-    width: 130px; 
-    height: 130px; 
+    width: 200px; 
+    height: 200px; 
     border-radius: 50%; 
     object-fit: cover; 
-    border: 3px solid white;
-  }
-  .contenedor-column{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 40px;
-    padding: 20px;
+    border: 3px solid #00435b;
+    align-self: center;
+    justify-self: center;
   }

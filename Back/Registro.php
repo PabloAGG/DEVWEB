@@ -31,10 +31,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Insertar el nuevo usuario
     // $query = "INSERT INTO Usuarios 
     //       (nombre, nomUs, contra, correo, nacimiento, estado, usAdmin, fechaM) 
-    $query = "CALL sp_Usuarios_CRUD(s
+    $query = "CALL sp_Usuarios_CRUD(
         'INSERT', NULL, ?, ?, ?, ?, ?,NULL,NULL, 1);";
-    $stmt = mysqli_prepare($conn, $query);
-    //       VALUES (?, ?, ?, ?, ?, 1, 0, NULL)";
 
 $stmt = mysqli_prepare($conn, $query);
 mysqli_stmt_bind_param(

@@ -53,7 +53,7 @@ header {
   padding: 30px;
   justify-content: space-between;
 }
-/* From Uiverse.io by WhiteNervosa */ 
+
 .barrPrin button {
   font-size: 12px;
   color: #e1e1e1;
@@ -193,7 +193,6 @@ main input{
 } */
 
 
-/* From Uiverse.io by absoluteSTrange */ 
 main button {
   padding: 17px 40px;
   border-radius: 10px;
@@ -214,7 +213,6 @@ main button:hover {
 
 main button:active {
   background-color: #089B36;
-  /*50, 168, 80*/
   box-shadow: #034318 0px 0px 0px 0px;
   transform: translateY(5px);
   transition: 200ms;
@@ -228,7 +226,7 @@ main button:active {
 
 footer{
     font-style: oblique;
-    position: fixed; 
+    position:static; 
     bottom: 0;
     left: 0;
     width: 100%;
