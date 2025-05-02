@@ -123,7 +123,7 @@ if ($row = mysqli_fetch_assoc($result)) {
 </footer>
 
 <script src="../js/script.js"></script>
-<script src="../js/Registro.js"></script>
+<!-- <script src="../js/Registro.js"></script> -->
 <script src="../js/EditData.js"></script>
 </body>
 </html>

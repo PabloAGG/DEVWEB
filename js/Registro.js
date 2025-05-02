@@ -1,4 +1,4 @@
-const pswInput=document.getElementById('psw-change');
+
 document.addEventListener('DOMContentLoaded', () => {
     // Manejo de errores desde URL
     const urlParams = new URLSearchParams(window.location.search);
@@ -37,8 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
         validarCampo(nombreCompletoInput, nombreRegex, "El nombre solo puede contener letras y espacios.");
     });
 
-    if(pswInput.checked){
-if(contraseñaInput!==null && contraseñacheck!==null){
+
 
     contraseñaInput.addEventListener('input', () => {
         const contraseñaRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
@@ -54,12 +53,8 @@ if(contraseñaInput!==null && contraseñacheck!==null){
             contraseñacheck.setCustomValidity("");
         }
     });
-}else{
-    alert("Ingrese una contraseña para continuar.");
-    contraseñaInput.setCustomValidity("Ingrese una contraseña para continuar.");
-    return;
-}
-    }
+
+    
 
     fechaNacimientoInput.addEventListener('input', () => {
         if (!fechaNacimientoInput.value) {
@@ -91,14 +86,14 @@ if(contraseñaInput!==null && contraseñacheck!==null){
         esValido = validarCampo(nombreCompletoInput, /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/, "El nombre solo puede contener letras y espacios.") && esValido;
         
         
-        if (pswInput.checked){
+       
             esValido = validarCampo(contraseñaInput, /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/, "Contraseña inválida.") && esValido;
         if (contraseñaInput.value !== contraseñacheck.value) {
             contraseñacheck.setCustomValidity("Las contraseñas no coinciden.");
             contraseñacheck.reportValidity();
             esValido = false;
         }
- }
+ 
         if (!fechaNacimientoInput.value) {
             fechaNacimientoInput.setCustomValidity("Por favor, selecciona una fecha.");
             fechaNacimientoInput.reportValidity();
