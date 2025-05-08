@@ -1,6 +1,7 @@
 CREATE DATABASE DEVWEB;
 USE  DEVWEB;
-
+select*from publicaciones;
+ALTER TABLE Publicaciones modify fechaC DATETIME DEFAULT CURRENT_TIMESTAMP() COMMENT 'Fecha de creación del registro';
 -- Tabla de usuarios registrados
 CREATE TABLE Usuarios (
     idUsuario INT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'Identificador único del usuario',
@@ -12,7 +13,7 @@ CREATE TABLE Usuarios (
     imagen mediumblob NULL COMMENT 'Imagen de perfil del usuario',
     estado BOOLEAN DEFAULT 1 COMMENT 'Estado del usuario: 1=activo, 0=inactivo',
     usAdmin BOOLEAN DEFAULT 0 COMMENT 'Si el usuario es administrador: 1=admin, 0=normal',
-    fechaC DATE DEFAULT CURRENT_TIMESTAMP() COMMENT 'Fecha de creación del registro',
+    fechaC DATETIME DEFAULT CURRENT_TIMESTAMP() COMMENT 'Fecha de creación del registro',
     fechaM DATE NULL COMMENT 'Fecha de modificación del registro',
     tipo_Img nvarchar(100) null comment 'MIME imagen'
 ) COMMENT='Tabla que almacena la información de los usuarios de la pagina';
@@ -31,6 +32,7 @@ VALUES
     ('Deportes', 1),
     ('Arte', 1);
 
+
 -- Tabla de publicaciones realizadas por los usuarios
 CREATE TABLE Publicaciones (
     idPubli INT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'Identificador único de la publicación',
@@ -41,6 +43,7 @@ CREATE TABLE Publicaciones (
     idUsuario INT COMMENT 'Usuario autor de la publicación',
     fechaC DATE DEFAULT CURRENT_TIMESTAMP() COMMENT 'Fecha de creación de la publicación',
     fechaM DATE NULL COMMENT 'Fecha de última modificación',
+    nLikes int default 0,
     FOREIGN KEY (idUsuario) REFERENCES Usuarios(idUsuario),
         FOREIGN KEY (categoria) REFERENCES Categorias(nombre)
 ) COMMENT='Publicaciones creadas por los usuarios';
@@ -71,11 +74,10 @@ CREATE TABLE Comentarios (
     comen VARCHAR(255) COMMENT 'Contenido del comentario',
     idPublicacion INT COMMENT 'ID de la publicación comentada',
     idUsuario INT COMMENT 'ID del usuario que hizo el comentario',
-    fechaC DATE DEFAULT CURRENT_TIMESTAMP() COMMENT 'Fecha en la que se hizo el comentario',
+    fechaC DATETIME DEFAULT CURRENT_TIMESTAMP() COMMENT 'Fecha en la que se hizo el comentario',
     FOREIGN KEY (idPublicacion) REFERENCES Publicaciones(idPubli),
     FOREIGN KEY (idUsuario) REFERENCES Usuarios(idUsuario)
 ) COMMENT='Comentarios realizados por los usuarios en publicaciones';
-
 SELECT TABLE_NAME, COLUMN_NAME, COLUMN_TYPE, COLUMN_COMMENT
 FROM INFORMATION_SCHEMA.COLUMNS
 WHERE TABLE_SCHEMA = 'DEVWEB';
@@ -122,4 +124,81 @@ BEGIN
 END //
 
 DELIMITER ;
+
+-- ---------------------TRIGGERS------------------------------
+DELIMITER //
+
+CREATE TRIGGER actualizar_likes_insert
+AFTER INSERT ON Likes
+FOR EACH ROW
+BEGIN
+    UPDATE Publicaciones
+    SET nLikes = nLikes + 1
+    WHERE idPubli = NEW.idPublicacion;
+END//
+
+DELIMITER ;
+
+
+
+DELIMITER //
+
+CREATE TRIGGER actualizar_likes_delete
+AFTER DELETE ON Likes
+FOR EACH ROW
+BEGIN
+    UPDATE Publicaciones
+    SET nLikes = nLikes - 1
+    WHERE idPubli = OLD.idPublicacion;
+END//
+
+DELIMITER ;
+
+
+-- funciones ----------------------------------------------------
+DELIMITER //
+CREATE FUNCTION ExtractoDescripcion(descripcion TEXT, longitud INT)
+RETURNS VARCHAR(255)
+DETERMINISTIC
+BEGIN
+    DECLARE resultado VARCHAR(255);
+    IF LENGTH(descripcion) > longitud THEN
+        SET resultado = CONCAT(LEFT(descripcion, longitud), '...');
+    ELSE
+        SET resultado = descripcion;
+    END IF;
+    RETURN resultado;
+END;
+
+DELIMITER;
+
+DELIMITER //
+
+CREATE FUNCTION FormatearFecha(fecha DATETIME)
+RETURNS VARCHAR(255)
+DETERMINISTIC
+BEGIN
+    DECLARE resultado VARCHAR(255);
+    DECLARE diff INT;
+    SET diff = TIMESTAMPDIFF(SECOND, fecha, NOW());
+
+    IF diff < 60 THEN
+        SET resultado = 'Hace unos segundos';
+    ELSEIF diff < 3600 THEN
+        SET resultado = CONCAT('Hace ', FLOOR(diff / 60), ' minutos');
+    ELSEIF diff < 86400 AND DATE(fecha) = CURDATE() THEN
+        SET resultado = CONCAT('Hoy a las ', DATE_FORMAT(fecha, '%H:%i'));
+    ELSEIF diff < 172800 AND DATE(fecha) = CURDATE() - INTERVAL 1 DAY THEN
+        SET resultado = CONCAT('Ayer a las ', DATE_FORMAT(fecha, '%H:%i'));
+    ELSEIF YEAR(fecha) = YEAR(NOW()) THEN
+        SET resultado = DATE_FORMAT(fecha, '%d de %M a las %H:%i');
+    ELSE
+        SET resultado = DATE_FORMAT(fecha, '%d de %M de %Y a las %H:%i');
+    END IF;
+
+    RETURN resultado;
+END//
+
+DELIMITER ;
+
 
