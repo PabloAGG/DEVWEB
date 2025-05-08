@@ -2,7 +2,10 @@
 session_start(); // Iniciar la sesión para manejar la autenticación
 require '../Back/DB_connection.php';
 // Verificar si el usuario ha iniciado sesión       
-
+if (!isset($_SESSION['user_id'])) {
+    header('Location: ../front/InicioSesion.php'); // Redirigir al inicio de sesión si no está autenticado
+    exit();
+}
 $user_id = $_SESSION['user_id'];
 $sql = "SELECT nomUs, nombre,correo, imagen, usAdmin,nacimiento FROM Usuarios WHERE idUsuario = ?";
 $stmt = mysqli_prepare($conn, $sql);
@@ -32,7 +35,7 @@ if ($row = mysqli_fetch_assoc($result)) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modifica tus datos</title>
     <link rel="stylesheet" href="../css/estiloslog.css">
-    <link rel="stylesheet" href="../css/registro-edit.css">
+    <link rel="stylesheet" href="../css/edit.css">
     <script src="https://kit.fontawesome.com/093074d40c.js" crossorigin="anonymous"></script>
 
 </head>
@@ -40,7 +43,7 @@ if ($row = mysqli_fetch_assoc($result)) {
    
     <header>
 
-    <div class="logo">   <a href="dashboard.php"><img src="LOGOWEB.jpg" width="60px" height="60px"></a>   <h6 id="titulo">DEVWEB</h6></div>
+    <div class="logo">   <a href="dashboard.php"><img src="LOGOWEB.jpg" width="60px" height="60px"></a> </div>
         <div class="barrPrin">
    <button onclick="location.href='dashboard.php'">Inicio</button>
    <button onclick="location.href='Perfil.php'">Perfil</button>
@@ -112,17 +115,15 @@ if ($row = mysqli_fetch_assoc($result)) {
             <label for="fecha_usuario">Fecha de nacimiento</label>
         </div>
          <label for="#"> <input type="checkbox" name="psw-change" id="psw-change" onclick="togglePasswordVisibility()">Cambiar contraseña</label><br>
-    <button class="btnEx" type="submit" >Modificar</button>  <button class="btnEx" type="button" onclick="location.href='Perfil.php'">Regresar</button>
+    <button class="btnEx mod" type="submit" >Modificar</button>  <button class="btnEx eliminar" type="button" onclick="location.href='../Back/bajaUsuario.php'">Eliminar mi cuenta</button>
 </form>
 
 </div>
 </main>
 
-<footer>
-    <p id="datos">DEVWEB<br>Pablo Garcia 2006335<br>Jorge Rodriguez 2007179</p>
-</footer>
 
 <script src="../js/script.js"></script>
+<script src="../js/search.js"></script>
 <!-- <script src="../js/Registro.js"></script> -->
 <script src="../js/EditData.js"></script>
 </body>

@@ -43,7 +43,7 @@ if ($row = mysqli_fetch_assoc($result)) {
 
   <header>
 
-    <div class="logo">   <a href="dashboard.php"><img src="LOGOWEB.jpg" width="60px" height="60px"></a>   <h6 id="titulo">DEVWEB</h6></div>
+    <div class="logo">   <a href="dashboard.php"><img src="LOGOWEB.jpg" width="60px" height="60px"></a></div>
         <div class="barrPrin">
    <button onclick="location.href='dashboard.php'">Inicio</button>
    <button onclick="location.href='Perfil.php'">Perfil</button>
@@ -140,8 +140,8 @@ while ($row = mysqli_fetch_assoc($result)) {
         </div>
 
         <div class="card-footer">
-            <button class="btn drop"><i class="fa-solid fa-trash"></i> Eliminar</button>
-            <button class="btn edit"><i class="fa-solid fa-pen"></i> Editar</button>
+            <button class="btn drop" onclick="window.location.href='../Back/bajaPublicaciones.php?id=<?php echo $row['idPubli']?>'"><i class="fa-solid fa-trash"></i> Eliminar</button>
+            
         
         </div>
     </div>
@@ -150,7 +150,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 
 
 </main>
-
+<script src="../js/search.js"></script>
       <script src="../js/script.js"></script></body>
 </body>
 </html>

@@ -47,8 +47,15 @@
 
 </main>
 
-    <footer>
-        <p id="datos">DEVWEB<br>Pablo Garcia 2006335<br>Jorge Rodriguez 2007179</p>
+<footer class="footer">
+   
+        <p>&copy; 2023 DEVWEB. Todos los derechos reservados.</p>
+        <div class="social-icons">
+            <a href="#"><i class="fa-brands fa-facebook"></i></a>
+            <a href="#"><i class="fa-brands fa-twitter"></i></a>
+            <a href="#"><i class="fa-brands fa-instagram"></i></a>
+        </div>
+
 </footer>
 
 <script src="../js/Login.js"></script>

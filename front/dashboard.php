@@ -98,90 +98,21 @@ while ($row = mysqli_fetch_assoc($result)) {
 <button class="btnPub" type="submit" ><i class="fa-solid fa-pen-to-square"></i>Publicar</button></div>
 </form>
 </div>
+<select name="OrdenPublicaciones" id="OrdenPublicaciones">
+    <option value="">Ordenar por:</option>
+    <option value="ultimas">Últimas Publicaciones</option>
+    <option value="comentadas">Más Comentadas</option>
+    <option value="gustadas">Más Gustadas</option>
+</select>
 
-<div class="contenedor_Publicaciones">
-<?php
-$query = "SELECT p.*, m.contenido, m.tipo_Img, m.video, u.nomUs AS autor, u.imagen AS imgPerfil, u.tipo_Img AS tipo_ImgUser,
-        --   (SELECT COUNT(*) FROM Likes WHERE idPublicacion = p.idPubli) AS likes,
-        --   (SELECT COUNT(*) FROM Comentarios WHERE idPublicacion = p.idPubli) AS comentarios,
-        --   (SELECT COUNT(*) FROM Compartidos WHERE idPublicacion = p.idPubli) AS compartidos,
-  (SELECT COUNT(*) FROM Likes WHERE idPublicacion = p.idPubli AND idUsuario = ?) AS hasLiked
-          FROM Publicaciones p
-          JOIN Multimedia m ON m.idPubli = p.idPubli
-          JOIN Usuarios u ON u.idUsuario = p.idUsuario
-          WHERE p.estado = 1
-          ORDER BY p.fechaC DESC";
+<div class="contenedor_Publicaciones" id="contenedorPublicaciones">
 
-$stmt = mysqli_prepare($conn, $query);
-mysqli_stmt_bind_param($stmt, "i", $user_id); // Bind del ID del usuario actual
-mysqli_stmt_execute($stmt);
-$result = mysqli_stmt_get_result($stmt);
-
-while ($row = mysqli_fetch_assoc($result)) {
-    $mime = $row['tipo_Img'] ?? 'image/png';
-    $isVideo = $row['video'];
-    $mediaSrc = 'data:' . $mime . ';base64,' . base64_encode($row['contenido']);
-    $hasLiked = $row['hasLiked'] > 0;
-    $numLikes = $row['nLikes'];
-?>
-<div class="card-container">
-    <div class="card">
-        <div class="card-header">
-            <div class="userPres">
-        <?php if ($row['imgPerfil']!==null) {
-
-$mimeusuario = $row['tipo_ImgUser'] ?? 'image/png';
-$base64 = base64_encode($row['imgPerfil']);
-
-echo '<img class="img-cirUs" src="data:' . $mimeusuario . ';base64,' . $base64 . '">';
-
-} else {?> 
-
-<img id="imgPerfil" src="../assets/image_default.png"  alt="Avatar Usuario" class="img-cirUs">
-<?php  }   ?>
-            <span class="autor"><?php echo htmlspecialchars($row['autor']); ?></span></div>
-            <span class="fecha"><?php echo htmlspecialchars($row['fechaC']); ?></span>
-        </div>
-
-        <div class="card-body">
-            <h2><?php echo htmlspecialchars($row['titulo']); ?></h2>
-            <p><?php echo htmlspecialchars($row['descripcion']); ?></p>
-            <?php if ($isVideo): ?>
-                <video class="media" controls>
-                    <source src="<?php echo $mediaSrc; ?>" type="<?php echo $mime; ?>">
-                    Tu navegador no soporta video.
-                </video>
-            <?php else: ?>
-                <img class="media" src="<?php echo $mediaSrc; ?>" alt="Contenido multimedia">
-            <?php endif; ?>
-        </div>
-
-        <div class="card-footer">
-        <button class="btn like-btn <?php echo $hasLiked ? 'liked' : ''; ?>" data-idpubli="<?php echo $row['idPubli']; ?>">
-    <i class="fa-solid fa-thumbs-up"></i> 
-    <span class="like-text"><?php echo $hasLiked ? 'Te gusta' : 'Me gusta'; ?></span>
-</button>
-<span class="like-count">
-         <?php echo $numLikes; ?>
-    </span>
-            <button class="btn comment" onclick="window.location.href='publicacion.php?id=<?php echo $row['idPubli']; ?>'"><i class="fa-solid fa-comment"></i> Comentar</button>
-            <button class="btn share"><i class="fa-solid fa-share"></i> Compartir</button>
-        </div>
-    </div>
-</div>
-<?php } ?>
-
-
-
-<div class="Paginas">
-           <nav aria-label="Paginacion">
-  <ul id="paginacionPublicaciones" class="pagination"> </ul>
-</nav>
 </div>
 
 </main>
 
-<script src="../js/likes.js"></script>
+<script src="../js/search.js"></script>
 <script src="../js/script.js"></script>
 <script src="../js/dashboard.js"></script>
+<script src="../js/publicaciones_ordenadas.js"></script>
 </html>

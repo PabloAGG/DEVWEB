@@ -34,7 +34,7 @@ if ($idPubli <= 0) {
 }
 
 // --- Obtener la Publicación específica ---
-$queryPublicacion = "SELECT p.*, m.contenido, m.tipo_Img, m.video, u.nomUs AS autor,
+$queryPublicacion = "SELECT p.*, m.contenido, m.tipo_Img, m.video, u.nomUs AS autor,FormatearFecha(p.fechaC) AS fecha_formateada,
 --  (SELECT COUNT(*) FROM Likes WHERE idPublicacion = p.idPubli) AS likes,
 --           (SELECT COUNT(*) FROM Comentarios WHERE idPublicacion = p.idPubli) AS comentarios,
 --           (SELECT COUNT(*) FROM Compartidos WHERE idPublicacion = p.idPubli) AS compartidos,
@@ -58,11 +58,17 @@ if (!$publicacion) {
 
 $hasLiked = $publicacion['hasLiked'] > 0;
 $numLikes = $publicacion['nLikes'];
+$fechaFormateada = $publicacion['fecha_formateada'];
+$urlPublicacion = 'http://localhost/BDM_PIA/front/publicacion.php?id=' . $publicacion['idPubli'];
+$titulo = rawurlencode($publicacion['titulo']);
+$mensaje = rawurlencode("¡Mira esta publicación que encontré! $titulo $urlPublicacion");
+
+$whatsappUrl = "https://wa.me/?text=$mensaje";
 
 // --- Obtener Comentarios para la Publicación específica ---
 $comentarios = []; // Inicializar como array vacío
 $stmtComentarios = $conn->prepare("
-    SELECT c.comen, u.nomUs,u.imagen,u.tipo_Img, c.fechaC
+    SELECT c.comen, u.nomUs,u.imagen,u.tipo_Img, FormatearFecha(c.fechaC) AS fecha_formateada
     FROM Comentarios c
     JOIN Usuarios u ON c.idUsuario = u.idUsuario
     WHERE c.idPublicacion = ? ORDER BY c.fechaC DESC
@@ -122,7 +128,7 @@ echo '<img class="img-cirUs" src="data:' . $mimeusuario . ';base64,' . $base64 .
 <img id="imgPerfil" src="../assets/image_default.png"  alt="Avatar Usuario" class="img-cirUs">
 <?php  }   ?>
             <span class="autor"><?php echo htmlspecialchars($publicacion['autor']); ?></span>
-            <span class="fecha"><?php echo htmlspecialchars($publicacion['fechaC']); ?></span>
+            <span class="fecha"><?php echo htmlspecialchars($fechaFormateada); ?></span>
         </div>
 
         <div class="card-body">
@@ -139,14 +145,15 @@ echo '<img class="img-cirUs" src="data:' . $mimeusuario . ';base64,' . $base64 .
         </div>
 
         <div class="card-footer">
-        <button class="btn like-btn <?php echo $hasLiked ? 'liked' : ''; ?>" data-idpubli="<?php echo $row['idPubli']; ?>">
+        <button class="btn like-btn <?php echo $hasLiked ? 'liked' : ''; ?>" data-idpubli="<?php echo $publicacion['idPubli']; ?>">
     <i class="fa-solid fa-thumbs-up"></i> 
     <span class="like-text"><?php echo $hasLiked ? 'Te gusta' : 'Me gusta'; ?></span>
 </button>
 <span class="like-count">
          <?php echo $numLikes; ?>
     </span>
-            <button class="btn share"><i class="fa-solid fa-share"></i> Compartir</button>
+    <a class="btn share" href="<?php $whatsappUrl ?>" target="_blank"><i class="fa-brands fa-whatsapp"></i> Compartir</a>
+
         </div>
     </div>
     <section class="comentarios-seccion">
@@ -178,7 +185,7 @@ echo '<img class="img-cirUs" src="data:' . $mimeusuario . ';base64,' . $base64 .
     
 <img id="imgPerfil" src="../assets/image_default.png"  alt="Avatar Usuario" class="img-cirUs">
 <?php  }   ?><?= htmlspecialchars($coment['nomUs'], ENT_QUOTES, 'UTF-8') ?></strong>
-                                    <span> (<?= htmlspecialchars($coment['fechaC'], ENT_QUOTES, 'UTF-8') ?>):</span>
+                                    <span> (<?= htmlspecialchars($coment['fecha_formateada'], ENT_QUOTES, 'UTF-8') ?>):</span>
                                     <p><?= nl2br(htmlspecialchars($coment['comen'], ENT_QUOTES, 'UTF-8')) ?></p>
                                 </div>
                             <?php endforeach; ?>
@@ -189,6 +196,7 @@ echo '<img class="img-cirUs" src="data:' . $mimeusuario . ';base64,' . $base64 .
 
 
 </main>
+<script src="../js/search.js"></script>
 <script src="../js/Publicacion_comen.js"></script>
 <script src="../js/likes.js"></script>
 </body>

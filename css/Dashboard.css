@@ -234,3 +234,16 @@ ul.pagination {
   .like-count{
     color: #666;
   }
+
+  #OrdenPublicaciones{
+    width: 30%; /* Mantén el ancho definido */
+    padding: 10px;
+    margin: 20px auto; /* Centra horizontalmente y añade un margen superior/inferior */
+    appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="currentColor" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>'); /* Flecha desplegable */
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 1em;
+    cursor: pointer;
+    display: block; /* Asegura que el margin auto funcione correctamente */
+  }
