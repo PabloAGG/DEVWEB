@@ -12,4 +12,10 @@ window.onload = function() {
     if(success === 'user_created') {
         alert('Usuario creado correctamente. Por favor, inicia sesión.');
     }
+
+    window.addEventListener('load', () => {
+        document.getElementById('usuario').value = '';
+        document.getElementById('password').value = '';
+        
+      });
 };

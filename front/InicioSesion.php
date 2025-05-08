@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio Sesion</title>
     <script src="https://kit.fontawesome.com/093074d40c.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="../css/estiloslog.css">
+   
     <link rel="stylesheet" href="../css/InicioSesio.css">
 </head>
 

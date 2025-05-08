@@ -1,20 +1,79 @@
-.contenedor_regus{
-    font-family: Arial, Helvetica, sans-serif;
-    justify-content:space-evenly;
-    color: aliceblue;
-    font-family:cursive;
-    font-style:oblique;
-    text-align:center;
-    display: flex;
-    border: 1px solid #022521;
-    padding: 15px;
+@import url('https://fonts.googleapis.com/css2?family=Forum&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+   
+  }
+  body{
+    background-color: #f3fffd;
+    display: grid;
+    min-height: 100dvh;
+    grid-template-rows: auto 1fr auto;
+    margin: 0;
+  }
+  
+  
+  main{
+    margin-top: 80px; /* Ajusta este valor para separar del header */
+    margin-bottom: 80px; /* Ajusta este valor para separar del footer */
+    padding: 20px; /* Espacio interno opcional */
+    font-weight: 800;
+    font-size: 1rem;
+    font-family: "Forum", serif;
+  }
+  
+  
+  
+  /* Estilo para la barra superior */
+  header {
+    font-size: x-large;
+      position: fixed;
+      width: 100%;
+      height: 60px;
+      top: 0;
+      left: 0;
+      background-color: #022521;
+      color: #021b1a;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+  }
+
+  footer{
+    font-style: oblique;
+    position:fixed; 
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 90px;
     background-color: #022521;
-    border-radius: 20px;
-    box-shadow: 0 2px 5px black;
-    z-index: 900; 
-    max-width: 600px; 
-    margin: 20px 0; 
+    color: #022521;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+z-index: 1000;
 }
+
+#datos{
+
+    color: aliceblue;
+    text-align: left;
+}
+.logo{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  #titulo {
+    color: aliceblue;
+    text-align: center;
+  }
 #registro{
     text-decoration: none;
     color:aqua;
@@ -25,9 +84,7 @@
 }
 .contenedor_login {
     color: aliceblue;
-    font-family: fantasy;
     font-size: x-large;
-    font-style: oblique;
     text-align: center;
     display: flex;
     flex-direction: column; 
@@ -50,7 +107,7 @@
 }
 
 .contenedor-input label{
-    font-family:Arial, Helvetica, sans-serif;
+
     position: absolute;
     top: 50%;
     left: 5px;
@@ -91,4 +148,23 @@
     font-size: 1.4em;
     color:rgb(18, 143, 61);
     line-height: 57px;
+}
+
+main button{
+    width: 100%;
+    height: 45px;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+   margin: 10px 0;
+    font-size: 1em;
+    font-weight: bold;
+    background-color: rgb(1, 94, 26);
+    color:antiquewhite;
+    transition: all 0.3s ease-in-out;
+}
+main button:hover {
+    cursor: pointer;
+    background-color: #146c43;
+    color: white;
 }
