@@ -25,8 +25,18 @@ if ($row = mysqli_fetch_assoc($result)) {
     echo "Error: No se encontró el usuario.";
     exit();
 }
-
-
+if (isset($_GET['leer_notificacion']) && is_numeric($_GET['leer_notificacion'])) {
+    $idNotificacion = $_GET['leer_notificacion'];
+    marcarNotificacionLeida($conn, $idNotificacion);
+    header("Location: dashboard.php"); // Redirigir para evitar re-procesamiento
+    exit();
+}
+function marcarNotificacionLeida($conn, $idNotificacion) {
+    $query = "UPDATE Notificaciones SET leida = 1 WHERE idNotificacion = ?";
+    $stmt = mysqli_prepare($conn, $query);
+    mysqli_stmt_bind_param($stmt, "i", $idNotificacion);
+    mysqli_stmt_execute($stmt);
+}
 
 ?>
 <!DOCTYPE html>
@@ -62,7 +72,23 @@ if ($row = mysqli_fetch_assoc($result)) {
 </header>
 
 <main>
-    
+
+           <div id="lista-notificaciones">
+    </div>
+
+<script>
+    $(document).ready(function() {
+        $('#lista-notificaciones').hide(); // Opcional: Ocultar al inicio
+        // Llamar a la función para cargar notificaciones inicialmente y luego periódicamente
+        cargarNotificaciones();
+        setInterval(cargarNotificaciones, 5000); // Verificar cada 5 segundos (ajusta el intervalo según necesites)
+
+        $('#btn-notificaciones').click(function() {
+            $('#lista-notificaciones').toggle(); // Mostrar/ocultar al hacer clic
+        });
+    });
+</script>
+       
       
 <div class="EspPub" id="EspPub" >
     <form class="espPubform" action="../BACK/Publicar.php" method="post" enctype="multipart/form-data">

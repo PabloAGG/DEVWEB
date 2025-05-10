@@ -247,3 +247,61 @@ ul.pagination {
     cursor: pointer;
     display: block; /* Asegura que el margin auto funcione correctamente */
   }
+   .notificacion-cuadro {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 5px;
+            background-color: #f9f9f9;
+        }
+        .notificacion-leida {
+            background-color: #e0e0e0; /* Estilo para notificaciones leídas */
+        }
+
+        .notificaciones {
+    position: relative;
+}
+
+#btn-notificaciones {
+    cursor: pointer;
+    /* Estilos para el botón */
+}
+
+#contador-notificaciones {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 5px;
+    font-size: 0.7em;
+}
+
+#lista-notificaciones {
+    display: block;
+    position: absolute;
+    top: 70px;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    width: 250px;
+    z-index: 999;
+}
+
+.notificacion {
+    border-bottom: 1px solid #eee;
+    padding: 5px 0;
+}
+
+.no-leida {
+    font-weight: bold;
+}
+
+.notificacion p {
+    margin: 0;
+}
+
+.notificacion small {
+    color: #888;
+}

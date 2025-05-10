@@ -56,8 +56,44 @@ if (mysqli_stmt_num_rows($check_stmt) > 0) {
         exit();
     }
 
+     // --- INICIO: Lógica de Notificaciones ---
+    $idPublicacion = $publi_id; // Obtén el ID de la publicación
+    $idUsuarioRecibe = obtenerAutorPublicacion($conn, $idPublicacion); // Función para obtener el autor
+    $idUsuarioEmite = $_SESSION['user_id']; // El usuario que dio el "like"
+
+    if ($idUsuarioRecibe != $idUsuarioEmite) { // No notificar al autor por sus propios likes
+        $mensaje = "El usuario " . obtenerNombreUsuario($conn, $idUsuarioEmite) . " le dio me gusta a tu publicación.";
+
+        $query_notificacion = "INSERT INTO Notificaciones (idUsuarioRecibe, idUsuarioEmite, idPublicacion, tipo, mensaje) VALUES (?, ?, ?, 'like', ?)";
+        $stmt_notificacion = mysqli_prepare($conn, $query_notificacion);
+        mysqli_stmt_bind_param($stmt_notificacion, "iiis", $idUsuarioRecibe, $idUsuarioEmite, $idPublicacion, $mensaje);
+        mysqli_stmt_execute($stmt_notificacion);
+
+        if (mysqli_errno($conn)) {
+            error_log("Error al insertar la notificación: " . mysqli_error($conn));
+        }
+    }
     echo json_encode(['success' => true, 'action' => 'like']);
 }
 mysqli_stmt_close($check_stmt);
 mysqli_close($conn);
+function obtenerAutorPublicacion($conn, $idPublicacion) {
+    $query = "SELECT idUsuario FROM Publicaciones WHERE idPubli = ?";
+    $stmt = mysqli_prepare($conn, $query);
+    mysqli_stmt_bind_param($stmt, "i", $idPublicacion);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    $row = mysqli_fetch_assoc($result);
+    return $row['idUsuario'];
+}
+
+function obtenerNombreUsuario($conn, $idUsuario) {
+    $query = "SELECT nomUs FROM Usuarios WHERE idUsuario = ?";
+    $stmt = mysqli_prepare($conn, $query);
+    mysqli_stmt_bind_param($stmt, "i", $idUsuario);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    $row = mysqli_fetch_assoc($result);
+    return $row['nomUs'];
+}
 ?>

@@ -60,7 +60,38 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+// // // 
+function cargarNotificaciones() {
+    $.ajax({
+        url: '../Back/obtener_notificaciones.php', // Ruta al nuevo archivo PHP
+        type: 'GET',
+        success: function(data) {
+            $('#lista-notificaciones').html(data); // Reemplaza el contenido con las notificaciones actualizadas
+            // Recalcular el contador de notificaciones no leídas
+            actualizarContadorNotificaciones();
+            $('#lista-notificaciones').fadeIn(); // Mostrar las notificaciones
+            setTimeout(function() {
+                $('#lista-notificaciones').fadeOut(); // Ocultar las notificaciones después de 5 segundos
+            }, 5000);
+        },
+        error: function() {
+            $('#lista-notificaciones').html('<p>Error al cargar las notificaciones.</p>');
+        }
+    });
+}
 
+function actualizarContadorNotificaciones() {
+    $.ajax({
+        url: '../Back/obtener_cantidad_no_leidas.php', // Nuevo archivo para obtener solo la cantidad
+        type: 'GET',
+        success: function(cantidad) {
+            $('#contador-notificaciones').text(cantidad);
+        },
+        error: function() {
+            $('#contador-notificaciones').text('!'); // Indica error
+        }
+    });
+}
 function toggleForm(){
     const form=document.getElementById("EspPub");
     form.style.display = (form.style.display === "flex") ? "none" : "flex";
