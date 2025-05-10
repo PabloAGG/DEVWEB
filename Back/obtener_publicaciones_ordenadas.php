@@ -12,52 +12,20 @@ $orden = $_GET['orden'] ?? 'ultimas'; // Obtener el criterio de ordenación
 $query = "";
 switch ($orden) {
     case 'ultimas':
-        $query = "SELECT p.*, m.contenido, m.tipo_Img, m.video, u.nomUs AS autor, u.imagen AS imgPerfil, u.tipo_Img AS tipo_ImgUser,
-                  FormatearFecha(p.fechaC) AS fecha_formateada,ExtractoDescripcion(p.descripcion,100) AS extracto,
-                  (SELECT COUNT(*) FROM Comentarios WHERE idPublicacion = p.idPubli) AS comentarios,
-                  (SELECT COUNT(*) FROM Likes WHERE idPublicacion = p.idPubli AND idUsuario = ?) AS hasLiked,
-                  p.nLikes
-               FROM Publicaciones p
-               JOIN Multimedia m ON m.idPubli = p.idPubli
-               JOIN Usuarios u ON u.idUsuario = p.idUsuario
-               WHERE p.estado = 1
-               ORDER BY p.fechaC DESC";
+        $query = "SELECT v.*, (SELECT COUNT(*) FROM Likes WHERE idPublicacion = v.idPubli AND idUsuario = ?) AS hasLiked
+          FROM ultimas_publicaciones v";
         break;
     case 'comentadas':
-        $query = "SELECT p.*, m.contenido, m.tipo_Img, m.video, u.nomUs AS autor, u.imagen AS imgPerfil, u.tipo_Img AS tipo_ImgUser,
-                  FormatearFecha(p.fechaC) AS fecha_formateada,ExtractoDescripcion(p.descripcion,100) AS extracto,
-                  (SELECT COUNT(*) FROM Comentarios WHERE idPublicacion = p.idPubli) AS comentarios,
-                  (SELECT COUNT(*) FROM Likes WHERE idPublicacion = p.idPubli AND idUsuario = ?) AS hasLiked,
-                  p.nLikes
-               FROM Publicaciones p
-               JOIN Multimedia m ON m.idPubli = p.idPubli
-               JOIN Usuarios u ON u.idUsuario = p.idUsuario
-               WHERE p.estado = 1
-               ORDER BY comentarios DESC";
+        $query = "SELECT v.*, (SELECT COUNT(*) FROM Likes WHERE idPublicacion = v.idPubli AND idUsuario = ?) AS hasLiked
+          FROM  publicaciones_mas_comentadas v";
         break;
     case 'gustadas':
-        $query = "SELECT p.*, m.contenido, m.tipo_Img, m.video, u.nomUs AS autor, u.imagen AS imgPerfil, u.tipo_Img AS tipo_ImgUser,
-                  FormatearFecha(p.fechaC) AS fecha_formateada,ExtractoDescripcion(p.descripcion,100) AS extracto,
-                  (SELECT COUNT(*) FROM Comentarios WHERE idPublicacion = p.idPubli) AS comentarios,
-                  (SELECT COUNT(*) FROM Likes WHERE idPublicacion = p.idPubli AND idUsuario = ?) AS hasLiked,
-                  p.nLikes
-               FROM Publicaciones p
-               JOIN Multimedia m ON m.idPubli = p.idPubli
-               JOIN Usuarios u ON u.idUsuario = p.idUsuario
-               WHERE p.estado = 1
-               ORDER BY p.nLikes DESC";
+        $query = "SELECT v.*, (SELECT COUNT(*) FROM Likes WHERE idPublicacion = v.idPubli AND idUsuario = ?) AS hasLiked
+          FROM publicaciones_mas_likes v";
         break;
     default:
-        $query = "SELECT p.*, m.contenido, m.tipo_Img, m.video, u.nomUs AS autor, u.imagen AS imgPerfil, u.tipo_Img AS tipo_ImgUser,
-                  FormatearFecha(p.fechaC) AS fecha_formateada,ExtractoDescripcion(p.descripcion,100) AS extracto,
-                  (SELECT COUNT(*) FROM Comentarios WHERE idPublicacion = p.idPubli) AS comentarios,
-                  (SELECT COUNT(*) FROM Likes WHERE idPublicacion = p.idPubli AND idUsuario = ?) AS hasLiked,
-                  p.nLikes
-               FROM Publicaciones p
-               JOIN Multimedia m ON m.idPubli = p.idPubli
-               JOIN Usuarios u ON u.idUsuario = p.idUsuario
-               WHERE p.estado = 1
-               ORDER BY p.fechaC DESC";
+         $query = "SELECT v.*, (SELECT COUNT(*) FROM Likes WHERE idPublicacion = v.idPubli AND idUsuario = ?) AS hasLiked
+          FROM ultimas_publicaciones v";
         break;
 }
 

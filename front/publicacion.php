@@ -7,7 +7,7 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 $user_id = $_SESSION['user_id'];
-$sqlUsuario = "SELECT nomUs, nombre,correo, imagen,tipo_Img, usAdmin,nacimiento FROM Usuarios WHERE idUsuario = ?";
+ $sqlUsuario = "SELECT * FROM datos_sesion WHERE idUsuario = ?";
 $stmtUsuario = mysqli_prepare($conn, $sqlUsuario);
 mysqli_stmt_bind_param($stmtUsuario, 'i', $user_id);
 mysqli_stmt_execute($stmtUsuario);
@@ -17,8 +17,6 @@ if ($rowUsuario = mysqli_fetch_assoc($resultUsuario)) {
     $user_name = $rowUsuario['nomUs'];
     $full_name = $rowUsuario['nombre'];
     $user_email = $rowUsuario['correo'];
-    $profile_image = $rowUsuario['imagen'];
-    $img_type = $rowUsuario['tipo_Img'];
     $user_role = $rowUsuario['usAdmin'];
     $birth_date = $rowUsuario['nacimiento'];
 } else {
@@ -34,10 +32,7 @@ if ($idPubli <= 0) {
 }
 
 // --- Obtener la Publicación específica ---
-$queryPublicacion = "SELECT p.*, m.contenido, m.tipo_Img, m.video, u.nomUs AS autor,FormatearFecha(p.fechaC) AS fecha_formateada,
---  (SELECT COUNT(*) FROM Likes WHERE idPublicacion = p.idPubli) AS likes,
---           (SELECT COUNT(*) FROM Comentarios WHERE idPublicacion = p.idPubli) AS comentarios,
---           (SELECT COUNT(*) FROM Compartidos WHERE idPublicacion = p.idPubli) AS compartidos,
+$queryPublicacion = "SELECT p.*, m.contenido, m.tipo_Img, m.video, u.nomUs AS autor,u.imagen AS autorImg,u.tipo_Img AS autorType ,FormatearFecha(p.fechaC) AS fecha_formateada,
   (SELECT COUNT(*) FROM Likes WHERE idPublicacion = p.idPubli AND idUsuario = ?) AS hasLiked
               FROM Publicaciones p
               JOIN Multimedia m ON m.idPubli = p.idPubli
@@ -68,11 +63,8 @@ $whatsappUrl = "https://wa.me/?text=$mensaje";
 // --- Obtener Comentarios para la Publicación específica ---
 $comentarios = []; // Inicializar como array vacío
 $stmtComentarios = $conn->prepare("
-    SELECT c.comen, u.nomUs,u.imagen,u.tipo_Img, FormatearFecha(c.fechaC) AS fecha_formateada
-    FROM Comentarios c
-    JOIN Usuarios u ON c.idUsuario = u.idUsuario
-    WHERE c.idPublicacion = ? ORDER BY c.fechaC DESC
-");
+    SELECT * FROM comentarios_publicacion c
+    WHERE c.idPublicacion = ? ");
 if ($stmtComentarios) {
     $stmtComentarios->bind_param("i", $idPubli);
     $stmtComentarios->execute();
@@ -116,10 +108,10 @@ if ($stmtComentarios) {
 <article class="card-container">
     <div class="card">
         <div class="card-header">
-        <?php if ($profile_image!==null) {
+        <?php if ($publicacion['autorImg']!==null) {
 
-$mimeusuario = $img_type ?? 'image/png';
-$base64 = base64_encode($profile_image);
+$mimeusuario = $publicacion['autorType'] ?? 'image/png';
+$base64 = base64_encode($publicacion['autorImg']);
 
 echo '<img class="img-cirUs" src="data:' . $mimeusuario . ';base64,' . $base64 . '">';
 
