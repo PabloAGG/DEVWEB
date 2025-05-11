@@ -106,7 +106,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 
 
 <label for="descP">Descripcion</label><br>
-<textarea name="descP" id="descP"  class="input" aria-label="With textarea"></textarea>
+<textarea name="descP" id="descP" class="input" aria-label="With textarea"></textarea>
 
 
 <label for="fpubfot">Agrega una foto</label>

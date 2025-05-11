@@ -1,32 +1,132 @@
-.perfilUs{
-    justify-content: center;
-    align-items: center;
+.perfilUs {
+    justify-content: center; /* Centra el grid en el eje transversal si hay espacio */
+    align-items: center; /* Centra el contenido de las celdas del grid */
     color: rgb(0, 0, 0);
-    font-family:Arial, Helvetica, sans-serif;
-    font-size: larger;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1em; /* Usar em para escalabilidad, ajustado desde larger */
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    gap: 25px;
-    padding: 15px 15px;
+    grid-template-columns: 1fr; /* Por defecto una columna para móviles */
+    /* grid-template-rows: auto auto; */ /* Filas automáticas según contenido */
+    gap: 20px; /* Espacio entre elementos del grid */
+    padding: 20px; /* Aumentar padding */
     background-color: #f9fefd;
     border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0.7);
-    width: auto;
-    max-width: 600px;
-   margin: 0 auto;
-  }
-  #imgPerfil,.btns-perfil{
- justify-self: center;
- align-self: center;
-  }
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Sombra más suave */
+    width: 90%; /* Fluido */
+    max-width: 700px; /* Un poco más ancho para perfil */
+    margin: 20px auto; /* Margen y centrado */
+    box-sizing: border-box;
+}
 
-  .img-cirUs{
-    width: 200px !important; 
-    height: 200px !important; 
-    border-radius: 50%; 
-    object-fit: cover; 
+/* Imagen de perfil y botones se centrarán por text-align en sus celdas si son inline-block o por margin auto */
+#imgPerfil, /* ID del input file, no de la imagen de muestra */
+.img-cirUs, /* La clase para la imagen de perfil mostrada */
+.btns-perfil {
+    justify-self: center; /* Centra el elemento en su celda del grid */
+    align-self: center; /* Centra verticalmente en su celda del grid */
+    text-align: center; /* Para centrar el contenido del div de botones */
+}
+
+.img-cirUs { /* Clase para la imagen de perfil */
+    width: 150px !important; /* Reducir para móviles primero */
+    height: 150px !important;
+    border-radius: 50%;
+    object-fit: cover;
     border: 3px solid #00435b;
-    align-self: center;
-    justify-self: center;
-  }
+    /* align-self y justify-self ya están arriba */
+    margin-bottom: 15px; /* Espacio debajo de la imagen si está en su propia fila/celda */
+}
+
+#list-perfil {
+    list-style: none; /* Quitar viñetas */
+    padding: 0;
+    margin: 0; /* Quitar margen por defecto de ul */
+    width: 100%; /* Ocupar el ancho de su celda */
+}
+
+#list-perfil li {
+    padding: 8px 0; /* Espacio vertical */
+    border-bottom: 1px solid #eee; /* Separador sutil */
+    font-size: 1em; /* Tamaño de fuente para items de lista */
+}
+
+#list-perfil li:last-child {
+    border-bottom: none; /* Quitar borde del último elemento */
+}
+
+#list-perfil strong {
+    font-weight: bold;
+    margin-right: 8px;
+    color: #333; /* Color más oscuro para el texto en negrita */
+}
+
+.btns-perfil {
+    width: 100%; /* Ocupar el ancho de su celda */
+    display: flex; /* Para manejar múltiples botones */
+    flex-direction: column; /* Apilar botones por defecto */
+    align-items: center; /* Centrar botones */
+    gap: 10px; /* Espacio entre botones */
+    margin-top: 15px; /* Espacio arriba de los botones */
+}
+
+.btns-perfil .btnEx { /* Estilo para los botones */
+    padding: 10px 20px;
+    font-size: 1em;
+    /* background-color, color, etc., vienen de estiloslog.css o se pueden definir aquí */
+    width: 100%; /* Por defecto ocupan todo el ancho */
+    max-width: 250px; /* Un ancho máximo para que no sean demasiado largos */
+}
+
+/* --- Media Queries para Responsividad --- */
+
+/* Para tablets y pantallas medianas donde dos columnas podrían funcionar */
+@media (min-width: 600px) {
+    .perfilUs {
+        grid-template-columns: auto 1fr; /* Columna para imagen, columna para datos/botones */
+        /* grid-template-rows: auto auto; */ /* Se pueden quitar si las columnas manejan la altura */
+        gap: 30px; /* Más espacio en pantallas grandes */
+        padding: 25px;
+        text-align: left; /* Alinear texto a la izquierda en datos */
+    }
+    .img-cirUs {
+        width: 180px !important;
+        height: 180px !important;
+        margin-bottom: 0; /* No necesario si está en su propia columna */
+    }
+    #list-perfil li {
+        font-size: 1.05em;
+    }
+    .btns-perfil {
+        /* Podrían ir en la segunda columna debajo de los datos o en una tercera fila */
+        /* Si van en la segunda columna: */
+        align-items: flex-start; /* Alinear a la izquierda */
+        /* grid-column: 2 / 3; */ /* Asegurar que esté en la segunda columna */
+        /* grid-row: 2 / 3; */    /* Y en una segunda fila si es necesario */
+    }
+    .btns-perfil .btnEx {
+        width: auto; /* Ancho automático para los botones */
+        min-width: 150px; /* Ancho mínimo */
+    }
+}
+
+/* Para móviles pequeños (ajustes finos si es necesario) */
+@media (max-width: 480px) {
+    .perfilUs {
+        padding: 15px;
+        gap: 15px;
+        font-size: 0.9em; /* Reducir tamaño de fuente general */
+    }
+    .img-cirUs {
+        width: 120px !important;
+        height: 120px !important;
+    }
+    #list-perfil li {
+        padding: 6px 0;
+        font-size: 0.95em; /* Ajustar tamaño de fuente de lista */
+    }
+    .btns-perfil .btnEx {
+        padding: 8px 15px;
+        font-size: 0.95em;
+        max-width: 200px; /* Ajustar ancho máximo */
+    }
+}

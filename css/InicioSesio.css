@@ -4,111 +4,144 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-   
-  }
-  body{
+}
+
+body {
     background-color: #f3fffd;
     display: grid;
     min-height: 100dvh;
     grid-template-rows: auto 1fr auto;
     margin: 0;
-  }
-  
-  
-  main{
+    font-family: "Forum", serif; /* Aplicar la fuente al body */
+}
+
+main {
     margin-top: 80px; /* Ajusta este valor para separar del header */
     margin-bottom: 80px; /* Ajusta este valor para separar del footer */
     padding: 20px; /* Espacio interno opcional */
-    font-weight: 800;
-    font-size: 1rem;
-    font-family: "Forum", serif;
-  }
-  
-  
-  
-  /* Estilo para la barra superior */
-  header {
-    font-size: x-large;
-      position: fixed;
-      width: 100%;
-      height: 60px;
-      top: 0;
-      left: 0;
-      background-color: #022521;
-      color: #021b1a;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 10px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-      z-index: 1000;
-  }
+    font-weight: 400; /* Normal, 800 es muy grueso para texto general */
+    font-size: 1rem; /* Tamaño base */
+}
+
+/* Estilo para la barra superior (Asumiendo que es similar a estiloslog.css) */
+header {
+    font-size: 1.5em; /* Ajustado desde x-large */
+    position: fixed;
+    width: 100%;
+    min-height: 60px;
+    height: auto;
+    top: 0;
+    left: 0;
+    background-color: #022521;
+    color: aliceblue; /* Color de texto para el header */
+    display: flex;
+    justify-content: center; /* Centrar el logo y título */
+    align-items: center;
+    padding: 10px 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    flex-wrap: wrap;
+}
+header img {
+    width: 50px; /* Tamaño del logo */
+    height: 50px;
+    margin-right: 10px;
+}
+#titulo { /* Título en el header */
+    color: aliceblue;
+    text-align: center; /* Ya está centrado por el flex del header */
+    font-size: 1em; /* Relativo al font-size del header */
+}
 
 
-    footer{
-      font-style: oblique;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 90px;
-      background-color: none;
-  
-      color: #4b5554;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-  
-  }
+/* Footer (Asumiendo que es similar a estiloslog.css) */
+footer {
+    font-style: oblique;
+    width: 100%;
+    min-height: 90px;
+    height: auto;
+    background-color: transparent; /* none no es un valor válido, usar transparent o quitar */
+    color: #4b5554;
+    display: flex;
+    flex-direction: column; /* Para apilar texto e iconos */
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    text-align: center;
+}
+footer p {
+    margin-bottom: 10px; /* Espacio entre el texto y los iconos */
+    font-size: 0.9em;
+}
+.social-icons a {
+    color: #4b5554; /* Color de los iconos */
+    margin: 0 8px;
+    font-size: 1.4em;
+    text-decoration: none;
+}
+.social-icons a:hover {
+    color: #022521; /* Oscurecer al pasar el ratón */
+}
 
 
-#datos{
-
+/* #datos { (Estilo de texto en footer, se maneja con footer p)
     color: aliceblue;
     text-align: left;
-}
-.logo{
+} */
+
+/* .logo { (Se maneja con header img y #titulo)
     display: flex;
     flex-direction: row;
     align-items: center;
-  }
-  #titulo {
-    color: aliceblue;
-    text-align: center;
-  }
-#registro{
+} */
+
+#registro { /* Enlace "¿Aún no tienes una cuenta?" */
     text-decoration: none;
-    color:aqua;
+    color: aqua;
+    font-weight: bold; /* Hacerlo destacar */
 }
-#registro:hover{
-    color: rgb(18, 143, 61);
+
+#registro:hover {
+    color: rgb(60, 220, 220); /* Un aqua más brillante */
     text-decoration: underline;
 }
+
 .contenedor_login {
     color: aliceblue;
-    font-size: x-large;
+    font-size: 1.25em; /* Ajustado desde x-large */
     text-align: center;
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
     border: 1px solid #022521;
-    padding: 20px;
+    padding: 30px 20px; /* Más padding vertical */
     background-color: #022521;
     border-radius: 20px;
-    box-shadow: 0 2px 5px black;
-    max-width: 600px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Sombra más pronunciada */
+    width: 90%; /* Fluido */
+    max-width: 450px; /* Un poco más estrecho para login */
     align-items: center;
-    margin: 0 auto; /* Centrado horizontal sin margen superior adicional */
+    margin: 40px auto; /* Margen vertical y centrado horizontal */
+    box-sizing: border-box;
 }
-.contenedor-input{
-    position:relative;
-    width: 90%;
-    height: 50px;
+.form__log { /* Asegurar que el form interno tome el ancho */
+    width: 100%;
+}
+.contenedor_login h2 { /* Estilo para "Iniciar Sesión" */
+    font-size: 1.5em; /* Relativo al font-size de .contenedor_login */
+    margin-bottom: 25px;
+    color: #fff;
+}
+
+.contenedor-input {
+    position: relative;
+    width: 100%; /* Tomar el ancho del form */
+    /* height: 50px; */ /* Altura automática */
     border-bottom: 2px solid antiquewhite;
     margin: 30px 0;
-
+    padding-bottom: 10px; /* Espacio para la etiqueta al subir */
 }
 
-.contenedor-input label{
-
+.contenedor-input label {
     position: absolute;
     top: 50%;
     left: 5px;
@@ -119,53 +152,178 @@
     transition: .4s;
     color: rgb(255, 255, 255);
 }
-.contenedor-input input:placeholder-shown ~ label {
-    top: 50%;
-    transform: translateY(-50%);
-  }
-  
-  .contenedor-input input:not(:placeholder-shown) ~ label {
-    top: -5px;
-  }
-/* .contenedor-input input:focus~label,
-.contenedor-input input:active ~label{
-    top:-5px;
-} */
 
-.contenedor-input input{
+.contenedor-input input:not(:placeholder-shown) ~ label, /* Cuando hay contenido */
+.contenedor-input input:focus ~ label { /* Cuando el input tiene foco */
+    top: -10px; /* Sube la etiqueta */
+    font-size: 0.85em; /* Etiqueta más pequeña */
+    color: aqua; /* Cambia color para feedback */
+}
+
+.contenedor-input input {
     width: 100%;
-    height: 100%;
+    /* height: 100%; */
+    padding: 10px 35px 10px 5px; /* Padding para el texto y el icono */
     background: transparent;
     border: none;
     outline: none;
     font-size: 1em;
-    color:rgb(255, 255, 255);
-    padding: 0 35px 0 5px;
+    color: rgb(255, 255, 255);
+    box-sizing: border-box;
 }
 
-.contenedor-input .icono{
+.contenedor-input .icono {
     position: absolute;
     right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
     font-size: 1.4em;
-    color:rgb(18, 143, 61);
-    line-height: 57px;
+    color: rgb(18, 143, 61);
+    /* line-height: 57px; */ /* No necesario con transform */
 }
 
-main button{
+main .contenedor_login button.btnEx { /* Estilo específico para el botón "Entrar" */
     width: 100%;
     height: 45px;
     border: none;
     outline: none;
     border-radius: 5px;
-   margin: 10px 0;
+    margin: 20px 0 10px 0; /* Ajustar margen */
     font-size: 1em;
     font-weight: bold;
     background-color: rgb(1, 94, 26);
-    color:antiquewhite;
+    color: antiquewhite;
     transition: all 0.3s ease-in-out;
-}
-main button:hover {
     cursor: pointer;
-    background-color: #146c43;
+}
+
+main .contenedor_login button.btnEx:hover {
+    background-color: #146c43; /* Un verde más oscuro */
     color: white;
+}
+
+.Contenedor_regus { /* Para "¿Aún no tienes una cuenta?" */
+    margin-top: 20px;
+    font-size: 0.9em; /* Un poco más pequeño */
+    color: #f0f0f0; /* Un gris claro */
+}
+.Contenedor_regus span {
+    display: block; /* Para que el enlace vaya abajo */
+    margin-bottom: 5px;
+}
+
+/* --- Media Queries para Responsividad --- */
+
+@media (max-width: 768px) {
+    main {
+        margin-top: 70px;
+        margin-bottom: 70px;
+        padding: 15px;
+    }
+    header {
+        min-height: 50px;
+    }
+    header img {
+        width: 40px;
+        height: 40px;
+    }
+    #titulo {
+        font-size: 0.9em;
+    }
+    .contenedor_login {
+        padding: 25px 15px;
+        font-size: 1.1em;
+        max-width: 400px;
+    }
+    .contenedor_login h2 {
+        font-size: 1.4em;
+        margin-bottom: 20px;
+    }
+    .contenedor-input {
+        margin: 25px 0;
+    }
+    .contenedor-input input {
+        font-size: 0.95em;
+    }
+    .contenedor-input label {
+        font-size: 0.95em;
+    }
+    .contenedor-input input:not(:placeholder-shown) ~ label,
+    .contenedor-input input:focus ~ label {
+        font-size: 0.8em;
+    }
+    main .contenedor_login button.btnEx {
+        height: 42px;
+        font-size: 0.95em;
+    }
+    .Contenedor_regus {
+        font-size: 0.85em;
+    }
+}
+
+@media (max-width: 480px) {
+    main {
+        margin-top: 60px; /* Menos margen si el header es más pequeño */
+        margin-bottom: 60px;
+        padding: 10px;
+    }
+    header {
+        padding: 8px 10px;
+        min-height: 45px;
+    }
+    header img {
+        width: 35px;
+        height: 35px;
+        margin-right: 8px;
+    }
+    #titulo {
+        /* display: none; */ /* Opcional: ocultar para más espacio */
+        font-size: 0.8em;
+    }
+    .contenedor_login {
+        width: 95%; /* Casi todo el ancho */
+        padding: 20px 10px;
+        font-size: 1em; /* Tamaño de fuente base para móvil */
+        max-width: none; /* Permitir que se expanda */
+    }
+    .contenedor_login h2 {
+        font-size: 1.3em;
+        margin-bottom: 15px;
+    }
+    .contenedor-input {
+        margin: 20px 0;
+    }
+    .contenedor-input input {
+        font-size: 0.9em;
+        padding: 8px 30px 8px 5px;
+    }
+    .contenedor-input label {
+        font-size: 0.9em;
+    }
+    .contenedor-input input:not(:placeholder-shown) ~ label,
+    .contenedor-input input:focus ~ label {
+        font-size: 0.75em;
+        top: -12px;
+    }
+    .contenedor-input .icono {
+        font-size: 1.2em;
+    }
+    main .contenedor_login button.btnEx {
+        height: 40px;
+        font-size: 0.9em;
+    }
+    .Contenedor_regus {
+        font-size: 0.8em;
+    }
+    footer {
+        min-height: 70px;
+        padding: 10px;
+    }
+    footer p {
+        font-size: 0.8em;
+    }
+    .social-icons a {
+        font-size: 1.2em;
+        margin: 0 5px;
+    }
 }

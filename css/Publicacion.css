@@ -1,181 +1,349 @@
-.card-container { 
-  width: 80%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  justify-self: center;
-  margin: 20px 0;
+/* Publicacion.css */
+
+/* Contenedor principal del artículo (tarjeta + comentarios) */
+.card-container {
+  width: 90%; /* Fluido */
+  max-width: 800px; /* Ancho máximo para la publicación completa */
+  margin: 20px auto; /* Centrado y con espacio vertical */
+  padding: 0; /* Sin padding aquí, se maneja en .card y .comentarios-seccion */
+  box-sizing: border-box;
 }
 
+/* La tarjeta principal de la publicación */
 .card {
- 
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  padding: 16px;
-  font-family: 'Segoe UI', sans-serif;
+  background: #fff;
+  border-radius: 8px; /* Bordes ligeramente menos redondeados */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Sombra más sutil */
+  padding: 20px;
+  margin-bottom: 25px; /* Espacio entre la tarjeta y la sección de comentarios */
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .card-header {
   display: flex;
-  justify-content: space-between;
-  font-size: 14px;
-  color: #666;
-  margin-bottom: 10px;
+  align-items: center; /* Alinear imagen de autor, nombre y fecha */
+  justify-content: flex-start; /* Alinear al inicio */
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f0f0f0;
 }
 
-.card-body h2 {
-  margin: 0 0 10px;
-  color: #333;
-}
-
-.card-body p {
-  margin-bottom: 10px;
-  color: #555;
-}
-
-.media {
-  width: 100%;
-  max-height: 400px;
+.card-header .img-cirUs { /* Avatar del autor de la publicación */
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
   object-fit: cover;
-  border-radius: 8px;
+  margin-right: 12px; /* Espacio entre avatar y nombre */
+  border: 1px solid #ddd;
+}
+
+.card-header .autor-fecha { /* Contenedor para agrupar autor y fecha */
+    display: flex;
+    flex-direction: column;
+}
+
+.card-header .autor {
+  font-weight: bold;
+  color: #333;
+  font-size: 1em;
+  margin-bottom: 2px;
+}
+
+.card-header .fecha {
+  font-size: 0.85em;
+  color: #777;
+}
+
+.card-body h2 { /* Título de la publicación */
+  font-size: 1.8em;
+  color: #222; /* Un poco más oscuro */
+  margin: 0 0 15px 0;
+  line-height: 1.3;
+}
+
+.card-body p { /* Descripción de la publicación */
+  font-size: 1.05em;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  word-wrap: break-word; /* Para evitar desbordamientos por palabras largas */
+}
+
+.media { /* Imagen o video de la publicación */
+  width: 100%;
+  max-height: 500px;
+  object-fit: contain; /* Para ver toda la imagen/video */
+  border-radius: 6px; /* Bordes redondeados consistentes */
+  margin-bottom: 20px;
+  background-color: #f0f0f0; /* Fondo para media */
+  border: 1px solid #eee; /* Borde sutil */
 }
 
 .card-footer {
-  width: 100%;
   display: flex;
-  justify-content:in-line;
-  margin-top: 12px;
-  border-top: 2px solid rgba(148, 147, 147,.7);
+  align-items: center;
+  justify-content: flex-start; /* Alinear botones al inicio */
+  gap: 15px; /* Espacio entre grupos de botón/contador */
+  padding-top: 15px;
+  border-top: 1px solid #f0f0f0;
 }
-.card-footer .btn{
-background:none;
-box-shadow: none;
-border: none;
-color: rgb(45, 59, 219);
-margin: 0 5px;
-padding: 10px 12px;
-width: 100%;
-border-radius: 4px;
 
+.card-footer .btn {
+  background: none;
+  border: 1px solid transparent; /* Borde transparente para mantener tamaño en hover */
+  color: #007bff;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none; /* Quitar subrayado de enlaces */
 }
 .card-footer .btn:hover {
-  text-decoration: underline;
-  background: rgba(158, 158, 158, 0.5);
-  color:white;
-  transition: ease-in-out .3s;
+  background-color: #e9ecef; /* Fondo sutil en hover */
+  border-color: #ddd; /* Borde visible en hover */
+  color: #0056b3;
+}
+.card-footer .btn i {
+  margin-right: 6px;
+}
+.card-footer .btn.liked {
+  background-color: #007bff;
+  color: #fff;
+  border-color: #007bff;
+}
+.card-footer .btn.liked:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
 }
 
+.like-count {
+  font-size: 0.9em;
+  color: #555;
+  /* margin-left: 5px; */ /* Se maneja con gap */
+}
+
+/* Sección de Comentarios */
 .comentarios-seccion {
-  margin-top: 5px; 
-  padding: 15px;
-  background-color: #f9f9f9; 
-  border-radius: 8px; 
-  border: 1px solid #eee; 
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #e7e7e7;
   width: 100%;
+  box-sizing: border-box;
 }
 
 .comentarios-seccion h3 {
-  color: #333; 
-  margin-bottom: 15px; 
-  padding-bottom: 5px;
+  font-size: 1.5em;
+  color: #333;
+  margin: 0 0 20px 0;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ddd;
 }
 
-
 #form-comentario {
-  display: flex; 
-  flex-direction: row; 
-  margin-bottom: 20px; 
- width: 100%;
+  display: flex;
+  align-items: flex-start; /* Textarea y botón alineados arriba */
+  gap: 10px; /* Espacio entre textarea y botón */
+  margin-bottom: 20px;
 }
 
 #form-comentario textarea {
+  flex-grow: 1; /* Ocupa el espacio disponible */
+  min-height: 50px; /* Altura mínima */
   padding: 10px;
   border: 1px solid #ccc;
-  border-radius: 4px;
-  resize: vertical; 
-  font-size: 16px;
-  width: 95%;
+  border-radius: 5px;
+  font-size: 0.95em;
+  line-height: 1.5;
+  resize: vertical;
 }
 
-#form-comentario .btn-ver-mas { 
-  padding: 7px 12px;
-  background-color: #007bff; 
+#form-comentario button[type="submit"] { /* Botón de publicar comentario */
+  background-color: #28a745; /* Verde */
   color: white;
   border: none;
-  border-radius: 4px;
+  padding: 10px 15px;
+  border-radius: 5px;
   cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.3s ease;
-
+  font-size: 0.95em;
+  transition: background-color 0.2s ease;
+  white-space: nowrap; /* Evitar que el texto del botón se parta */
 }
-
-#form-comentario .btn-ver-mas:hover {
-  background-color: #0056b3;
+#form-comentario button[type="submit"]:hover {
+  background-color: #1e7e34;
+}
+#form-comentario button[type="submit"] i {
+  margin-right: 6px;
 }
 
 #mensaje-comentario {
-  margin-bottom: 10px;
-  padding: 8px;
+  padding: 10px;
   border-radius: 4px;
-  font-size: 14px;
+  font-size: 0.9em;
+  margin-bottom: 15px;
+  /* display:none; se maneja con JS */
 }
-
-.mensaje-ajax.success {
-  background-color: #d4edda;
-  color: #155724;
-  border: 1px solid #c3e6cb;
-}
-
-.mensaje-ajax.error {
-  background-color: #f8d7da;
-  color: #721c24;
-  border: 1px solid #f5c6cb;
-}
+.mensaje-ajax.success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+.mensaje-ajax.error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
 
 #lista-comentarios {
-  margin-top: 15px;
+  margin-top: 0; /* Sin margen superior si el h3 ya tiene margen inferior */
+}
+#lista-comentarios > p { /* Mensaje "Sé el primero en comentar" */
+  color: #777;
+  font-style: italic;
+  text-align: center;
+  padding: 20px 0;
+  font-size: 0.95em;
 }
 
 .comentario-item {
-  padding: 10px;
-  background-color: rgba(85, 85, 85,.6);
-border-radius: 10px;
-  margin-bottom: 10px;
+  display: flex;
+  align-items: flex-start; /* Alinea avatar y contenido del comentario */
+  gap: 12px; /* Espacio entre avatar y contenido */
+  padding: 15px 0; /* Padding vertical, sin padding horizontal (se controla en .comentarios-seccion) */
+  border-bottom: 1px solid #eee; /* Separador */
 }
-
 .comentario-item:last-child {
-  border-bottom: none; 
+  border-bottom: none;
 }
 
-.comentario-item strong {
-  font-weight: bolder;
-  color: #ffffff;
-  display: block; 
-  margin-bottom: 5px;
-  font-size: 1.1em;
-}
-
-.comentario-item span {
-  color: #e9e9e9;
-  font-size: 0.9em;
-  margin-left: 5px;
-}
-
-.comentario-item p {
-  margin-top: 5px;
-  line-height: 1.4;
-  color: #f8f8f8 !important;
-}
-
-#lista-comentarios p {
-  color: #565656;
-  font-style: italic;
-}
-.img-cirUs{
-  width: 50px;
-  height: 50px;
+.comentario-item .img-cirUs { /* Avatar del comentador */
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  margin-right: 10px;
-  border: 1px solid #ccc;
+  object-fit: cover;
+  border: 1px solid #ddd;
+  flex-shrink: 0; /* Evita que el avatar se encoja */
+}
+
+.comentario-contenido {
+  flex-grow: 1; /* Para que el texto ocupe el espacio */
+}
+
+.comentario-contenido strong { /* Nombre del comentador */
+  font-size: 0.95em;
+  color: #007bff;
+  margin-bottom: 3px;
+  display: block; /* Para que la fecha vaya abajo */
+}
+
+.comentario-contenido span { /* Fecha del comentario */
+  font-size: 0.8em;
+  color: #777;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.comentario-contenido p { /* Texto del comentario */
+  font-size: 0.95em;
+  color: #444;
+  line-height: 1.5;
+  margin: 0; /* Quitar margen por defecto del párrafo */
+  word-wrap: break-word;
+}
+
+
+/* --- Media Queries para Publicacion.css --- */
+
+@media (max-width: 768px) {
+  .card-container {
+    width: 95%; /* Un poco más de espacio en los lados */
+  }
+  .card, .comentarios-seccion {
+    padding: 15px;
+  }
+  .card-body h2 {
+    font-size: 1.6em;
+  }
+  .card-body p {
+    font-size: 1em;
+  }
+  .media {
+    max-height: 400px;
+  }
+  .card-footer .btn {
+    font-size: 0.85em;
+    padding: 7px 10px;
+  }
+  .comentarios-seccion h3 {
+    font-size: 1.3em;
+  }
+  #form-comentario textarea, #form-comentario button[type="submit"] {
+    font-size: 0.9em;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-container {
+    width: 100%; /* Ocupar todo el ancho disponible */
+    margin: 10px auto; /* Menos margen vertical */
+    padding: 0 5px; /* Pequeño padding para que no pegue a los bordes */
+  }
+  .card, .comentarios-seccion {
+    padding: 12px;
+    border-radius: 6px;
+  }
+  .card-header .img-cirUs {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+  }
+  .card-header .autor {
+    font-size: 0.95em;
+  }
+  .card-header .fecha {
+    font-size: 0.8em;
+  }
+  .card-body h2 {
+    font-size: 1.4em; /* Más pequeño en móviles */
+  }
+  .card-body p {
+    font-size: 0.9em; /* Ligeramente más pequeño */
+    line-height: 1.5;
+  }
+  .media {
+    max-height: 300px; /* Reducir altura máxima de media */
+    border-radius: 4px;
+  }
+  .card-footer {
+    flex-wrap: wrap; /* Permitir que los botones se envuelvan */
+    gap: 10px;
+    justify-content: space-around; /* Distribuir mejor cuando se envuelven */
+  }
+  .card-footer .btn {
+    font-size: 0.8em;
+    padding: 8px 10px;
+    /* flex-grow: 1; */ /* Opcional: para que ocupen el mismo ancho si se envuelven */
+    /* min-width: 100px; */
+  }
+  .comentarios-seccion h3 {
+    font-size: 1.2em;
+  }
+  #form-comentario {
+    flex-direction: column; /* Apilar textarea y botón */
+    gap: 8px;
+  }
+  #form-comentario textarea, #form-comentario button[type="submit"] {
+    width: 100%; /* Ocupar todo el ancho */
+    font-size: 0.85em;
+  }
+  #form-comentario button[type="submit"] {
+    padding: 10px; /* Asegurar buen tamaño de clic */
+  }
+  .comentario-item {
+    padding: 10px 0; /* Menos padding horizontal, ya está en .comentarios-seccion */
+    gap: 10px;
+  }
+  .comentario-item .img-cirUs {
+    width: 35px;
+    height: 35px;
+  }
+  .comentario-contenido strong { font-size: 0.9em; }
+  .comentario-contenido span { font-size: 0.75em; }
+  .comentario-contenido p { font-size: 0.9em; }
 }

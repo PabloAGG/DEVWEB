@@ -5,6 +5,12 @@ select {
   background-position: right 10px center;
   background-size: 1em;
   cursor: pointer;
+  padding: 10px; /* Añadir padding para mejor apariencia */
+  border: 1px solid #ccc; /* Añadir borde */
+  border-radius: 4px; /* Bordes redondeados */
+  width: 100%; /* Hacer el select responsivo */
+  max-width: 300px; /* Un ancho máximo para que no sea demasiado grande en desktop */
+  margin-bottom: 20px; /* Espacio debajo */
 }
 
 select::-ms-expand { /* Para navegadores IE */
@@ -18,17 +24,21 @@ select::-ms-expand { /* Para navegadores IE */
 }
 
 .card {
-  width: 600px;
+  width: 90%; /* Fluido */
+  max-width: 600px; /* Ancho máximo */
   background: white;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   padding: 16px;
   font-family: 'Segoe UI', sans-serif;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .card-header {
   display: flex;
   justify-content: space-between;
+  align-items: center; /* Alinear items verticalmente */
   font-size: 14px;
   color: #666;
   margin-bottom: 10px;
@@ -37,11 +47,13 @@ select::-ms-expand { /* Para navegadores IE */
 .card-body h2 {
   margin: 0 0 10px;
   color: #333;
+  font-size: 1.5em; /* Tamaño base */
 }
 
 .card-body p {
   margin-bottom: 10px;
   color: #555;
+  line-height: 1.6; /* Mejorar legibilidad */
 }
 
 .media {
@@ -54,46 +66,114 @@ select::-ms-expand { /* Para navegadores IE */
 .card-footer {
   width: 100%;
   display: flex;
-  justify-content:in-line;
+  justify-content: space-around; /* Distribuir botones equitativamente */
+  align-items: center; /* Alinear verticalmente */
   margin-top: 12px;
-  border-top: 2px solid rgba(148, 147, 147,.7);
+  padding-top: 10px; /* Añadir padding superior */
+  border-top: 1px solid #eee; /* Borde más sutil */
 }
-.card-footer .btn{
-  background:none;
+
+.card-footer .btn {
+  background: none;
   box-shadow: none;
   border: none;
-  color: rgb(45, 59, 219);
+  color: #007bff; /* Azul estándar para enlaces/acciones */
   margin: 0 5px;
   padding: 10px 12px;
-  width: 100%;
+  /* width: 100%; */ /* Quitar para que no ocupen todo el ancho por defecto */
   border-radius: 4px;
-  }
-  .card-footer .btn:hover {
-    text-decoration: underline;
-    background: rgba(158, 158, 158, 0.5);
-    color:white;
-    transition: ease-in-out .3s;
-  }
+  cursor: pointer;
+  font-size: 0.9em; /* Tamaño base para botones */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
 
-.img-cirUs{
-  width: 50px;
-  height: 50px;
+.card-footer .btn:hover {
+  text-decoration: none; /* Quitar subrayado, se maneja con cambio de fondo */
+  background: rgba(0, 123, 255, 0.1); /* Fondo sutil al pasar el mouse */
+  color: #0056b3;
+}
+
+.img-cirUs {
+  width: 40px; /* Reducir ligeramente */
+  height: 40px;
   border-radius: 50%;
   margin-right: 10px;
   border: 1px solid #ccc;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Sombra más sutil */
+}
 
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+.userPres {
+    display: flex;
+    align-items: center;
 }
-.contenedor_Publicaciones{
-  width: 100vw;
-  height: 100%;
-  left: 0;
+
+.contenedor_publicaciones {
+  width: 100%; /* Ocupar todo el ancho disponible */
+  /* height: 100%; */ /* La altura debe ser automática */
+  /* left: 0; */ /* No es necesario si es width 100% y está en el flujo normal */
+  padding: 0 10px; /* Añadir padding lateral para que el contenido no pegue a los bordes */
+  box-sizing: border-box;
 }
-.contenedor_Publicaciones h3{
-  margin: 0;
+
+.contenedor_publicaciones h3 {
+  margin: 20px 0; /* Ajustar margen */
   padding: 10px;
-  font-size: 1.5rem;
+  font-size: 1.8em; /* Tamaño base */
   color: #333;
   text-align: center;
-  align-self: center;
+}
+
+/* --- Media Queries para Responsividad --- */
+
+@media (max-width: 768px) {
+  .card {
+    padding: 12px;
+  }
+  .card-body h2 {
+    font-size: 1.3em;
+  }
+  .card-footer .btn {
+    font-size: 0.85em;
+    padding: 8px 10px;
+  }
+  .contenedor_publicaciones h3 {
+    font-size: 1.5em;
+  }
+  select {
+    font-size: 0.95em;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .card-header .fecha {
+    margin-top: 5px;
+  }
+  .card-body h2 {
+    font-size: 1.2em;
+  }
+  .card-footer {
+    flex-direction: column; /* Apilar botones */
+  }
+  .card-footer .btn {
+    width: 100%; /* Que los botones ocupen todo el ancho al apilarse */
+    margin-bottom: 8px;
+  }
+  .card-footer .btn:last-child {
+    margin-bottom: 0;
+  }
+  .contenedor_publicaciones h3 {
+    font-size: 1.3em;
+  }
+  .img-cirUs {
+    width: 35px;
+    height: 35px;
+  }
+  select {
+    font-size: 0.9em;
+    max-width: none; /* Permitir que ocupe el ancho completo */
+  }
 }

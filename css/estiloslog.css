@@ -5,66 +5,77 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
- 
 }
-body{
+
+body {
   background-color: #f3fffd;
   display: grid;
   min-height: 100dvh;
   grid-template-rows: auto 1fr auto;
   margin: 0;
+  font-family: "Forum", serif; /* Aplicar la fuente globalmente */
 }
 
-
-main{
+main {
   margin-top: 80px; /* Ajusta este valor para separar del header */
   margin-bottom: 80px; /* Ajusta este valor para separar del footer */
   padding: 20px; /* Espacio interno opcional */
-  font-family: "Forum", serif;
-  font-weight: 800;
-  font-size: 1rem;
+  font-weight: 400; /* Normal, 800 es muy grueso para texto general */
+  font-size: 1rem; /* Tamaño base */
 }
-
-
 
 /* Estilo para la barra superior */
 header {
-
-    position: fixed;
-    width: 100%;
-    height: 60px;
-    top: 0;
-    left: 0;
-    background-color: #022521;
-    color: #021b1a;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding: 10px;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-    transform: blur(18px);
-    z-index: 1000;
-}
-.logo{
+  position: fixed;
+  width: 100%;
+  min-height: 60px; /* Altura mínima, puede crecer si el contenido se envuelve */
+  height: auto; /* Altura automática */
+  top: 0;
+  left: 0;
+  background-color: #022521;
+  color: #e1e1e1; /* Color de texto para el header */
   display: flex;
-  flex-direction: row;
+  justify-content: space-between; /* Espacio entre logo/botones y user */
   align-items: center;
-}
-#titulo {
-  color: aliceblue;
-  text-align: center;
+  padding: 10px 15px; /* Padding horizontal */
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  /* transform: blur(18px); */ /* Considerar si este blur es necesario, puede afectar rendimiento */
+  z-index: 1000;
+  flex-wrap: wrap; /* Permitir que los elementos se envuelvan */
 }
 
-.barrPrin{
-  padding: 30px;
-  justify-content: space-between;
+.logo {
+  display: flex;
+  align-items: center;
+  margin-right: 15px; /* Espacio a la derecha del logo */
+}
+.logo img {
+    width: 50px; /* Ajustar tamaño de logo si es necesario */
+    height: 50px;
+}
+
+#titulo { /* Título al lado del logo */
+  color: aliceblue;
+  /* text-align: center; */ /* No es necesario si está en .logo */
+  font-size: 1.5em; /* Ajustar tamaño */
+  margin-left: 10px;
+}
+
+.barrPrin {
+  /* padding: 30px; */ /* Padding excesivo, se maneja con márgenes en botones */
+  /* justify-content: space-between; */ /* Se controla en el header */
+  display: flex; /* Para alinear botones */
+  align-items: center;
+  flex-grow: 1; /* Para que ocupe el espacio disponible */
+  justify-content: center; /* Centrar los botones de navegación */
+  flex-wrap: wrap; /* Permitir que los botones se envuelvan */
 }
 
 .barrPrin button {
-  font-size: 12px;
+  font-size: 0.875em; /* Ajustar tamaño relativo */
   color: #e1e1e1;
-  margin: 10px;
-  font-weight: 800;
+  margin: 5px 10px; /* Margen para separación */
+  font-weight: 600; /* Más legible que 800 */
   cursor: pointer;
   position: relative;
   border: none;
@@ -73,6 +84,7 @@ header {
   transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
   transition-duration: 400ms;
   transition-property: color;
+  padding: 5px 0; /* Padding vertical para el efecto de línea */
 }
 
 .barrPrin button:focus,
@@ -99,158 +111,273 @@ header {
   transition-duration: 400ms;
   transition-property: width, left;
 }
-.search-container {
-    display: flex;
-    align-items: center;
-    position:relative;
-  }
-  
-  .search-bar {
-    width: 0;
-    padding: 10px;
-    border: 2px solid #ccc;
-    border-radius: 25px;
-    outline: none;
-    transition: width 0.4s ease-in-out;
-    opacity: 0;
-    visibility: hidden;
-  }
-  
-  .search-button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 20px;
-    color: #ccc;
-    margin: 15px;
-    transition: transform 0.4s ease-in-out;
-  }
-  
-  .search-container.active .search-bar {
-    width: 200px;
-    opacity: 1;
-    visibility: visible;
-  }
-  
-  .search-container.active .search-button {
-    transform: translateX(-10px);
-  }
 
-.img-circular {
-  width: 40px; 
-  height: 40px; 
-  border-radius: 50%; 
-  object-fit: cover; 
-  /* margin-left: 150px;
-  margin-top: -90px; */
+.search-container {
+  display: flex;
+  align-items: center;
+  position: relative; /* Necesario para el posicionamiento de la barra */
+  margin: 5px 10px; /* Margen para separación */
 }
 
+.search-bar {
+  width: 0;
+  padding: 8px 10px; /* Ajustar padding */
+  border: 1px solid #ccc; /* Borde más sutil */
+  border-radius: 25px;
+  outline: none;
+  transition: width 0.4s ease-in-out, opacity 0.4s ease-in-out, visibility 0s 0.4s; /* Sincronizar transiciones */
+  opacity: 0;
+  visibility: hidden;
+  background-color: #f0f0f0; /* Fondo para la barra */
+  color: #333; /* Color de texto */
+}
 
-  .identificador button {
-    font-size: 12px;
-    color: #e1e1e1;
-    margin: 10px;
-    font-weight: 800;
-    cursor: pointer;
-    position: relative;
-    border: none;
-    background: none;
-    text-transform: uppercase;
-    transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
-    transition-duration: 400ms;
-    transition-property: color;
-  }
-  
-  .identificador button:focus,
-  .identificador button:hover {
+.search-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.25em; /* Ajustar tamaño */
+  color: #ccc;
+  /* margin: 15px; */ /* Se controla en search-container */
+  padding: 5px; /* Añadir padding para mejor clic */
+  transition: transform 0.4s ease-in-out, color 0.3s ease;
+}
+.search-button:hover {
     color: #fff;
-  }
-  
-  .identificador button:focus:after,
-  .identificador button:hover:after {
-    width: 100%;
-    left: 0%;
-  }
-  .identificador button:after {
-    content: "";
-    pointer-events: none;
-    bottom: -2px;
-    left: 50%;
-    position: absolute;
-    width: 0%;
-    height: 2px;
-    background-color: #fff;
-    transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
-    transition-duration: 400ms;
-    transition-property: width, left;
-  }
+}
 
+.search-container.active .search-bar {
+  width: 200px;
+  opacity: 1;
+  visibility: visible;
+  transition: width 0.4s ease-in-out, opacity 0.4s ease-in-out, visibility 0s 0s;
+}
 
- main  button{
+/* .search-container.active .search-button { */
+  /* transform: translateX(-10px); */ /* No es necesario si la barra se expande */
+/* } */
+
+.img-circular { /* Para imagen de perfil en identificador si se usa */
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 5px; /* Espacio si hay texto al lado */
+}
+
+.identificador {
+  display: flex; /* Para alinear imagen y botón si es necesario */
+  align-items: center;
+  margin-left: 15px; /* Espacio a la izquierda del identificador */
+}
+
+.identificador button { /* Mismos estilos que .barrPrin button para consistencia */
+  font-size: 0.875em;
+  color: #e1e1e1;
+  margin: 0; /* Quitar margen si es solo un botón */
+  font-weight: 600;
+  cursor: pointer;
+  position: relative;
+  border: none;
+  background: none;
+  text-transform: uppercase;
+  transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition-duration: 400ms;
+  transition-property: color;
+  padding: 5px 0;
+}
+
+.identificador button:focus,
+.identificador button:hover {
+  color: #fff;
+}
+
+.identificador button:focus:after,
+.identificador button:hover:after {
+  width: 100%;
+  left: 0%;
+}
+
+.identificador button:after {
+  content: "";
+  pointer-events: none;
+  bottom: -2px;
+  left: 50%;
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  background-color: #fff;
+  transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition-duration: 400ms;
+  transition-property: width, left;
+}
+
+/* Estilos generales para botones en main, si es necesario */
+main button {
   background-color: #007bff; /* Color azul primario */
   color: white;
   padding: 12px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 1em;
   transition: background-color 0.3s ease;
-  box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px #ffffff;
-}
-
- main button:active {
-  background-color: #0056b3;
-  box-shadow: inset 4px 4px 12px #c5c5c5, inset -4px -4px 12px #ffffff;
-}
-/* main button {
-  padding: 17px 40px;
-  border-radius: 10px;
-  border: 0;
-  background-color: #089B36;
-  letter-spacing: 1.5px;
-  font-size: 15px;
-  transition: all 0.3s ease;
-  box-shadow: #034318 0px 10px 0px 0px;
-  color: hsl(0, 0%, 100%);
-  margin: 10px 0;
-  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Sombra más sutil */
+  /* box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px #ffffff; */ /* Este efecto neumórfico puede ser mucho */
 }
 
 main button:hover {
-  box-shadow: #034318 0px 7px 0px 0px;
+    background-color: #0056b3;
 }
-
 main button:active {
-  background-color: #089B36;
-  box-shadow: #034318 0px 0px 0px 0px;
-  transform: translateY(5px);
-  transition: 200ms;
-} */
-
-
-
-
-
-
-
-footer{
-    font-style: oblique;
-    position:fixed; 
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 90px;
-    background-color: #022521;
-    color: #022521;
-    display: flex;
-    justify-content: left;
-    align-items: center;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
-z-index: 1000;
+  background-color: #0056b3;
+  /* box-shadow: inset 4px 4px 12px #c5c5c5, inset -4px -4px 12px #ffffff; */ /* Efecto inset */
+  transform: translateY(1px); /* Pequeño efecto de presión */
 }
 
-#datos{
+footer {
+  font-style: oblique;
+  /* position:fixed; */ /* Quitar fixed para que esté al final del contenido */
+  /* bottom: 0; */
+  /* left: 0; */
+  width: 100%;
+  height: auto; /* Altura automática */
+  min-height: 90px; /* Altura mínima */
+  background-color: #022521;
+  color: #a0a0a0; /* Color de texto para footer */
+  display: flex;
+  justify-content: center; /* Centrar contenido del footer */
+  align-items: center;
+  padding: 15px; /* Añadir padding */
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+  /* z-index: 1000; */ /* Solo si es fixed */
+  text-align: center; /* Centrar texto si hay varios párrafos */
+  flex-wrap: wrap; /* Para que el contenido se envuelva */
+}
 
+#datos { /* Para el texto del footer */
+  color: aliceblue;
+  text-align: center; /* Asegurar centrado */
+  font-size: 0.9em;
+  line-height: 1.5;
+}
+.social-icons { /* Estilos para iconos sociales si están en el footer */
+    margin-top: 10px;
+}
+.social-icons a {
     color: aliceblue;
-    text-align: left;
+    margin: 0 10px;
+    font-size: 1.5em;
+    text-decoration: none;
+}
+.social-icons a:hover {
+    color: #ccc;
+}
+
+
+/* --- Media Queries para Responsividad --- */
+
+@media (max-width: 768px) {
+  main {
+    margin-top: 70px;
+    margin-bottom: 70px;
+    padding: 15px;
+  }
+  header {
+    padding: 10px;
+    /* justify-content: space-between; */ /* Se mantiene */
+  }
+  .logo img {
+    width: 40px;
+    height: 40px;
+  }
+  #titulo {
+    font-size: 1.3em;
+    margin-left: 8px;
+  }
+  .barrPrin {
+    order: 1; /* Para que los botones principales puedan ir abajo si es necesario */
+    width: 100%; /* Ocupar todo el ancho si se envuelve */
+    justify-content: center; /* Centrar los botones */
+    margin-top: 10px; /* Espacio si se envuelven debajo del logo/search/user */
+  }
+  .barrPrin button {
+    font-size: 0.8em;
+    margin: 5px; /* Menos margen para acomodar más */
+  }
+  .search-container {
+    /* order: -1; */ /* Para moverlo a la izquierda si es necesario */
+    /* flex-grow: 1; */ /* Para que ocupe espacio */
+    margin: 5px 0;
+  }
+  .search-container.active .search-bar {
+    width: 150px; /* Reducir ancho de búsqueda */
+  }
+  .identificador {
+    /* order: 0; */ /* Posicionar el identificador */
+    margin-left: auto; /* Empujar a la derecha si hay espacio */
+  }
+  .identificador button {
+    font-size: 0.8em;
+  }
+  footer {
+    padding: 10px;
+    min-height: 70px;
+  }
+  #datos {
+    font-size: 0.8em;
+  }
+}
+
+@media (max-width: 480px) {
+  main {
+    margin-top: 60px;
+    margin-bottom: 60px;
+    padding: 10px;
+  }
+  header {
+    /* Se puede forzar el logo y el user/search en una línea y los botones en otra */
+    /* Para esto, el .barrPrin ya está con order:1 y width:100% */
+  }
+  .logo {
+    margin-right: auto; /* Empujar el logo a la izquierda */
+  }
+  #titulo {
+      display: none; /* Ocultar título para ahorrar espacio */
+  }
+  .barrPrin button {
+    font-size: 0.75em; /* Aún más pequeño */
+    padding: 4px 6px; /* Ajustar padding del botón en sí */
+  }
+  .barrPrin button:after { /* Línea debajo del botón */
+    bottom: -1px;
+    height: 1px;
+  }
+  .search-container {
+    margin: 5px 5px 5px auto; /* Moverlo a la derecha del logo o botones */
+  }
+  .search-container.active .search-bar {
+    width: 120px; /* Aún más pequeño */
+    font-size: 0.9em;
+    padding: 6px 8px;
+  }
+  .search-button {
+      font-size: 1.1em;
+      padding: 3px;
+  }
+  .identificador {
+    margin-left: 5px; /* Pequeño margen */
+  }
+  .identificador button {
+    font-size: 0.75em;
+    padding: 4px 0;
+  }
+  .identificador button:after {
+      bottom: -1px;
+      height: 1px;
+  }
+  main button {
+      font-size: 0.9em;
+      padding: 10px 15px;
+  }
 }

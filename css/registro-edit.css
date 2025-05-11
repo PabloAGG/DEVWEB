@@ -4,191 +4,320 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-   
-  }
-  body{
+}
+
+body {
     background-color: #f3fffd;
     display: grid;
     min-height: 100dvh;
     grid-template-rows: auto 1fr auto;
     margin: 0;
-  }
-  
-  
-  main{
+    font-family: "Forum", serif; /* Aplicar la fuente al body */
+}
+
+main {
     margin-top: 80px; /* Ajusta este valor para separar del header */
     margin-bottom: 80px; /* Ajusta este valor para separar del footer */
     padding: 20px; /* Espacio interno opcional */
-    font-weight: 800;
-    font-size: 12px;
-    font-family: "Forum", serif;
-  }
-  
-  
-  
-  /* Estilo para la barra superior */
-  header {
-    font-size: x-large;
-      position: fixed;
-      width: 100%;
-      height: 60px;
-      top: 0;
-      left: 0;
-      background-color: #022521;
-      color: #021b1a;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 10px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-      z-index: 1000;
-  }
+    font-weight: 400; /* Normal, 800 es muy grueso para texto general */
+    font-size: 1em; /* Usar em para base */
+}
 
-  footer{
-    font-style: oblique;
-    bottom: 0;
-    left: 0;
+/* Estilo para la barra superior (Asumiendo que es similar a InicioSesio.css o estiloslog.css) */
+header {
+    font-size: 1.5em;
+    position: fixed;
     width: 100%;
-    height: 90px;
-    background-color: none;
-  
-    color: #4b5554;
+    min-height: 60px;
+    height: auto;
+    top: 0;
+    left: 0;
+    background-color: #022521;
+    color: aliceblue;
     display: flex;
     justify-content: center;
     align-items: center;
-
+    padding: 10px 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    flex-wrap: wrap;
 }
-
-#datos{
-
+header img {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+}
+#titulo {
     color: aliceblue;
-    text-align: left;
+    font-size: 1em;
 }
-.logo{
+
+/* Footer (Asumiendo que es similar a InicioSesio.css o estiloslog.css) */
+footer {
+    font-style: oblique;
+    width: 100%;
+    min-height: 90px;
+    height: auto;
+    /* background-color: none; */ /* usar transparent o quitar */
+    color: #4b5554;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-  }
-  #titulo {
-    color: aliceblue;
+    padding: 15px;
     text-align: center;
-  }
-  
-  .contenedor_FormReg{
-    margin: 65px 0;
-        justify-content: center;
-        color: aliceblue;
+}
+footer p {
+    margin-bottom: 10px;
+    font-size: 0.9em;
+}
+.social-icons a {
+    color: #4b5554;
+    margin: 0 8px;
+    font-size: 1.4em;
+    text-decoration: none;
+}
+.social-icons a:hover {
+    color: #022521;
+}
 
-        font-size: x-large;
-        text-align:center;
-        display: flex;
-        border: 1px solid #022521;
-        padding: 20px;
-        background-color: #022521;
-        border-radius: 20px;
-        box-shadow: 0 2px 5px black;
-        max-width: 600px; 
-        margin: 40px auto; 
-    
-    }
 
-    .contenedor-input{
-        position:relative;
-        width: 90%;
-        height: 50px;
-        border-bottom: 2px solid antiquewhite;
-        margin: 30px 0;
-    
-    }
-    
-    .contenedor-input label{
-        position: absolute;
-        top: 50%;
-        left: 5px;
-        transform: translateY(-50%);
-        font-size: 1em;
-        font-weight: 600;
-        pointer-events: none;
-        transition: .4s;
-        color: rgb(255, 255, 255);
-    }
-    .contenedor-input input:placeholder-shown ~ label {
-        top: 50%;
-        transform: translateY(-50%);
-      }
-      
-      .contenedor-input input:not(:placeholder-shown) ~ label {
-        top: -5px;
-      }
-    /* .contenedor-input input:focus~label,
-    .contenedor-input input:active ~label{
-        top:-5px;
-    } */
-    
-    .contenedor-input input{
-        width: 100%;
-        height: 100%;
-        background: transparent;
-        border: none;
-        outline: none;
-        font-size: 1em;
-        color:rgb(255, 255, 255);
-        padding: 0 35px 0 5px;
-    }
-    
-    .contenedor-input .icono{
-        position: absolute;
-        right: 8px;
-        font-size: 1.4em;
-        color:rgb(18, 143, 61);
-        line-height: 57px;
-    }
-    #registro{
-        text-decoration: none;
-        color:aqua;
-    }
-    #registro:hover{
-        color: rgb(18, 143, 61);
-        text-decoration: underline;
-    }
+/* Contenedor del formulario de registro */
+.contenedor_FormReg {
+    /* margin: 65px 0; */ /* Se maneja con el margin auto y el padding de main */
+    justify-content: center;
+    color: aliceblue; /* Color de texto para el contenedor (principalmente el título h3) */
+    font-size: 1.25em; /* Ajustado desde x-large */
+    text-align: center;
+    display: flex;
+    border: 1px solid #022521;
+    padding: 30px 20px; /* Más padding vertical */
+    background-color: #022521; /* Fondo oscuro para el formulario */
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    width: 90%; /* Fluido */
+    max-width: 500px; /* Ancho máximo para el form */
+    margin: 40px auto;
+    box-sizing: border-box;
+}
+.formRegUs { /* Para el form interno */
+    width: 100%;
+}
+.contenedor_FormReg h3 { /* Título "Regístrate" */
+    font-size: 1.5em; /* Relativo al font-size de .contenedor_FormReg */
+    margin-bottom: 25px;
+    color: #fff; /* Asegurar que el título sea blanco */
+}
 
-   #img-contenedor{
-margin-bottom: 70px;
-    }
-    .inputImgPerfil {
-        margin-top: 0.1px; /* Más margen para separarlo del formulario */
-        text-align: center; /* Centrado de la imagen */
-    }
-    
-    #imgPerfil {
-        display: block;
-        margin: 15px auto;
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 2px solid antiquewhite;
-    }
-    #psw-contenedor,#psw-contenedor2{
-        display:none; 
-    }
+.contenedor-input {
+    position: relative;
+    width: 100%; /* Tomar el ancho del form */
+    /* height: 50px; */ /* Altura automática */
+    border-bottom: 2px solid antiquewhite;
+    margin: 30px 0;
+    padding-bottom: 10px;
+}
 
-    
-main button{
+.contenedor-input label {
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    font-size: 1em;
+    font-weight: 600;
+    pointer-events: none;
+    transition: .4s;
+    color: rgb(255, 255, 255);
+}
+
+.contenedor-input input:not(:placeholder-shown) ~ label,
+.contenedor-input input:focus ~ label {
+    top: -10px;
+    font-size: 0.85em;
+    color: aqua;
+}
+/* Para input date, la label se comporta un poco diferente */
+.contenedor-input input[type="date"] ~ label {
+    /* Puede necesitar ajustes específicos si el placeholder no funciona igual */
+}
+.contenedor-input input[type="date"]:focus ~ label,
+.contenedor-input input[type="date"]:valid ~ label { /* :valid cuando hay fecha */
+    top: -10px;
+    font-size: 0.85em;
+    color: aqua;
+}
+
+
+.contenedor-input input {
+    width: 100%;
+    padding: 10px 35px 10px 5px;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1em;
+    color: rgb(255, 255, 255);
+    box-sizing: border-box;
+}
+/* Estilo para el placeholder del input date si es necesario */
+.contenedor-input input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1); /* Para que el icono del calendario sea visible en fondo oscuro */
+}
+
+
+.contenedor-input .icono {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.4em;
+    color: rgb(18, 143, 61);
+}
+
+#registro { /* Enlace "Inicia Sesión!" */
+    text-decoration: none;
+    color: aqua;
+    font-weight: bold;
+}
+
+#registro:hover {
+    color: rgb(60, 220, 220);
+    text-decoration: underline;
+}
+
+/* Para la sección de imagen de perfil en edit.css (si se fusiona) */
+#img-contenedor {
+    margin-bottom: 20px; /* Reducido desde 70px */
+    border-bottom: none; /* No necesita borde aquí */
+    text-align: left;
+    color: #fff; /* Color de la etiqueta "Foto de Perfil:" */
+}
+#img-contenedor label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+.inputImgPerfil { /* El input file */
+    /* margin-top: 0.1px; */
+    /* text-align: center; */
+    color: #fff; /* Para que el texto "Ningún archivo seleccionado" sea blanco */
+}
+#imgPerfil { /* La imagen de previsualización */
+    display: block;
+    margin: 15px auto;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid antiquewhite;
+}
+
+/* Para los inputs de contraseña ocultos en edit.css (si se fusiona) */
+#psw-contenedor,
+#psw-contenedor2 {
+    display: none;
+}
+
+/* Botón de registrarme */
+main .contenedor_FormReg button.btnEx { /* Estilo específico para el botón "Registrarme" */
     width: 100%;
     height: 45px;
     border: none;
     outline: none;
     border-radius: 5px;
-   margin: 10px 0;
+    margin: 20px 0 10px 0; /* Ajustar margen */
     font-size: 1em;
     font-weight: bold;
     background-color: rgb(1, 94, 26);
-    color:antiquewhite;
+    color: antiquewhite;
     transition: all 0.3s ease-in-out;
-}
-main button:hover {
     cursor: pointer;
+}
+main .contenedor_FormReg button.btnEx:hover {
     background-color: #146c43;
     color: white;
+}
+
+.Contenedor_regus { /* Para "¿Ya tienes una cuenta?" */
+    margin-top: 20px;
+    font-size: 0.9em;
+    color: #f0f0f0;
+}
+.Contenedor_regus span {
+    display: block;
+    margin-bottom: 5px;
+}
+#error-contraseña { /* Mensaje de error para contraseña */
+    color: #ffdddd; /* Un rojo claro para mejor visibilidad en fondo oscuro */
+    font-size: 0.85em;
+    margin-top: -20px; /* Acercarlo al input de contraseña */
+    margin-bottom: 15px;
+    /* display: none; */ /* Se controla con JS */
+}
+
+/* --- Media Queries para Responsividad --- */
+
+@media (max-width: 768px) {
+    main {
+        margin-top: 70px;
+        margin-bottom: 70px;
+        padding: 15px;
+    }
+    header img { width: 40px; height: 40px; }
+    #titulo { font-size: 0.9em; }
+
+    .contenedor_FormReg {
+        padding: 25px 15px;
+        font-size: 1.1em;
+        max-width: 450px;
+    }
+    .contenedor_FormReg h3 { font-size: 1.4em; margin-bottom: 20px; }
+    .contenedor-input { margin: 25px 0; }
+    .contenedor-input input { font-size: 0.95em; }
+    .contenedor-input label { font-size: 0.95em; }
+    .contenedor-input input:not(:placeholder-shown) ~ label,
+    .contenedor-input input:focus ~ label,
+    .contenedor-input input[type="date"]:focus ~ label,
+    .contenedor-input input[type="date"]:valid ~ label {
+        font-size: 0.8em;
+    }
+    main .contenedor_FormReg button.btnEx { height: 42px; font-size: 0.95em; }
+    .Contenedor_regus { font-size: 0.85em; }
+    #error-contraseña { font-size: 0.8em; }
+}
+
+@media (max-width: 480px) {
+    main {
+        margin-top: 60px;
+        margin-bottom: 60px;
+        padding: 10px;
+    }
+    header { padding: 8px 10px; min-height: 45px; }
+    header img { width: 35px; height: 35px; margin-right: 8px; }
+    /* #titulo { display: none; } */
+
+    .contenedor_FormReg {
+        width: 95%;
+        padding: 20px 10px;
+        font-size: 1em;
+        max-width: none;
+    }
+    .contenedor_FormReg h3 { font-size: 1.3em; margin-bottom: 15px; }
+    .contenedor-input { margin: 20px 0; }
+    .contenedor-input input { font-size: 0.9em; padding: 8px 30px 8px 5px; }
+    .contenedor-input label { font-size: 0.9em; }
+    .contenedor-input input:not(:placeholder-shown) ~ label,
+    .contenedor-input input:focus ~ label,
+    .contenedor-input input[type="date"]:focus ~ label,
+    .contenedor-input input[type="date"]:valid ~ label {
+        font-size: 0.75em;
+        top: -12px;
+    }
+    .contenedor-input .icono { font-size: 1.2em; }
+    main .contenedor_FormReg button.btnEx { height: 40px; font-size: 0.9em; }
+    .Contenedor_regus { font-size: 0.8em; }
+    #error-contraseña { font-size: 0.75em; margin-top: -15px; margin-bottom: 10px; }
+
+    #imgPerfil { width: 80px; height: 80px; }
+    #img-contenedor label { font-size: 0.9em; }
+    .inputImgPerfil { font-size: 0.85em; }
 }

@@ -2,6 +2,7 @@
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    font-size: 1em; /* Tamaño base */
 }
 
 .admin-table th, .admin-table td {
@@ -15,9 +16,46 @@
 }
 
 .admin-table tr:nth-child(even) {
-    background-color: #f2f2f2;
+    background-color: #f9f9f9; /* Ligeramente diferente para mejor contraste */
 }
 
 .admin-table tr:hover {
     background-color: #ddd;
+}
+
+/* --- Media Queries para Responsividad --- */
+
+/* Para tablets y pantallas medianas */
+@media (max-width: 768px) {
+    .admin-table {
+        font-size: 0.9em; /* Reducir tamaño de fuente */
+    }
+    .admin-table th, .admin-table td {
+        padding: 6px; /* Reducir padding */
+    }
+    /* Si la tabla es muy ancha, podrías necesitar hacerla scrolleable horizontalmente */
+    #resultados-consultas {
+        overflow-x: auto; /* Permite scroll horizontal si la tabla es muy ancha */
+    }
+}
+
+/* Para móviles pequeños */
+@media (max-width: 480px) {
+    .admin-table {
+        font-size: 0.8em; /* Reducir más el tamaño de fuente */
+    }
+    .admin-table th, .admin-table td {
+        padding: 4px; /* Reducir más el padding */
+        /* Considerar apilar la tabla si es necesario, aunque es más complejo.
+           Una opción simple es permitir el scroll horizontal ya aplicado en el contenedor. */
+    }
+    #exportar-csv, #exportar-pdf {
+        display: block; /* Hacer que los botones ocupen todo el ancho */
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    #Consultas {
+        width: 100%; /* Hacer el select responsivo */
+        margin-bottom: 10px;
+    }
 }
