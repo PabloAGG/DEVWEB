@@ -54,7 +54,7 @@ if (!$publicacion) {
 $hasLiked = $publicacion['hasLiked'] > 0;
 $numLikes = $publicacion['nLikes'];
 $fechaFormateada = $publicacion['fecha_formateada'];
-$urlPublicacion = 'http://localhost/BDM_PIA/front/publicacion.php?id=' . $publicacion['idPubli'];
+$urlPublicacion = 'https://stork-holy-yeti.ngrok-free.app/DEVWEB/front/publicacion.php?id=' . $publicacion['idPubli'];
 $titulo = rawurlencode($publicacion['titulo']);
 $mensaje = rawurlencode("¡Mira esta publicación que encontré! $titulo $urlPublicacion");
 

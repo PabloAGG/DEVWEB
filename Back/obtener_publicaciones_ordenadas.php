@@ -43,7 +43,7 @@ while ($row = mysqli_fetch_assoc($result)) {
     $numLikes = $row['nLikes'];
     $fechaFormateada = $row['fecha_formateada'];
     $numComentarios = $row['comentarios'];
-    $urlPublicacion = 'http://localhost/BDM_PIA/front/publicacion.php?id=' . $row['idPubli'];
+    $urlPublicacion = 'https://stork-holy-yeti.ngrok-free.app/DEVWEB/front/publicacion.php?id=' . $row['idPubli'];
     $titulo = rawurlencode($row['titulo']);
     $mensaje = rawurlencode("¡Mira esta publicación que encontré! $titulo $urlPublicacion");
    

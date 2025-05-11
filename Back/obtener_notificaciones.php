@@ -2,39 +2,45 @@
 session_start();
 require 'DB_connection.php';
 
+header('Content-Type: application/json'); // Indica que la respuesta es JSON
+
 if (!isset($_SESSION['user_id'])) {
-    echo "<p>No has iniciado sesión.</p>"; // O un mensaje más apropiado
-    exit();
+ http_response_code(403); // Prohibido
+ echo json_encode(['error' => 'No has iniciado sesión.']);
+ exit();
 }
 
 $user_id = $_SESSION['user_id'];
 
-function obtenerNotificacionesUsuario($conn, $idUsuario) {
-    $query = "SELECT * FROM Notificaciones WHERE idUsuarioRecibe = ? ORDER BY fechaCreacion DESC";
-    $stmt = mysqli_prepare($conn, $query);
-    mysqli_stmt_bind_param($stmt, "i", $idUsuario);
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
-    return mysqli_fetch_all($result, MYSQLI_ASSOC);
+// Consulta para obtener notificaciones (puedes limitar la cantidad si son muchas)
+$query = "SELECT
+n.idNotificacion,
+n.mensaje,
+ n.fechaCreacion,
+ n.leida,
+ n.idPublicacion,
+n.idUsuarioEmite,
+            n.tipo, -- *** CAMBIO: AGREGAR ESTA LÍNEA ***
+ u.nomUs AS usuarioEmiteNombre -- Obtener el nombre del usuario que emite
+ FROM Notificaciones n
+ JOIN Usuarios u ON n.idUsuarioEmite = u.idUsuario -- Unir con Usuarios para obtener el nombre
+ WHERE n.idUsuarioRecibe = ?
+ ORDER BY n.fechaCreacion DESC
+ LIMIT 20"; // Limitar a las 20 más recientes, por ejemplo
+
+$stmt = mysqli_prepare($conn, $query);
+mysqli_stmt_bind_param($stmt, "i", $user_id);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+
+$notificaciones = [];
+while ($row = mysqli_fetch_assoc($result)) {
+ $notificaciones[] = $row;
 }
 
-$notificaciones = obtenerNotificacionesUsuario($conn, $user_id);
-
-if (empty($notificaciones)) {
-    echo "<p>No tienes notificaciones.</p>";
-} else {
-    foreach ($notificaciones as $notificacion) {
-        ?>
-        <div class="notificacion-cuadro <?php echo $notificacion['leida'] ? 'notificacion-leida' : ''; ?>">
-            <p><?php echo htmlspecialchars($notificacion['mensaje']); ?></p>
-            <small>Fecha: <?php echo htmlspecialchars($notificacion['fechaCreacion']); ?></small>
-            <?php if (!$notificacion['leida']): ?>
-                <a href="?leer_notificacion=<?php echo $notificacion['idNotificacion']; ?>">Marcar como leída</a>
-            <?php endif; ?>
-        </div>
-        <?php
-    }
-}
-
+mysqli_stmt_close($stmt);
 mysqli_close($conn);
+
+// Devuelve el array de notificaciones en formato JSON
+echo json_encode($notificaciones);
 ?>

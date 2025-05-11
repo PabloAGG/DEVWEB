@@ -247,61 +247,116 @@ ul.pagination {
     cursor: pointer;
     display: block; /* Asegura que el margin auto funcione correctamente */
   }
-   .notificacion-cuadro {
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin-bottom: 5px;
-            background-color: #f9f9f9;
-        }
-        .notificacion-leida {
-            background-color: #e0e0e0; /* Estilo para notificaciones leídas */
-        }
-
-        .notificaciones {
-    position: relative;
+  /* Estilos para el contenedor de notificaciones */
+.notificaciones {
+    position: relative; /* Para posicionar el contador y la lista */
+    margin-right: 20px; /* Espacio a la derecha */
 }
 
+/* Estilos para el botón/icono de notificaciones */
 #btn-notificaciones {
+    background: none;
+    border: none;
+    color: #e1e1e1; /* Color del icono */
+    font-size: 20px;
     cursor: pointer;
-    /* Estilos para el botón */
+    padding: 0; /* Sin padding extra */
+    position: relative; /* Para posicionar el contador */
+    transition: color 0.3s ease;
 }
 
+#btn-notificaciones:hover {
+    color: #fff;
+}
+
+/* Estilos para el contador de notificaciones no leídas */
 #contador-notificaciones {
     position: absolute;
-    top: -5px;
-    right: -5px;
-    background-color: red;
-    color: white;
-    border-radius: 50%;
-    padding: 5px;
-    font-size: 0.7em;
+    top: -8px; /* Ajusta la posición vertical */
+    right: -8px; /* Ajusta la posición horizontal */
+    background-color: red; /* Fondo rojo */
+    color: white; /* Texto blanco */
+    border-radius: 50%; /* Forma circular */
+    padding: 2px 5px; /* Padding interno */
+    font-size: 10px; /* Tamaño de fuente más pequeño */
+    font-weight: bold;
+    line-height: 1; /* Altura de línea para centrar */
+    min-width: 18px; /* Ancho mínimo para números de 2 dígitos */
+    text-align: center;
+    display: none; /* Oculto por defecto, mostrar solo si hay notificaciones */
 }
 
+/* Estilos para la lista desplegable de notificaciones */
 #lista-notificaciones {
-    display: block;
+    display: none; /* Oculto por defecto */
     position: absolute;
-    top: 70px;
+    top: 40px; /* Posiciona debajo del icono */
     right: 0;
     background-color: white;
     border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     padding: 10px;
-    width: 250px;
-    z-index: 999;
+    width: 300px; /* Ancho de la lista */
+    max-height: 400px; /* Altura máxima */
+    overflow-y: auto; /* Scroll si hay muchas notificaciones */
+    z-index: 1050; /* Asegura que esté por encima de otros elementos */
 }
 
-.notificacion {
+#lista-notificaciones p {
+    margin: 5px 0;
+    padding: 5px;
     border-bottom: 1px solid #eee;
-    padding: 5px 0;
+    color: #333;
 }
 
-.no-leida {
-    font-weight: bold;
+#lista-notificaciones p:last-child {
+    border-bottom: none;
 }
 
-.notificacion p {
-    margin: 0;
+.notificacion-item {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 5px;
 }
 
-.notificacion small {
-    color: #888;
+.notificacion-item a {
+     text-decoration: none;
+     color: #007bff;
+     display: block; /* Hace que el enlace ocupe todo el cuadro si es necesario */
+}
+ .notificacion-item a:hover {
+     text-decoration: underline;
+}
+
+.notificacion-item p {
+    margin: 0 0 5px 0;
+    color: #333;
+}
+
+.notificacion-item small {
+    display: block;
+    color: #666;
+    font-size: 0.8em;
+}
+
+.notificacion-no-leida {
+     background-color: #eef; /* Fondo suave para no leídas */
+     font-weight: bold; /* Texto en negrita */
+}
+
+.notificacion-leida {
+     /* Puedes añadir estilos específicos para notificaciones leídas si quieres */
+     color: #555; /* Color de texto más tenue */
+}
+
+/* Estilos para el botón/enlace de marcar como leída dentro del item */
+.marcar-leida {
+    font-size: 0.8em;
+    margin-top: 5px;
+    color: #007bff;
+    cursor: pointer;
+}
+.marcar-leida:hover {
+     text-decoration: underline;
 }
