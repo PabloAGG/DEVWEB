@@ -7,7 +7,7 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 $user_id = $_SESSION['user_id'];
- $sqlUsuario = "SELECT * FROM datos_sesion WHERE idUsuario = ?";
+$sqlUsuario = "SELECT * FROM datos_sesion WHERE idUsuario = ?";
 $stmtUsuario = mysqli_prepare($conn, $sqlUsuario);
 mysqli_stmt_bind_param($stmtUsuario, 'i', $user_id);
 mysqli_stmt_execute($stmtUsuario);
@@ -20,174 +20,194 @@ if ($rowUsuario = mysqli_fetch_assoc($resultUsuario)) {
     $user_role = $rowUsuario['usAdmin'];
     $birth_date = $rowUsuario['nacimiento'];
 } else {
-    echo "Error: No se encontró el usuario.";
-    exit();
+    // Considera redirigir o mostrar un mensaje de error más amigable
+    error_log("Error: No se encontró el usuario con ID: " . $user_id);
+    die("Error: No se pudo cargar la información del usuario.");
 }
 mysqli_stmt_close($stmtUsuario);
 
 // --- Validar y obtener ID de Publicación ---
 $idPubli = isset($_GET['id']) ? intval($_GET['id']) : 0;
 if ($idPubli <= 0) {
+    // Considera redirigir a una página de error o al dashboard
     die("ID de publicación inválido.");
 }
 
 // --- Obtener la Publicación específica ---
-$queryPublicacion = "SELECT p.*, m.contenido, m.tipo_Img, m.video, u.nomUs AS autor,u.imagen AS autorImg,u.tipo_Img AS autorType ,FormatearFecha(p.fechaC) AS fecha_formateada,
+// La consulta ya incluye m.idMulti, lo cual es correcto.
+$queryPublicacion = "SELECT p.*, m.idMulti, m.contenido, m.tipo_Img, m.video, u.nomUs AS autor,u.imagen AS autorImg,u.tipo_Img AS autorType ,FormatearFecha(p.fechaC) AS fecha_formateada,
   (SELECT COUNT(*) FROM Likes WHERE idPublicacion = p.idPubli AND idUsuario = ?) AS hasLiked
               FROM Publicaciones p
               JOIN Multimedia m ON m.idPubli = p.idPubli
               JOIN Usuarios u ON u.idUsuario = p.idUsuario
               WHERE p.estado = 1 AND p.idPubli=?";
 
-
 $stmt = mysqli_prepare($conn, $queryPublicacion);
-mysqli_stmt_bind_param($stmt, "ii", $user_id, $idPubli); // Bind del ID del usuario y el ID de la publicación
+if (!$stmt) {
+    error_log("Error al preparar la consulta de publicación: " . mysqli_error($conn));
+    die("Error al cargar la publicación.");
+}
+mysqli_stmt_bind_param($stmt, "ii", $user_id, $idPubli);
 mysqli_stmt_execute($stmt);
 $resultPublicacion = mysqli_stmt_get_result($stmt);
-$publicacion = mysqli_fetch_assoc($resultPublicacion); // Obtener una sola fila
+$publicacion = mysqli_fetch_assoc($resultPublicacion);
 mysqli_stmt_close($stmt);
 
 if (!$publicacion) {
-    die("Publicación no encontrada.");
+    // Considera redirigir a una página de error o al dashboard
+    die("Publicación no encontrada o no accesible.");
 }
 
 $hasLiked = $publicacion['hasLiked'] > 0;
 $numLikes = $publicacion['nLikes'];
 $fechaFormateada = $publicacion['fecha_formateada'];
-$urlPublicacion = 'https://stork-holy-yeti.ngrok-free.app/DEVWEB/front/publicacion.php?id=' . $publicacion['idPubli'];
-$titulo = rawurlencode($publicacion['titulo']);
-$mensaje = rawurlencode("¡Mira esta publicación que encontré! $titulo $urlPublicacion");
 
-$whatsappUrl = "https://wa.me/?text=$mensaje";
+// Generar URL de ngrok dinámicamente si es posible, o configurarla de forma centralizada
+$baseAppUrl = 'https://stork-holy-yeti.ngrok-free.app/DEVWEB'; // Ejemplo, idealmente configurable
+$urlPublicacion = $baseAppUrl . '/front/publicacion.php?id=' . $publicacion['idPubli'];
+$titulo = rawurlencode($publicacion['titulo']);
+$mensaje = rawurlencode("¡Mira esta publicación que encontré! " . $publicacion['titulo'] . " " . $urlPublicacion);
+$whatsappUrl = "https://wa.me/?text=" . $mensaje;
 
 // --- Obtener Comentarios para la Publicación específica ---
-$comentarios = []; // Inicializar como array vacío
+$comentarios = [];
 $stmtComentarios = $conn->prepare("
-    SELECT * FROM comentarios_publicacion c
-    WHERE c.idPublicacion = ? ");
+    SELECT c.*, u.nomUs, u.imagen AS imgComentador, u.tipo_Img AS tipoImgComentador, FormatearFecha(c.fechaC) AS fecha_formateada_comentario
+    FROM Comentarios c
+    JOIN Usuarios u ON c.idUsuario = u.idUsuario
+    WHERE c.idPublicacion = ?
+    ORDER BY c.fechaC DESC");
+
 if ($stmtComentarios) {
     $stmtComentarios->bind_param("i", $idPubli);
     $stmtComentarios->execute();
     $resultComentarios = $stmtComentarios->get_result();
-    // Guardar comentarios en un array para usar después
     while ($rowComentario = $resultComentarios->fetch_assoc()) {
         $comentarios[] = $rowComentario;
     }
-    $stmtComentarios->close(); // Cerrar statement
+    $stmtComentarios->close();
 } else {
     error_log("Error al preparar consulta de comentarios: " . $conn->error);
-    // No detener la ejecución, la sección de comentarios estará vacía
 }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DEVWEB</title>
+    <title><?php echo htmlspecialchars($publicacion['titulo'] ?? 'Publicación'); ?> - DEVWEB</title>
     <link rel="stylesheet" href="../css/estiloslog.css">
     <link rel="stylesheet" href="../css/Publicacion.css">
-
-   <script src="https://kit.fontawesome.com/093074d40c.js" crossorigin="anonymous"></script>
-
+    <script src="https://kit.fontawesome.com/093074d40c.js" crossorigin="anonymous"></script>
 </head>
-<body  class="cuerpo">
+<body class="cuerpo">
 
  <header>
-  <a href="dashboard.php"><img src="LOGOWEB.jpg" width="60px" height="60px"></a>  <h6 id="titulo">DEVWEB</h6>
+  <a href="dashboard.php"><img src="LOGOWEB.jpg" width="60px" height="60px" alt="Logo DEVWEB"></a>  <h6 id="titulo">DEVWEB</h6>
   <div class="identificador">
-   <button onclick="location.href='Perfil.php'"><?php echo $user_name?></button>
-             </div>
-     </header>
+   <button onclick="location.href='Perfil.php'"><?php echo htmlspecialchars($user_name); ?></button>
+  </div>
+ </header>
 <main>
 <?php
-    $mime = $publicacion['tipo_Img'] ?? 'image/png';
-    $isVideo = $publicacion['video'];
-    $mediaSrc = 'data:' . $mime . ';base64,' . base64_encode($publicacion['contenido']);
+// Variables para la multimedia de la publicación principal
+$idMultiPub = $publicacion['idMulti'] ?? null;
+$mimePub = $publicacion['tipo_Img'] ?? 'application/octet-stream'; // Default MIME type
+$isVideoPub = $publicacion['video'] ?? false;
+$contenidoPub = $publicacion['contenido'] ?? null;
 ?>
+
 <article class="card-container">
     <div class="card">
         <div class="card-header">
-        <?php if ($publicacion['autorImg']!==null) {
-
-$mimeusuario = $publicacion['autorType'] ?? 'image/png';
-$base64 = base64_encode($publicacion['autorImg']);
-
-echo '<img class="img-cirUs" src="data:' . $mimeusuario . ';base64,' . $base64 . '">';
-
-} else {?> 
-
-<img id="imgPerfil" src="../assets/image_default.png"  alt="Avatar Usuario" class="img-cirUs">
-<?php  }   ?>
+        <?php if ($publicacion['autorImg'] !== null && isset($publicacion['autorType'])):
+            $mimeUsuarioAutor = $publicacion['autorType'];
+            $base64AutorImg = base64_encode($publicacion['autorImg']);
+            echo '<img class="img-cirUs" src="data:' . htmlspecialchars($mimeUsuarioAutor) . ';base64,' . $base64AutorImg . '" alt="Avatar de ' . htmlspecialchars($publicacion['autor']) . '">';
+        else: ?>
+            <img src="../assets/image_default.png" alt="Avatar Usuario" class="img-cirUs">
+        <?php endif; ?>
             <span class="autor"><?php echo htmlspecialchars($publicacion['autor']); ?></span>
             <span class="fecha"><?php echo htmlspecialchars($fechaFormateada); ?></span>
         </div>
 
         <div class="card-body">
             <h2><?php echo htmlspecialchars($publicacion['titulo']); ?></h2>
-            <p><?php echo htmlspecialchars($publicacion['descripcion']); ?></p>
-            <?php if ($isVideo): ?>
-                <video class="media" controls>
-                    <source src="<?php echo $mediaSrc; ?>" type="<?php echo $mime; ?>">
-                    Tu navegador no soporta video.
+            <p><?php echo nl2br(htmlspecialchars($publicacion['descripcion'])); // nl2br para saltos de línea ?></p>
+
+            <?php if ($isVideoPub && $idMultiPub):
+                // Ruta al script de streaming. Ajusta si es necesario.
+                $videoStreamUrlPub = '../back/stream_video.php?id=' . $idMultiPub;
+            ?>
+                <video class="media" controls preload="metadata">
+                    <source src="<?php echo htmlspecialchars($videoStreamUrlPub); ?>" type="<?php echo htmlspecialchars($mimePub); ?>">
+                    Tu navegador no soporta el elemento de video.
                 </video>
+            <?php elseif (!$isVideoPub && $contenidoPub !== null):
+                // Mostrar imagen usando Base64
+                $imgBase64Pub = base64_encode($contenidoPub);
+            ?>
+                <img class="media" src="data:<?php echo htmlspecialchars($mimePub); ?>;base64,<?php echo $imgBase64Pub; ?>" alt="<?php echo htmlspecialchars($publicacion['titulo']); ?>">
             <?php else: ?>
-                <img class="media" src="<?php echo $mediaSrc; ?>" alt="Contenido multimedia">
+                <p class="text-muted"><em>No hay multimedia disponible para esta publicación.</em></p>
             <?php endif; ?>
         </div>
 
         <div class="card-footer">
-        <button class="btn like-btn <?php echo $hasLiked ? 'liked' : ''; ?>" data-idpubli="<?php echo $publicacion['idPubli']; ?>">
-    <i class="fa-solid fa-thumbs-up"></i> 
-    <span class="like-text"><?php echo $hasLiked ? 'Te gusta' : 'Me gusta'; ?></span>
-</button>
-<span class="like-count">
-         <?php echo $numLikes; ?>
-    </span>
-    <a class="btn share" href="<?php $whatsappUrl ?>" target="_blank"><i class="fa-brands fa-whatsapp"></i> Compartir</a>
-
+            <button class="btn like-btn <?php echo $hasLiked ? 'liked' : ''; ?>" data-idpubli="<?php echo $publicacion['idPubli']; ?>">
+                <i class="fa-solid fa-thumbs-up"></i>
+                <span class="like-text"><?php echo $hasLiked ? 'Te gusta' : 'Me gusta'; ?></span>
+            </button>
+            <span class="like-count">
+                <?php echo $numLikes; ?>
+            </span>
+            <a class="btn share" href="<?php echo htmlspecialchars($whatsappUrl); ?>" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-whatsapp"></i> Compartir
+            </a>
         </div>
     </div>
+
     <section class="comentarios-seccion">
-                    <h3>Comentarios</h3>
-                    <form id="form-comentario" onsubmit="guardarComentario(event)">
-                        <input type="hidden" name="publi_id_comentario" value="<?= $idPubli ?>">
-                        <textarea name="comentario" placeholder="Escribe un comentario..." required aria-label="Escribe un comentario"></textarea>
-                        <br>
-                        <div id="mensaje-comentario" class="mensaje-ajax"></div> <button type="submit" class="btn-ver-mas"><i class="fa-solid fa-paper-plane"></i></button>
-                    </form>
+        <h3>Comentarios</h3>
+        <form id="form-comentario" onsubmit="guardarComentario(event); return false;">
+            <input type="hidden" name="publi_id_comentario" value="<?php echo $idPubli; ?>">
+            <textarea name="comentario" placeholder="Escribe un comentario..." required aria-label="Escribe un comentario"></textarea>
+            <br>
+            <div id="mensaje-comentario" class="mensaje-ajax" style="display:none;"></div>
+            <button type="submit" class="btn-ver-mas"><i class="fa-solid fa-paper-plane"></i> Publicar</button>
+        </form>
 
-                    <div id="lista-comentarios">
-                        <?php if (empty($comentarios)): ?>
-                            <p>Sé el primero en comentar.</p>
-                        <?php else: ?>
-                            <?php foreach ($comentarios as $coment): ?>
-                                <div class="comentario-item">
-                                <strong>
-                                  <?php   
-
-    if ($coment['imagen']!==null) {
-
-        $mime = $coment['tipo_Img'] ?? 'image/png';
-        $base64 = base64_encode($coment['imagen']);
-
-        echo '<img class="img-cirUs" src="data:' . $mime . ';base64,' . $base64 . '">';
-    
-} else {?> 
-    
-<img id="imgPerfil" src="../assets/image_default.png"  alt="Avatar Usuario" class="img-cirUs">
-<?php  }   ?><?= htmlspecialchars($coment['nomUs'], ENT_QUOTES, 'UTF-8') ?></strong>
-                                    <span> (<?= htmlspecialchars($coment['fecha_formateada'], ENT_QUOTES, 'UTF-8') ?>):</span>
-                                    <p><?= nl2br(htmlspecialchars($coment['comen'], ENT_QUOTES, 'UTF-8')) ?></p>
-                                </div>
-                            <?php endforeach; ?>
+        <div id="lista-comentarios">
+            <?php if (empty($comentarios)): ?>
+                <p>Sé el primero en comentar.</p>
+            <?php else: ?>
+                <?php foreach ($comentarios as $coment): ?>
+                    <div class="comentario-item">
+                        <strong>
+                        <?php if ($coment['imgComentador'] !== null && isset($coment['tipoImgComentador'])):
+                            $mimeComentador = $coment['tipoImgComentador'];
+                            $base64ComentadorImg = base64_encode($coment['imgComentador']);
+                            echo '<img class="img-cirUs" src="data:' . htmlspecialchars($mimeComentador) . ';base64,' . $base64ComentadorImg . '" alt="Avatar de ' . htmlspecialchars($coment['nomUs']) . '">';
+                        else: ?>
+                            <img src="../assets/image_default.png" alt="Avatar Usuario" class="img-cirUs">
                         <?php endif; ?>
+                        <?php echo htmlspecialchars($coment['nomUs']); ?>
+                        </strong>
+                        <span> (<?php echo htmlspecialchars($coment['fecha_formateada_comentario']); ?>):</span>
+                        <p><?php echo nl2br(htmlspecialchars($coment['comen'])); ?></p>
                     </div>
-                </section>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </div>
+    </section>
 </article>
 
-
 </main>
+<script>
+// Define la variable user_name para Publicacion_comen.js si es necesaria globalmente.
+// Si Publicacion_comen.js la obtiene de otra forma (ej. un elemento en el DOM), esto no es necesario.
+const currentUserName = "<?php echo htmlspecialchars($user_name, ENT_QUOTES, 'UTF-8'); ?>";
+</script>
 <script src="../js/search.js"></script>
 <script src="../js/Publicacion_comen.js"></script>
 <script src="../js/likes.js"></script>
