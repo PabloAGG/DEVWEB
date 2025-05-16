@@ -149,7 +149,7 @@ echo '<img class="img-cirUs" src="data:' . $mimeusuario . ';base64,' . $base64 .
 
 <img id="imgPerfil" src="../assets/image_default.png"  alt="Avatar Usuario" class="img-cirUs"> 
 <?php  }   ?> 
-            <span class="autor"><?php echo htmlspecialchars($row['autor']); ?></span></div> 
+            <span class="autor"><a href="PerfilExt.php?id=<?php echo $row['idUsuario']?>"><?php echo htmlspecialchars($row['autor']); ?></a></span></div> 
             <span class="fecha"><?php echo htmlspecialchars($fechaFormateada); ?></span> 
         </div> 
 

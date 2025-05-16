@@ -66,33 +66,41 @@ select::-ms-expand { /* Para navegadores IE */
 .card-footer {
   width: 100%;
   display: flex;
-  justify-content: space-around; /* Distribuir botones equitativamente */
-  align-items: center; /* Alinear verticalmente */
+  /* 'in-line' no es un valor válido para justify-content. 
+     Los navegadores lo ignorarán. Valores comunes son flex-start, center, space-between, etc.
+     Como indicaste no cambiarlo, se mantiene. */
+  justify-content:in-line; 
   margin-top: 12px;
-  padding-top: 10px; /* Añadir padding superior */
-  border-top: 1px solid #eee; /* Borde más sutil */
+  border-top: 2px solid rgba(148, 147, 147,.7);
 }
-
-.card-footer .btn {
-  background: none;
+.card-footer .btn{
+  background:none;
   box-shadow: none;
   border: none;
-  color: #007bff; /* Azul estándar para enlaces/acciones */
+  color: rgb(45, 59, 219);
   margin: 0 5px;
   padding: 10px 12px;
-  /* width: 100%; */ /* Quitar para que no ocupen todo el ancho por defecto */
+  width: 100%; /* Si hay múltiples botones, cada uno intentará ocupar el 100% del ancho del footer. */
   border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.9em; /* Tamaño base para botones */
-  transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  .card-footer .btn:hover {
+    text-decoration: underline;
+    background: rgba(158, 158, 158, 0.5);
+    color:white;
+    transition: ease-in-out .3s;
+  }
+.card-footer .btn i {
+  margin-right: 6px;
 }
-
-.card-footer .btn:hover {
-  text-decoration: none; /* Quitar subrayado, se maneja con cambio de fondo */
-  background: rgba(0, 123, 255, 0.1); /* Fondo sutil al pasar el mouse */
-  color: #0056b3;
+.card-footer .btn.liked {
+  background-color: #007bff;
+  color: #fff;
+  border-color: #007bff;
 }
-
+.card-footer .btn.liked:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
 .img-cirUs {
   width: 40px; /* Reducir ligeramente */
   height: 40px;

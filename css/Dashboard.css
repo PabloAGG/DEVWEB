@@ -208,7 +208,18 @@ ul.pagination {
     color:white;
     transition: ease-in-out .3s;
   }
-
+.card-footer .btn i {
+  margin-right: 6px;
+}
+.card-footer .btn.liked {
+  background-color: #007bff;
+  color: #fff;
+  border-color: #007bff;
+}
+.card-footer .btn.liked:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
 .img-cirUs{
   width: 50px;
   height: 50px;

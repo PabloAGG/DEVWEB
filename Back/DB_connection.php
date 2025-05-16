@@ -1,7 +1,7 @@
 <?php
 $host = "localhost";
 $user = "root"; // Ajusta esto si tienes otro usuario
-$password = "9na]H36az*rcut)z"; // Ajusta esto si tienes contraseña
+$password = ""; // Ajusta esto si tienes contraseña
 $database = "DEVWEB";
 
 $conn = new mysqli($host, $user, $password, $database);

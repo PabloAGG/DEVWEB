@@ -23,7 +23,7 @@
 .card-header {
   display: flex;
   align-items: center; /* Alinear imagen de autor, nombre y fecha */
-  justify-content: flex-start; /* Alinear al inicio */
+  justify-content: space-between; /* Alinear al inicio */
   margin-bottom: 15px;
   padding-bottom: 10px;
   border-bottom: 1px solid #f0f0f0;
@@ -81,32 +81,31 @@
 }
 
 .card-footer {
+  width: 100%;
   display: flex;
-  align-items: center;
-  justify-content: flex-start; /* Alinear botones al inicio */
-  gap: 15px; /* Espacio entre grupos de botón/contador */
-  padding-top: 15px;
-  border-top: 1px solid #f0f0f0;
+  /* 'in-line' no es un valor válido para justify-content. 
+     Los navegadores lo ignorarán. Valores comunes son flex-start, center, space-between, etc.
+     Como indicaste no cambiarlo, se mantiene. */
+  justify-content:in-line; 
+  margin-top: 12px;
+  border-top: 2px solid rgba(148, 147, 147,.7);
 }
-
-.card-footer .btn {
-  background: none;
-  border: 1px solid transparent; /* Borde transparente para mantener tamaño en hover */
-  color: #007bff;
-  padding: 8px 12px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 0.9em;
-  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-  display: inline-flex;
-  align-items: center;
-  text-decoration: none; /* Quitar subrayado de enlaces */
-}
-.card-footer .btn:hover {
-  background-color: #e9ecef; /* Fondo sutil en hover */
-  border-color: #ddd; /* Borde visible en hover */
-  color: #0056b3;
-}
+.card-footer .btn{
+  background:none;
+  box-shadow: none;
+  border: none;
+  color: rgb(45, 59, 219);
+  margin: 0 5px;
+  padding: 10px 12px;
+  width: 100%; /* Si hay múltiples botones, cada uno intentará ocupar el 100% del ancho del footer. */
+  border-radius: 4px;
+  }
+  .card-footer .btn:hover {
+    text-decoration: underline;
+    background: rgba(158, 158, 158, 0.5);
+    color:white;
+    transition: ease-in-out .3s;
+  }
 .card-footer .btn i {
   margin-right: 6px;
 }
@@ -203,6 +202,7 @@
 
 .comentario-item {
   display: flex;
+  flex-direction: column;
   align-items: flex-start; /* Alinea avatar y contenido del comentario */
   gap: 12px; /* Espacio entre avatar y contenido */
   padding: 15px 0; /* Padding vertical, sin padding horizontal (se controla en .comentarios-seccion) */
@@ -211,7 +211,15 @@
 .comentario-item:last-child {
   border-bottom: none;
 }
-
+.comenPresent{
+display: flex;
+flex-direction: row;
+width: 100%;
+justify-content: space-between;
+}
+.comenPresent span{
+  color: #777;
+}
 .comentario-item .img-cirUs { /* Avatar del comentador */
   width: 40px;
   height: 40px;

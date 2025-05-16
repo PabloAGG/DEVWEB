@@ -120,6 +120,7 @@ $contenidoPub = $publicacion['contenido'] ?? null;
 <article class="card-container">
     <div class="card">
         <div class="card-header">
+            <div class="">
         <?php if ($publicacion['autorImg'] !== null && isset($publicacion['autorType'])):
             $mimeUsuarioAutor = $publicacion['autorType'];
             $base64AutorImg = base64_encode($publicacion['autorImg']);
@@ -127,7 +128,7 @@ $contenidoPub = $publicacion['contenido'] ?? null;
         else: ?>
             <img src="../assets/image_default.png" alt="Avatar Usuario" class="img-cirUs">
         <?php endif; ?>
-            <span class="autor"><?php echo htmlspecialchars($publicacion['autor']); ?></span>
+            <span class="autor"><a href="PerfilExt.php?id=<?php echo $publicacion['idUsuario']?>"><?php echo htmlspecialchars($publicacion['autor']); ?></a></span> </div>
             <span class="fecha"><?php echo htmlspecialchars($fechaFormateada); ?></span>
         </div>
 
@@ -183,7 +184,8 @@ $contenidoPub = $publicacion['contenido'] ?? null;
             <?php else: ?>
                 <?php foreach ($comentarios as $coment): ?>
                     <div class="comentario-item">
-                        <strong>
+                        <div class="comenPresent">
+                             <strong>
                         <?php if ($coment['imgComentador'] !== null && isset($coment['tipoImgComentador'])):
                             $mimeComentador = $coment['tipoImgComentador'];
                             $base64ComentadorImg = base64_encode($coment['imgComentador']);
@@ -194,6 +196,7 @@ $contenidoPub = $publicacion['contenido'] ?? null;
                         <?php echo htmlspecialchars($coment['nomUs']); ?>
                         </strong>
                         <span> (<?php echo htmlspecialchars($coment['fecha_formateada_comentario']); ?>):</span>
+                       </div>
                         <p><?php echo nl2br(htmlspecialchars($coment['comen'])); ?></p>
                     </div>
                 <?php endforeach; ?>

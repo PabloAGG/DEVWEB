@@ -71,7 +71,7 @@ while ($row = mysqli_fetch_assoc($result)) {
     } else {
         $publicacionesHTML .= '<img id="imgPerfil" src="../assets/image_default.png"  alt="Avatar Usuario" class="img-cirUs">';
     }
-    $publicacionesHTML .= '           <span class="autor">' . htmlspecialchars($row['autor']) . '</span></div>';
+    $publicacionesHTML .= '           <span class="autor"><a href="PerfilExt.php?id=' . $row['idUsuario'] . '">' . htmlspecialchars($row['autor']) . '</a></span></div>';
     $publicacionesHTML .= '           <span class="fecha">' . htmlspecialchars($fechaFormateada) . '</span>';
     $publicacionesHTML .= '       </div>';
     $publicacionesHTML .= '       <div class="card-body">';
