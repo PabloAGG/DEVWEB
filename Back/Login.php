@@ -29,7 +29,7 @@ $resultado = mysqli_stmt_get_result($stmt);
 // exit();
         if (password_verify($password, $row['contra'])) {
             $_SESSION['user_id'] = $row['idUsuario'];
-            $_SESSION['user_name'] = $row['NomUs'];
+            $_SESSION['user_name'] = $row['nomUs'];
             $_SESSION['user_role'] = $row['usAdmin']; // Guardamos el rol
         
                 header('Location: ../front/dashboard.php');
