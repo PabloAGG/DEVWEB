@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set('UTC');
 $host = "localhost";
 $user = "root"; // Ajusta esto si tienes otro usuario
 $password = ""; // Ajusta esto si tienes contraseña

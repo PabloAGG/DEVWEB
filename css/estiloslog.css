@@ -396,7 +396,155 @@ footer {
 #btn-notificaciones:hover {
     color: #fff;
 }
-#btn-mensajes {
+
+
+
+
+/* Estilos básicos para los modales del chat */
+.chat-modal {
+    display: none; 
+    z-index: 1000; 
+}
+
+.chat-modal-content {
+    background-color: #fefefe;
+    color: #333;
+      right:10px;                       
+    top: 80px;  
+
+    padding: 20px;
+    border: 1px solid #888;
+    max-width: 250px; 
+    border-radius: 8px;
+    position: relative;
+    overflow: auto;
+    position: fixed;
+}
+.chat-modal-content-conversation {
+    background-color: #fefefe;
+    color: #333;
+      right:10px;                       
+    bottom: 0px;  
+    padding: 20px;
+    border: 1px solid #888;
+    max-width: 250px; 
+    border-radius: 8px;
+    position: relative;
+    overflow: auto;
+    position: fixed;
+}
+.chat-close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.chat-close-button:hover,
+.chat-close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.chat-user-list .user-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+}
+.chat-user-list .user-item:hover {
+    background-color: #f0f0f0;
+}
+
+.chat-user-list .user-item span { /* Para que el punto se alinee bien con el texto del nombre */
+    vertical-align: middle;
+}
+
+
+.follower-unread-dot {
+    display: inline-block; 
+    width: 15px;
+    height: 15px;
+    color: white;
+    text-align: center;
+
+    font-size: .8em;
+    background-color: rgb(255, 30, 30); 
+    border-radius: 50%;      
+    margin-left: 8px;        
+    vertical-align: middle;  
+}
+#chatWithUserName {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+#chatMessagesArea {
+    height: 300px; 
+    overflow-y: auto; 
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+    background-color: #f9f9f9;
+}
+.chat-message {
+    padding: 8px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    max-width: 70%;
+}
+.chat-message.sent {
+    background-color: #dcf8c6; 
+    margin-left: auto; 
+    text-align: right;
+}
+.chat-message.received {
+    background-color: #e9e9eb;
+    margin-right: auto; 
+    text-align: left;
+}
+.chat-message .sender-name {
+    font-size: 0.8em;
+    color: #555;
+    display: block;
+    margin-bottom: 2px;
+}
+.chat-message .message-time {
+    font-size: 0.7em;
+    color: #777;
+    display: block;
+    margin-top: 2px;
+}
+
+
+.chat-input-area {
+    display: flex;
+}
+#chatMessageInput {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+#chatSendMessageButton {
+    padding: 1px 5px;
+    margin-left: 5px;
+    background-color: #007bff; 
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+#chatSendMessageButton:hover {
+    background-color: #0056b3;
+}
+
+#openChatButton {
+ 
     background: none;
     border: none;
     color: #e1e1e1; 
@@ -406,7 +554,24 @@ footer {
     position: relative; 
     transition: color 0.3s ease;
 }
+#openChatButton:hover {
+    color: #ffffff;
+}
 
-#btn-mensajes:hover {
-    color: #fff;
+.chat-unread-badge {
+  position: absolute;
+    z-index: 1000;
+    top: -5px;      
+    right: -8px;      
+    background-color: red;
+    color: white;
+    border-radius: 50%; 
+    padding: 1px 5px;   
+    font-size: 10px;    
+    font-weight: bold;
+    line-height: 1;   
+    min-width: 16px;    
+    text-align: center;
+    box-sizing: border-box;
+    display: none;   
 }

@@ -145,7 +145,7 @@ function cargarNotificaciones() {
      if ("Notification" in window && Notification.permission === "granted" && !notificacion.leida && document.hidden) {
                         new Notification("Nueva notificación", {
                             body: `${notificacion.usuarioEmiteNombre}${mensajeTexto}`,
-                            icon: "/ruta/icono-notificacion.png" // Puedes personalizar este icono
+                            icon: "../front/LOGOWEB.jpg" // Puedes personalizar este icono
                         });
                     }
 

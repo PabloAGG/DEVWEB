@@ -100,6 +100,28 @@ CREATE TABLE Notificaciones (
     FOREIGN KEY (idPublicacion) REFERENCES Publicaciones(idPubli)
 )COMMENT="Tabla para almacenar notificaciones relacionadas con las interacciones en las publicaciones";
 
+CREATE TABLE `conversaciones` (
+  `id_conversacion` INT AUTO_INCREMENT PRIMARY KEY,
+  `id_usuario1` INT NOT NULL,
+  `id_usuario2` INT NOT NULL,
+  `fecha_creacion` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `ultima_actualizacion` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (`id_usuario1`) REFERENCES `usuarios`(`idUsuario`) ON DELETE CASCADE,
+  FOREIGN KEY (`id_usuario2`) REFERENCES `usuarios`(`idUsuario`) ON DELETE CASCADE,
+  UNIQUE KEY `unique_conversation` (`id_usuario1`, `id_usuario2`) -- Para evitar duplicados, asegúrate que id_usuario1 < id_usuario2 en tu lógica de creación
+);
+
+CREATE TABLE `mensajes` (
+  `id_mensaje` INT AUTO_INCREMENT PRIMARY KEY,
+  `id_conversacion` INT NOT NULL,
+  `id_emisor` INT NOT NULL,
+  `contenido_mensaje` TEXT NOT NULL,
+  `fecha_envio` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `leido` BOOLEAN DEFAULT FALSE,
+  FOREIGN KEY (`id_conversacion`) REFERENCES `conversaciones`(`id_conversacion`) ON DELETE CASCADE,
+  FOREIGN KEY (`id_emisor`) REFERENCES `usuarios`(`idUsuario`) ON DELETE CASCADE
+);
+
 -- Insertar categorías iniciales
 INSERT INTO Categorias (nombre, estado) VALUES
     ('Moda', 1),
@@ -245,7 +267,6 @@ END//
 DELIMITER ;
 
 -- ---------------------VISTAS (VIEWS)---------------------------
-
 -- Vista para obtener las últimas publicaciones con información adicional
 CREATE VIEW ultimas_publicaciones AS
 SELECT
