@@ -165,10 +165,11 @@ while ($row = mysqli_fetch_assoc($result)) {
     const user_id_ACTUAL = <?php echo isset($_SESSION['user_id']) ? json_encode($_SESSION['user_id']) : 'null'; ?>;
 </script>
 <script src="../js/chat.js"></script> 
+<script src="../js/mensajesNotis.js"></script>
 <script src="../js/search.js"></script>
 <script src="../js/script.js"></script>
 <script src="../js/dashboard.js"></script>
 <script src="../js/publicaciones_ordenadas.js"></script>
-<script src="../js/mensajesNotis.js"></script>
+
 </body>
 </html>

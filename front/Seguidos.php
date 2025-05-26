@@ -146,9 +146,17 @@ function marcarNotificacionLeida($conn, $idNotificacion) {
          </div>
 
 
-         <div class="mensajes">
-<button id="btn-mensajes" title="Mensajes"><i class="fas fa-comment-alt"></i></button>
-         </div>
+       <button id="openChatButton" title="Abrir Chat">
+    <i class="fas fa-comments"></i> </button>
+
+    <div id="chatFollowersModal" class="chat-modal" style="display:none;">
+    <div class="chat-modal-content">
+        <span class="chat-close-button" onclick="document.getElementById('chatFollowersModal').style.display='none'">&times;</span>
+        <h2>Iniciar chat con:</h2>
+        <div id="chatFollowersList" class="chat-user-list">
+            </div>
+    </div>
+</div>
 
 
  <div class="identificador">
@@ -198,7 +206,28 @@ function marcarNotificacionLeida($conn, $idNotificacion) {
                 </p>
             <?php endif; ?>
         </div>
+
+
+<div id="chatWindowModal" class="chat-modal" style="display:none;">
+    <div class="chat-modal-content-conversation">
+        <span class="chat-close-button" onclick="closeChatWindow()">&times;</span>
+        <h3 id="chatWithUserName">Chat</h3>
+        <div id="chatMessagesArea" class="chat-messages-area">
+            </div>
+        <div class="chat-input-area">
+            <input type="text" id="chatMessageInput" placeholder="Escribe un mensaje...">
+            <button id="chatSendMessageButton"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+    </div>
+</div>
+
+
     </main>
+    <script>
+    const user_id_ACTUAL = <?php echo isset($_SESSION['user_id']) ? json_encode($_SESSION['user_id']) : 'null'; ?>;
+</script>
+<script src="../js/chat.js"></script> 
+<script src="../js/mensajesNotis.js"></script>
  <script src="../js/notis.js"></script>
     <script src="../js/script.js"></script>
     <script src="../js/search.js"></script>

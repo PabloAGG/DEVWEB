@@ -124,7 +124,7 @@ function previewImage() {
         reader.onload = function (e) {
             img.src = e.target.result;
             img.style.display = 'block';
-            imgContainer.style.marginBottom='200px'; // Mostrar el contenedor de la imagen
+            imgContainer.style.marginBottom='50px'; // Mostrar el contenedor de la imagen
         };
         reader.readAsDataURL(file);
     } else {
