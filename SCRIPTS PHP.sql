@@ -19,6 +19,14 @@ CREATE TABLE Usuarios (
     fechaM DATE NULL COMMENT 'Fecha de modificación del registro',
     tipo_Img NVARCHAR(100) NULL COMMENT 'Tipo MIME de la imagen'
 ) COMMENT='Tabla que almacena la información de los usuarios de la página';
+Create table Seguidores(
+idSeguidores int not null auto_increment primary key comment'identificador de la fila seguidores',
+idSeguido int not null comment'usuario que fue seguido dentro de la app',
+idSeguidor int not null comment'usuario que siguio a otro dentro de la app',
+ FOREIGN KEY (idSeguido) REFERENCES Usuarios(idUsuario),
+ FOREIGN KEY (idSeguidor) REFERENCES Usuarios(idUsuario)
+)comment="Tabla para almacenar la relacion seguidores y seguidos para cada usuario dentro de la app";
+
 
 -- Tabla de categorías para clasificar publicaciones
 CREATE TABLE Categorias (

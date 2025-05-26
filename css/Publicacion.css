@@ -162,7 +162,7 @@
 }
 
 #form-comentario button[type="submit"] { /* Botón de publicar comentario */
-  background-color: #28a745; /* Verde */
+ 
   color: white;
   border: none;
   padding: 10px 15px;

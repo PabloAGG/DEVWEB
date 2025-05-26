@@ -381,3 +381,32 @@ footer {
       padding: 10px 15px;
   }
 }
+
+#btn-notificaciones {
+    background: none;
+    border: none;
+    color: #e1e1e1; 
+    font-size: 20px;
+    cursor: pointer;
+    padding: 0; 
+    position: relative; 
+    transition: color 0.3s ease;
+}
+
+#btn-notificaciones:hover {
+    color: #fff;
+}
+#btn-mensajes {
+    background: none;
+    border: none;
+    color: #e1e1e1; 
+    font-size: 20px;
+    cursor: pointer;
+    padding: 0; 
+    position: relative; 
+    transition: color 0.3s ease;
+}
+
+#btn-mensajes:hover {
+    color: #fff;
+}

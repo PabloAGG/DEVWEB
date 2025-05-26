@@ -60,7 +60,7 @@ function marcarNotificacionLeida($conn, $idNotificacion) {
  <div class="barrPrin">
 <button onclick="location.href='dashboard.php'">Inicio</button>
 <button onclick="location.href='Perfil.php'">Perfil</button>
-<button onclick="location.href='BusqAv.php'">Busq Av</button>
+<button onclick="location.href='BusqAv.php'">Categorias</button>
 <button onclick="location.href='../Back/LogOut.php'">Cerrar sesion</button>
 </div>
  <div class="search-container">
@@ -76,6 +76,13 @@ function marcarNotificacionLeida($conn, $idNotificacion) {
  <p>Cargando notificaciones...</p>
  </div>
          </div>
+
+
+         <div class="mensajes">
+<button id="btn-mensajes" title="Mensajes"><i class="fas fa-comment-alt"></i></button>
+         </div>
+
+
  <div class="identificador">
  <button onclick="location.href='Perfil.php'"><?php echo htmlspecialchars($user_name); ?></button>
  </div>
@@ -119,6 +126,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 </div>
 <select name="OrdenPublicaciones" id="OrdenPublicaciones">
  <option value="">Ordenar por:</option>
+ <option value="seguidos">Siguiendo</option>
  <option value="ultimas">Últimas Publicaciones</option>
 <option value="comentadas">Más Comentadas</option>
  <option value="gustadas">Más Gustadas</option>
@@ -134,4 +142,5 @@ while ($row = mysqli_fetch_assoc($result)) {
 <script src="../js/script.js"></script>
 <script src="../js/dashboard.js"></script>
 <script src="../js/publicaciones_ordenadas.js"></script>
+</body>
 </html>

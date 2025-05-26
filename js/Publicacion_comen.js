@@ -19,7 +19,7 @@ async function guardarComentario(event) {
     const publiId = publiIdInput.value;
 
     try {
-        const response = await fetch('../BACK/guardar_comentario.php', {
+        const response = await fetch('../Back/guardar_comentario.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: new URLSearchParams({

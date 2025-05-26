@@ -12,6 +12,22 @@ $orden = $_GET['orden'] ?? 'ultimas'; // Obtener el criterio de ordenación
 $query = "";
 // Definir la consulta base según el orden
 switch ($orden) {
+    case 'seguidos':
+         $queryBase ="SELECT
+    up.*,(SELECT COUNT(*) FROM Likes WHERE idPublicacion = up.idPubli AND idUsuario = ?) AS hasLiked,
+    CASE
+        WHEN s.idSeguidor IS NOT NULL THEN 1
+        ELSE 0
+    END AS es_autor_seguido
+FROM
+    ultimas_publicaciones up
+LEFT JOIN
+    Seguidores s ON up.idUsuario = s.idSeguido AND s.idSeguidor = ? 
+ORDER BY
+    es_autor_seguido DESC,
+    up.fechaC DESC ";
+        break;
+
     case 'ultimas':
         $queryBase = "SELECT v.*, (SELECT COUNT(*) FROM Likes WHERE idPublicacion = v.idPubli AND idUsuario = ?) AS hasLiked
                       FROM ultimas_publicaciones v"; // Asegúrate que ultimas_publicaciones incluye idMulti
@@ -37,7 +53,14 @@ if (!$stmt) {
     exit();
 }
 
-mysqli_stmt_bind_param($stmt, "i", $user_id);
+if ($orden === 'seguidos') {
+    // Para la consulta de seguidos, necesitamos el user_id dos veces
+    mysqli_stmt_bind_param($stmt, "ii", $user_id, $user_id);
+} else {
+    // Para las otras consultas, solo necesitamos el user_id una vez
+    mysqli_stmt_bind_param($stmt, "i", $user_id);
+}
+
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 
@@ -67,9 +90,9 @@ while ($row = mysqli_fetch_assoc($result)) {
     if ($row['imgPerfil'] !== null) {
         $mimeusuario = $row['tipo_ImgUser'] ?? 'image/png';
         $base64UserImg = base64_encode($row['imgPerfil']);
-        $publicacionesHTML .= '<img class="img-cirUs" src="data:' . htmlspecialchars($mimeusuario) . ';base64,' . htmlspecialchars($base64UserImg) . '">';
+        $publicacionesHTML .= '<img  loading="lazy" class="img-cirUs" src="data:' . htmlspecialchars($mimeusuario) . ';base64,' . htmlspecialchars($base64UserImg) . '">';
     } else {
-        $publicacionesHTML .= '<img id="imgPerfil" src="../assets/image_default.png"  alt="Avatar Usuario" class="img-cirUs">';
+        $publicacionesHTML .= '<img id="imgPerfil"  loading="lazy" src="../assets/image_default.png"  alt="Avatar Usuario" class="img-cirUs">';
     }
     $publicacionesHTML .= '           <span class="autor"><a href="PerfilExt.php?id=' . $row['idUsuario'] . '">' . htmlspecialchars($row['autor']) . '</a></span></div>';
     $publicacionesHTML .= '           <span class="fecha">' . htmlspecialchars($fechaFormateada) . '</span>';
@@ -88,7 +111,7 @@ while ($row = mysqli_fetch_assoc($result)) {
     } elseif (!$isVideo && isset($row['contenido'])) {
         // Mantener Base64 para imágenes si así lo deseas, ya que es menos problemático
         $imgBase64 = base64_encode($row['contenido']);
-        $publicacionesHTML .= '           <img class="media" src="data:' . htmlspecialchars($mime) . ';base64,' . $imgBase64 . '" alt="Contenido multimedia">';
+        $publicacionesHTML .= '           <img class="media"  loading="lazy" src="data:' . htmlspecialchars($mime) . ';base64,' . $imgBase64 . '" alt="Contenido multimedia">';
     }
     // Si es video pero no hay idMulti, o si no hay contenido, podrías poner un placeholder o mensaje.
 

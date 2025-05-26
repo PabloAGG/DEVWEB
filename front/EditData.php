@@ -25,6 +25,18 @@ if ($row = mysqli_fetch_assoc($result)) {
     exit();
 }
 
+if (isset($_GET['leer_notificacion']) && is_numeric($_GET['leer_notificacion'])) {
+ $idNotificacion = $_GET['leer_notificacion'];
+ marcarNotificacionLeida($conn, $idNotificacion);
+ header("Location: dashboard.php"); // Redirigir para evitar re-procesamiento
+ exit();
+}
+function marcarNotificacionLeida($conn, $idNotificacion) {
+ $query = "UPDATE Notificaciones SET leida = 1 WHERE idNotificacion = ?";
+ $stmt = mysqli_prepare($conn, $query);
+ mysqli_stmt_bind_param($stmt, "i", $idNotificacion);
+ mysqli_stmt_execute($stmt);
+}
 
 
 ?>
@@ -37,29 +49,41 @@ if ($row = mysqli_fetch_assoc($result)) {
     <link rel="stylesheet" href="../css/estiloslog.css">
     <link rel="stylesheet" href="../css/edit.css">
     <script src="https://kit.fontawesome.com/093074d40c.js" crossorigin="anonymous"></script>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body class="cuerpo">
-   
-    <header>
+  <header>
+ <div class="logo">  <a href="dashboard.php"><img src="LOGOWEB.jpg" width="60px" height="60px" alt="Logo DEVWEB"></a></div>
+ <div class="barrPrin">
+<button onclick="location.href='dashboard.php'">Inicio</button>
+<button onclick="location.href='Perfil.php'">Perfil</button>
+<button onclick="location.href='BusqAv.php'">Categorias</button>
+<button onclick="location.href='../Back/LogOut.php'">Cerrar sesion</button>
+</div>
+ <div class="search-container">
+<input type="text" class="search-bar" placeholder="Buscar...">
+ <button class="search-button"><i class="fa-solid fa-magnifying-glass"></i></button>
+ </div>
+ <div class="notificaciones">
+ <button id="btn-notificaciones" title="Notificaciones">
+<i class="fa-solid fa-bell"></i>
+<span id="contador-notificaciones" class="contador-notificaciones">0</span>
+ </button>
+         <div id="lista-notificaciones" class="lista-notificaciones">
+ <p>Cargando notificaciones...</p>
+ </div>
+         </div>
 
-    <div class="logo">   <a href="dashboard.php"><img src="LOGOWEB.jpg" width="60px" height="60px"></a> </div>
-        <div class="barrPrin">
-   <button onclick="location.href='dashboard.php'">Inicio</button>
-   <button onclick="location.href='Perfil.php'">Perfil</button>
-     <button onclick="location.href='BusqAv.php'"> Busq Av</button> 
-     <button onclick="location.href='../Back/LogOut.php'">Cerrar sesion</button>
-            </div>
-            <div class="search-container">
-             <input type="text" class="search-bar" placeholder="Buscar...">
-             <button class="search-button"><i class="fa-solid fa-magnifying-glass"></i></button>
-           </div>
-                   <div class="identificador">
-   <!-- <a href="Perfil.html"><img src="Gojo.jpg" alt="" class="img-circular"></a> -->
-   <button onclick="location.href='Perfil.php'"><?php echo $user_name?></button>
-                   </div>
-           
-       </header>
+
+         <div class="mensajes">
+<button id="btn-mensajes" title="Mensajes"><i class="fas fa-comment-alt"></i></button>
+         </div>
+
+
+ <div class="identificador">
+ <button onclick="location.href='Perfil.php'"><?php echo htmlspecialchars($user_name); ?></button>
+ </div>
+</header>
     
 <main>
 <div class="contenedor_FormReg">
@@ -121,7 +145,7 @@ if ($row = mysqli_fetch_assoc($result)) {
 </div>
 </main>
 
-
+ <script src="../js/notis.js"></script>
 <script src="../js/script.js"></script>
 <script src="../js/search.js"></script>
 <!-- <script src="../js/Registro.js"></script> -->

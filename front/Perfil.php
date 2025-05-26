@@ -25,6 +25,45 @@ if ($row = mysqli_fetch_assoc($result)) {
     exit();
 }
 
+ $numSeguidores=0;
+ $numSeguidos=0;
+$stmtContador = mysqli_prepare($conn, "SELECT COUNT(*) AS numSeguidores FROM Seguidores WHERE idSeguido = ?");
+if ($stmtContador) {
+    mysqli_stmt_bind_param($stmtContador, 'i', $user_id);
+    mysqli_stmt_execute($stmtContador);
+    $resultContador = mysqli_stmt_get_result($stmtContador);
+    if ($rowContador = mysqli_fetch_assoc($resultContador)) {
+        $numSeguidores = (int)$rowContador['numSeguidores'];
+    }
+    mysqli_stmt_close($stmtContador);
+} else {
+    error_log("Error al preparar statement para contar seguidores: " . mysqli_error($conn));
+}
+$stmtContador = mysqli_prepare($conn, "SELECT COUNT(*) AS numSeguidores FROM Seguidores WHERE idSeguidor = ?");
+if ($stmtContador) {
+    mysqli_stmt_bind_param($stmtContador, 'i', $user_id);
+    mysqli_stmt_execute($stmtContador);
+    $resultContador = mysqli_stmt_get_result($stmtContador);
+    if ($rowContador = mysqli_fetch_assoc($resultContador)) {
+        $numSeguidos = (int)$rowContador['numSeguidores'];
+    }
+    mysqli_stmt_close($stmtContador);
+} else {
+    error_log("Error al preparar statement para contar seguidores: " . mysqli_error($conn));
+}
+
+if (isset($_GET['leer_notificacion']) && is_numeric($_GET['leer_notificacion'])) {
+ $idNotificacion = $_GET['leer_notificacion'];
+ marcarNotificacionLeida($conn, $idNotificacion);
+ header("Location: dashboard.php"); // Redirigir para evitar re-procesamiento
+ exit();
+}
+function marcarNotificacionLeida($conn, $idNotificacion) {
+ $query = "UPDATE Notificaciones SET leida = 1 WHERE idNotificacion = ?";
+ $stmt = mysqli_prepare($conn, $query);
+ mysqli_stmt_bind_param($stmt, "i", $idNotificacion);
+ mysqli_stmt_execute($stmt);
+}
 
 ?>
 
@@ -37,29 +76,42 @@ if ($row = mysqli_fetch_assoc($result)) {
     <link rel="stylesheet" href="../css/estiloslog.css">
     <link rel="stylesheet" href="../css/Perfil.css">
     <link rel="stylesheet" href="../css/Dashboard.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://kit.fontawesome.com/093074d40c.js" crossorigin="anonymous"></script>
 </head>
 <body class="cuerpo">
+<header>
+  <div class="logo">  <a href="dashboard.php"><img src="LOGOWEB.jpg" width="60px" height="60px" alt="Logo DEVWEB"></a></div>
+ <div class="barrPrin">
+<button onclick="location.href='dashboard.php'">Inicio</button>
+<button onclick="location.href='Perfil.php'">Perfil</button>
+<button onclick="location.href='BusqAv.php'">Categorias</button>
+<button onclick="location.href='../Back/LogOut.php'">Cerrar sesion</button>
+</div>
+ <div class="search-container">
+<input type="text" class="search-bar" placeholder="Buscar...">
+ <button class="search-button"><i class="fa-solid fa-magnifying-glass"></i></button>
+ </div>
+ <div class="notificaciones">
+ <button id="btn-notificaciones" title="Notificaciones">
+<i class="fa-solid fa-bell"></i>
+<span id="contador-notificaciones" class="contador-notificaciones">0</span>
+ </button>
+         <div id="lista-notificaciones" class="lista-notificaciones">
+ <p>Cargando notificaciones...</p>
+ </div>
+         </div>
 
-  <header>
 
-    <div class="logo">   <a href="dashboard.php"><img src="LOGOWEB.jpg" width="60px" height="60px"></a></div>
-        <div class="barrPrin">
-   <button onclick="location.href='dashboard.php'">Inicio</button>
-   <button onclick="location.href='Perfil.php'">Perfil</button>
-     <button onclick="location.href='BusqAv.php'"> Busq Av</button>
-       <button onclick="location.href='../Back/LogOut.php'">Cerrar sesion</button>
-            </div>
-            <div class="search-container">
-             <input type="text" class="search-bar" placeholder="Buscar...">
-             <button class="search-button"><i class="fa-solid fa-magnifying-glass"></i></button>
-           </div>
-                   <div class="identificador">
-   <!-- <a href="Perfil.html"><img src="Gojo.jpg" alt="" class="img-circular"></a> -->
-   <button onclick="location.href='Perfil.php'"><?php echo $user_name?></button>
-                   </div>
-       
-   </header>
+         <div class="mensajes">
+<button id="btn-mensajes" title="Mensajes"><i class="fas fa-comment-alt"></i></button>
+         </div>
+
+
+ <div class="identificador">
+ <button onclick="location.href='Perfil.php'"><?php echo htmlspecialchars($user_name); ?></button>
+ </div>
+</header>
 <main>
 
 <div class="perfilUs">
@@ -71,15 +123,19 @@ $resultadoMultimedia = $conn->query($sqlMultimedia);
 if ($resultadoMultimedia && $resultadoMultimedia->num_rows > 0) {
     if ($media = $resultadoMultimedia->fetch_assoc()) {
 
+        if($media['imagen']===null){
+    
+echo '<img id="imgPerfil" src="../assets/image_default.png"  alt="Avatar Usuario" class="img-cirUs">';
+ }   else{
+    
         $mime = $media['tipo_Img'] ?? 'image/png';
         $base64 = base64_encode($media['imagen']);
 
         echo '<img class="img-cirUs" src="data:' . $mime . ';base64,' . $base64 . '">';
+ }
     }
-} else {?> 
-    
-<img id="imgPerfil" src="../assets/image_default.png"  alt="Avatar Usuario" class="img-cirUs">
-<?php  }   ?>
+} ?> 
+
     <ul id="list-perfil">
         <li><strong>Nombre Usuario:</strong><?php echo $user_name?></li>
         <li><strong>Nombre:</strong> <?php echo $full_name?></li>
@@ -90,7 +146,14 @@ if ($resultadoMultimedia && $resultadoMultimedia->num_rows > 0) {
         $edad = $fechaActual->diff($fechaNacimiento)->y; // Calcular la diferencia en años
         echo $edad . " años"; ?></li>
         <li><strong>Rol:</strong> <?php echo $user_role == 1 ? 'Administrador' :'Usuario' ; ?></li>
-    </ul>
+       <li>
+        <strong><a href="Seguidos.php?show=follows">Seguidos:</a></strong><span id="follow-count"><?php echo $numSeguidos; ?></span> 
+        
+        <strong><a href="Seguidos.php?show=followers">Seguidores:</a></strong><span id="follower-count"><?php echo $numSeguidores; ?></span>
+    </li>
+  
+</ul>
+
     <div class="btns-perfil">
     <button class="btnEx" onclick="location.href='EditData.php'">Modificar datos</button></div>
 <?php
@@ -150,7 +213,8 @@ while ($row = mysqli_fetch_assoc($result)) {
 
 
 </main>
+ <script src="../js/notis.js"></script>
 <script src="../js/search.js"></script>
-      <script src="../js/script.js"></script></body>
+  <script src="../js/script.js"></script>
 </body>
 </html>
