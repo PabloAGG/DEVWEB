@@ -54,7 +54,6 @@ CREATE TABLE Publicaciones (
 -- Nota: La tabla se creó con fechaC DATE, esta modificación la cambia a DATETIME.
 ALTER TABLE Publicaciones MODIFY fechaC DATETIME DEFAULT CURRENT_TIMESTAMP() COMMENT 'Fecha de creación del registro';
 
-
 -- Tabla para multimedia asociada a las publicaciones
 CREATE TABLE Multimedia(
     idMulti INT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'Identificador único de multimedia',
@@ -289,7 +288,7 @@ WHERE p.estado = 1 -- Solo publicaciones activas
 ORDER BY p.fechaC DESC; -- Ordenar por fecha de creación descendente
 
 -- Vista para obtener las publicaciones con más likes
-CREATE VIEW publicaciones_mas_likes AS
+CREATE  VIEW publicaciones_mas_likes AS
 SELECT
     p.*, -- Seleccionar todas las columnas de Publicaciones
     m.contenido,
