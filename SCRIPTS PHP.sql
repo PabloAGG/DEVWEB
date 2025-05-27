@@ -62,9 +62,11 @@ CREATE TABLE Multimedia(
     tipo_Img NVARCHAR(100) NULL COMMENT 'Tipo MIME de la imagen/video',
     video BOOLEAN COMMENT "Define si se subió un video (1) o una imagen (0)",
     idPubli INT NOT NULL,
+    video_path nvarchar(255) comment"Si se subio un video esta sera la ruta de donde se obtendra.",
     FOREIGN KEY (idPubli) REFERENCES Publicaciones(idPubli)
 ) COMMENT='Almacena archivos multimedia para las publicaciones';
-
+alter table Multimedia add 
+    video_path nvarchar(255) comment"Si se subio un video esta sera la ruta de donde se obtendra.";
 -- Tabla que almacena los "likes" de usuarios a publicaciones
 CREATE TABLE Likes (
     idLike INT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'Identificador único del like',
@@ -273,7 +275,7 @@ SELECT
     p.*, -- Seleccionar todas las columnas de Publicaciones
     m.contenido,
     m.tipo_Img AS tipo_ImgPubli, -- Renombrar para evitar conflicto con imagen de usuario
-    m.video,
+    m.video, m.video_path,
     u.nomUs AS autor,
     u.imagen AS imgPerfil,
     u.tipo_Img AS tipo_ImgUser,
@@ -292,7 +294,7 @@ SELECT
     p.*, -- Seleccionar todas las columnas de Publicaciones
     m.contenido,
     m.tipo_Img AS tipo_ImgPubli, -- Renombrar
-    m.video,
+    m.video,m.video_path,
     u.nomUs AS autor,
     u.imagen AS imgPerfil,
     u.tipo_Img AS tipo_ImgUser,
@@ -311,7 +313,7 @@ SELECT
     p.*, -- Seleccionar todas las columnas de Publicaciones
     m.contenido,
     m.tipo_Img AS tipo_ImgPubli, -- Renombrar
-    m.video,
+    m.video,m.video_path,
     u.nomUs AS autor,
     u.imagen AS imgPerfil,
     u.tipo_Img AS tipo_ImgUser,

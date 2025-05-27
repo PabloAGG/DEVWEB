@@ -274,14 +274,57 @@ footer {
     color: #ccc;
 }
 
-
+.nav-mobile{
+  display: none; /* Ocultar por defecto, se puede mostrar con JS */
+}
 /* --- Media Queries para Responsividad --- */
 
-@media (max-width: 768px) {
+@media (max-width: 780px) {
+  .nav-mobile {
+    display: flex; 
+    flex-direction: row; 
+    align-items: center; 
+    width: 100%;
+    height: auto;
+    justify-content: space-around; 
+  left: 0;
+  background-color: rgba(122, 121, 121, .9); /* Fondo oscuro semi-transparente */
+  position: fixed; /* Fijo en la parte superior */
+  top: 60px; 
+  
+}
+  .nav-mobile button {
+    font-size: 1.5em; /* Tamaño de fuente más grande */
+    padding: 10px; /* Más espacio para el botón */
+    color: #c1c1c1; /* Color de texto */
+    background:none; /* Fondo oscuro */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer;
+    box-shadow: none;
+  }
+  .nav-mobile button:hover {
+    background: none;
+    color: #ffffff; 
+  }
+
+  .chat-modal-content-conversation{
+    min-width: 100%;
+    height: calc(100% - 60px); /* Ajustar altura para móviles */
+    top: 60;
+    left: 0;
+    right: 0;
+    z-index: 1000; 
+ 
+  }
+  #chatMessagesArea {
+    min-height: 90%;
+  max-width: 95%; /* Ajustar altura para móviles */
+  }
   main {
-    margin-top: 70px;
-    margin-bottom: 70px;
-    padding: 15px;
+    margin-top: 120px;
+    margin-bottom: 20px;
+    padding: 60px 0;
   }
   header {
     padding: 10px;
@@ -329,30 +372,27 @@ footer {
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 780px) {
   main {
-    margin-top: 60px;
+    margin-top: 160px;
     margin-bottom: 60px;
-    padding: 10px;
+    padding: 60px 0;
   }
   header {
     /* Se puede forzar el logo y el user/search en una línea y los botones en otra */
     /* Para esto, el .barrPrin ya está con order:1 y width:100% */
   }
+
   .logo {
     margin-right: auto; /* Empujar el logo a la izquierda */
   }
   #titulo {
       display: none; /* Ocultar título para ahorrar espacio */
   }
-  .barrPrin button {
-    font-size: 0.75em; /* Aún más pequeño */
-    padding: 4px 6px; /* Ajustar padding del botón en sí */
+  .barrPrin {
+  display: none;
   }
-  .barrPrin button:after { /* Línea debajo del botón */
-    bottom: -1px;
-    height: 1px;
-  }
+  
   .search-container {
     margin: 5px 5px 5px auto; /* Moverlo a la derecha del logo o botones */
   }
@@ -411,7 +451,6 @@ footer {
     color: #333;
       right:10px;                       
     top: 80px;  
-
     padding: 20px;
     border: 1px solid #888;
     max-width: 250px; 

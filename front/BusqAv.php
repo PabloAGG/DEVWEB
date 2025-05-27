@@ -30,7 +30,7 @@ $user_id = $_SESSION['user_id'];
  $categoria_seleccionada = isset($_GET['categoria']) ? $_GET['categoria'] : '';
  
  // Construir la consulta SQL dinámicamente
- $query = "SELECT p.*, m.contenido, m.tipo_Img, m.video, u.nomUs AS autor, u.imagen AS imgPerfil, u.tipo_Img AS tipo_ImgUser,
+ $query = "SELECT p.*, m.contenido, m.tipo_Img, m.video,m.video_path, u.nomUs AS autor, u.imagen AS imgPerfil, u.tipo_Img AS tipo_ImgUser,
            FormatearFecha(p.fechaC) AS fecha_formateada,
            (SELECT COUNT(*) FROM Comentarios WHERE idPublicacion = p.idPubli) AS comentarios,
            (SELECT COUNT(*) FROM Likes WHERE idPublicacion = p.idPubli AND idUsuario = ?) AS hasLiked,
@@ -137,7 +137,19 @@ function marcarNotificacionLeida($conn, $idNotificacion) {
  <button onclick="location.href='Perfil.php'"><?php echo htmlspecialchars($user_name); ?></button>
  </div>
 </header>
+
+
 <main>
+    
+<nav class="nav-mobile">
+<button onclick="location.href='dashboard.php'"><i class="fas fa-home"></i></button>
+<button onclick="location.href='Perfil.php'"><i class="fa-solid fa-user"></i></button>
+<button onclick="location.href='BusqAv.php'"><i class="fa-solid fa-folder-open"></i></button>
+<button onclick="location.href='../Back/LogOut.php'"><i class="fa-solid fa-right-from-bracket"></i></button>
+</nav>
+
+
+
 <label for="categoria-select">Filtrar por Categoría:</label>
 <select name="categoria" id="categoria-select">
     <option value="">Todas las Categorías</option>
@@ -160,6 +172,7 @@ function marcarNotificacionLeida($conn, $idNotificacion) {
 while ($row = mysqli_fetch_assoc($resultBusq)) { 
     $mime = $row['tipo_Img'] ?? 'image/png'; 
     $isVideo = $row['video']; 
+    $video = $row['video_path'] ?? null; // Ruta del video si es un video
     $mediaSrc = 'data:' . $mime . ';base64,' . base64_encode($row['contenido']); 
     $hasLiked = $row['hasLiked'] > 0; 
     $numLikes = $row['nLikes']; 
@@ -190,7 +203,7 @@ echo '<img class="img-cirUs" src="data:' . $mimeusuario . ';base64,' . $base64 .
             <p><?php echo htmlspecialchars($row['descripcion']); ?></p> 
             <?php if ($isVideo): ?> 
                 <video class="media" controls> 
-                    <source src="<?php echo $mediaSrc; ?>" type="<?php echo $mime; ?>"> 
+                    <source src="<?php echo $video; ?>" type="<?php echo $mime; ?>"> 
                     Tu navegador no soporta video. 
                 </video> 
             <?php else: ?> 

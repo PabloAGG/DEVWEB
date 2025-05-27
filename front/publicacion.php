@@ -35,7 +35,7 @@ if ($idPubli <= 0) {
 
 // --- Obtener la Publicación específica ---
 // La consulta ya incluye m.idMulti, lo cual es correcto.
-$queryPublicacion = "SELECT p.*, m.idMulti, m.contenido, m.tipo_Img, m.video, u.nomUs AS autor,u.imagen AS autorImg,u.tipo_Img AS autorType ,FormatearFecha(p.fechaC) AS fecha_formateada,
+$queryPublicacion = "SELECT p.*, m.idMulti, m.contenido, m.tipo_Img, m.video,m.video_path, u.nomUs AS autor,u.imagen AS autorImg,u.tipo_Img AS autorType ,FormatearFecha(p.fechaC) AS fecha_formateada,
   (SELECT COUNT(*) FROM Likes WHERE idPublicacion = p.idPubli AND idUsuario = ?) AS hasLiked
               FROM Publicaciones p
               JOIN Multimedia m ON m.idPubli = p.idPubli
@@ -155,12 +155,25 @@ function marcarNotificacionLeida($conn, $idNotificacion) {
  <button onclick="location.href='Perfil.php'"><?php echo htmlspecialchars($user_name); ?></button>
  </div>
 </header>
+
+
+
 <main>
+
+<nav class="nav-mobile">
+<button onclick="location.href='dashboard.php'"><i class="fas fa-home"></i></button>
+<button onclick="location.href='Perfil.php'"><i class="fa-solid fa-user"></i></button>
+<button onclick="location.href='BusqAv.php'"><i class="fa-solid fa-folder-open"></i></button>
+<button onclick="location.href='../Back/LogOut.php'"><i class="fa-solid fa-right-from-bracket"></i></button>
+</nav>
+
+
 <?php
 // Variables para la multimedia de la publicación principal
 $idMultiPub = $publicacion['idMulti'] ?? null;
 $mimePub = $publicacion['tipo_Img'] ?? 'application/octet-stream'; // Default MIME type
 $isVideoPub = $publicacion['video'] ?? false;
+
 $contenidoPub = $publicacion['contenido'] ?? null;
 ?>
 
@@ -185,10 +198,10 @@ $contenidoPub = $publicacion['contenido'] ?? null;
 
             <?php if ($isVideoPub && $idMultiPub):
                 // Ruta al script de streaming. Ajusta si es necesario.
-                $videoStreamUrlPub = '../back/stream_video.php?id=' . $idMultiPub;
+                $videoStreamUrlPub = $publicacion['video_path'];
             ?>
                 <video class="media" controls preload="metadata">
-                    <source src="<?php echo htmlspecialchars($videoStreamUrlPub); ?>" type="<?php echo htmlspecialchars($mimePub); ?>">
+                    <source src="<?php echo $videoStreamUrlPub; ?>" type="<?php echo htmlspecialchars($mimePub); ?>">
                     Tu navegador no soporta el elemento de video.
                 </video>
             <?php elseif (!$isVideoPub && $contenidoPub !== null):

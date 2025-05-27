@@ -281,6 +281,7 @@ ul.pagination {
     color: #fff;
 }
 
+
 #contador-notificaciones {
     position: absolute;
     top: -8px; 
@@ -415,7 +416,7 @@ ul.pagination {
 
   .espPubform {
     padding: 20px;
-    margin: 15px auto;
+    margin: 15px 15px;
   }
   .espPubform h2 {
     font-size: 1.5rem; 

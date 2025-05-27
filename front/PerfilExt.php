@@ -1,6 +1,27 @@
 <?php
 session_start(); // Iniciar la sesión para manejar la autenticación
 require '../Back/DB_connection.php';
+
+if (!isset($_SESSION['user_id'])) {
+    header('Location: InicioSesion.php');
+    exit();
+}
+
+$user_sesion_id=$_SESSION['user_id'];
+$user_sesion = $_SESSION['user_name'];
+$perfil_id = $_GET['id'] ?? null; // Obtener el ID del perfil a mostrar}
+
+
+if($perfil_id == $user_sesion_id){
+     header('Location: Perfil.php');
+     exit();
+}
+
+if ($perfil_id === null) {
+    echo "Error: No se ha especificado un ID de perfil.";
+    exit(); // O podrías redirigir a una página de error
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax']) && $_POST['ajax'] === 'true') {
     header('Content-Type: application/json');
     $response = ['success' => false, 'message' => 'Error desconocido.', 'esSeguidor' => false, 'numSeguidores' => 0];
@@ -120,22 +141,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax']) && $_POST['aj
     echo json_encode($response);
     exit();
 }
-if (!isset($_SESSION['user_id'])) {
-    header('Location: InicioSesion.php');
-    exit();
-}
-$user_sesion_id=$_SESSION['user_id'];
-$user_sesion = $_SESSION['user_name'];
 
-$perfil_id = $_GET['id'] ?? null; // Obtener el ID del perfil a mostrar
-if($perfil_id===$user_sesion_id){
-    header('Location:Perfil.php');
-}
-
-if ($perfil_id === null) {
-    echo "Error: No se ha especificado un ID de perfil.";
-    exit(); // O podrías redirigir a una página de error
-}
 
 // Obtener datos del usuario del perfil
 $sql = "SELECT * FROM datos_sesion WHERE idUsuario = ?";
@@ -258,7 +264,17 @@ function marcarNotificacionLeida($conn, $idNotificacion) {
  </div>
 </header>
 
+
+
     <main>
+<nav class="nav-mobile">
+<button onclick="location.href='dashboard.php'"><i class="fas fa-home"></i></button>
+<button onclick="location.href='Perfil.php'"><i class="fa-solid fa-user"></i></button>
+<button onclick="location.href='BusqAv.php'"><i class="fa-solid fa-folder-open"></i></button>
+<button onclick="location.href='../Back/LogOut.php'"><i class="fa-solid fa-right-from-bracket"></i></button>
+</nav>
+
+
         <div class="perfilUs">
             <?php
             // Obtener la imagen del perfil
@@ -308,7 +324,7 @@ function marcarNotificacionLeida($conn, $idNotificacion) {
         <div class="contenedor_Publicaciones">
             <?php
             // Obtener las publicaciones del usuario del perfil
-            $query = "SELECT p.*, m.contenido, m.tipo_Img, m.video, u.nomUs AS autor,
+            $query = "SELECT p.*, m.contenido, m.tipo_Img, m.video,m.video_path, u.nomUs AS autor,
                     (SELECT COUNT(*) FROM Comentarios WHERE idPublicacion = p.idPubli) AS comentarios,
                     (SELECT COUNT(*) FROM Likes WHERE idPublicacion = p.idPubli AND idUsuario = ?) AS hasLiked,
                     FormatearFecha(p.fechaC) AS fecha_formateada,
@@ -328,6 +344,7 @@ function marcarNotificacionLeida($conn, $idNotificacion) {
                 while ($row = mysqli_fetch_assoc($result)) {
                     $mime = htmlspecialchars($row['tipo_Img'] ?? 'image/png');
                     $isVideo = htmlspecialchars($row['video']);
+                    $video = htmlspecialchars($row['video_path'] ?? null); // Ruta del video si es un video
                     $mediaSrc = 'data:' . $mime . ';base64,' . base64_encode($row['contenido']);
                     $baseAppUrl = 'https://stork-holy-yeti.ngrok-free.app/DEVWEB'; // Reemplazar con tu URL base
                     $urlPublicacion = $baseAppUrl . '/front/publicacion.php?id=' . htmlspecialchars($row['idPubli']);
@@ -350,7 +367,7 @@ function marcarNotificacionLeida($conn, $idNotificacion) {
                                 <p><?php echo htmlspecialchars($row['descripcion']); ?></p>
                                 <?php if ($isVideo): ?>
                                     <video class="media" controls>
-                                        <source src="<?php echo $mediaSrc; ?>" type="<?php echo $mime; ?>">
+                                        <source src="<?php echo $video; ?>" type="<?php echo $mime; ?>">
                                         Tu navegador no soporta video.
                                     </video>
                                 <?php else: ?>

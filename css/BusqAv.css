@@ -163,16 +163,7 @@ select::-ms-expand { /* Para navegadores IE */
   .card-body h2 {
     font-size: 1.2em;
   }
-  .card-footer {
-    flex-direction: column; /* Apilar botones */
-  }
-  .card-footer .btn {
-    width: 100%; /* Que los botones ocupen todo el ancho al apilarse */
-    margin-bottom: 8px;
-  }
-  .card-footer .btn:last-child {
-    margin-bottom: 0;
-  }
+ 
   .contenedor_publicaciones h3 {
     font-size: 1.3em;
   }

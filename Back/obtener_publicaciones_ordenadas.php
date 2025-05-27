@@ -71,7 +71,7 @@ while ($row = mysqli_fetch_assoc($result)) {
     $idMulti = $row['idMulti'] ?? null; // ID de la tabla Multimedia
     $mime = $row['tipo_ImgPubli'] ?? ($row['tipo_Img'] ?? 'application/octet-stream'); // Tipo MIME del contenido
     $isVideo = $row['video'];
-    
+    $video= $row['video_path'] ?? null; // Ruta del video si es un video
     $hasLiked = $row['hasLiked'] > 0;
     $numLikes = $row['nLikes'];
     $fechaFormateada = $row['fecha_formateada'];
@@ -101,13 +101,14 @@ while ($row = mysqli_fetch_assoc($result)) {
     $publicacionesHTML .= '           <h2>' . htmlspecialchars($row['titulo']) . '</h2>';
     $publicacionesHTML .= '           <p>' . htmlspecialchars($row['extracto']) . '</p>';
     
-    if ($isVideo && $idMulti) {
+    if ($isVideo==1) {
         // Modificación para usar el script de streaming
-        $videoStreamUrl = '../back/stream_video.php?id=' . $idMulti;
-        $publicacionesHTML .= '           <video class="media" controls preload="metadata">'; // preload="metadata" es buena práctica
-        $publicacionesHTML .= '               <source src="' . htmlspecialchars($videoStreamUrl) . '" type="' . htmlspecialchars($mime) . '">';
-        $publicacionesHTML .= '               Tu navegador no soporta el elemento de video.';
-        $publicacionesHTML .= '           </video>';
+   
+
+    $publicacionesHTML .= '           <video class="media" controls preload="metadata">'; // preload="metadata" es buena práctica
+     $publicacionesHTML .= '               <source src="' . $video . '" type="' . htmlspecialchars($mime) . '">';
+    $publicacionesHTML .= '               Tu navegador no soporta el elemento de video.';
+     $publicacionesHTML .= '           </video>';
     } elseif (!$isVideo && isset($row['contenido'])) {
         // Mantener Base64 para imágenes si así lo deseas, ya que es menos problemático
         $imgBase64 = base64_encode($row['contenido']);

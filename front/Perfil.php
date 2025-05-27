@@ -120,7 +120,21 @@ function marcarNotificacionLeida($conn, $idNotificacion) {
  <button onclick="location.href='Perfil.php'"><?php echo htmlspecialchars($user_name); ?></button>
  </div>
 </header>
+
+
+
+
 <main>
+
+<nav class="nav-mobile">
+<button onclick="location.href='dashboard.php'"><i class="fas fa-home"></i></button>
+<button onclick="location.href='Perfil.php'"><i class="fa-solid fa-user"></i></button>
+<button onclick="location.href='BusqAv.php'"><i class="fa-solid fa-folder-open"></i></button>
+<button onclick="location.href='../Back/LogOut.php'"><i class="fa-solid fa-right-from-bracket"></i></button>
+</nav>
+
+
+
 
 <div class="perfilUs">
 
@@ -173,7 +187,7 @@ if($user_role == 1 ){ ?>
 
 <div class="contenedor_Publicaciones">
 <?php
-$query = "SELECT p.*, m.contenido, m.tipo_Img, m.video, u.nomUs AS autor
+$query = "SELECT p.*, m.contenido, m.tipo_Img, m.video,m.video_path, u.nomUs AS autor
           FROM Publicaciones p
           JOIN Multimedia m ON m.idPubli = p.idPubli
           JOIN Usuarios u ON u.idUsuario = p.idUsuario
@@ -188,6 +202,7 @@ $result = mysqli_stmt_get_result($stmt);
 while ($row = mysqli_fetch_assoc($result)) {
     $mime = $row['tipo_Img'] ?? 'image/png';
     $isVideo = $row['video'];
+    $video = $row['video_path'] ?? null; // Ruta del video si es un video
     $mediaSrc = 'data:' . $mime . ';base64,' . base64_encode($row['contenido']);
 ?>
 <div class="card-container">
@@ -202,7 +217,7 @@ while ($row = mysqli_fetch_assoc($result)) {
             <p><?php echo htmlspecialchars($row['descripcion']); ?></p>
             <?php if ($isVideo): ?>
                 <video class="media" controls>
-                    <source src="<?php echo $mediaSrc; ?>" type="<?php echo $mime; ?>">
+                    <source src="<?php echo $video; ?>" type="<?php echo $mime; ?>">
                     Tu navegador no soporta video.
                 </video>
             <?php else: ?>

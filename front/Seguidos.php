@@ -164,7 +164,18 @@ function marcarNotificacionLeida($conn, $idNotificacion) {
  </div>
 </header>
 
+
+
     <main>
+
+<nav class="nav-mobile">
+<button onclick="location.href='dashboard.php'"><i class="fas fa-home"></i></button>
+<button onclick="location.href='Perfil.php'"><i class="fa-solid fa-user"></i></button>
+<button onclick="location.href='BusqAv.php'"><i class="fa-solid fa-folder-open"></i></button>
+<button onclick="location.href='../Back/LogOut.php'"><i class="fa-solid fa-right-from-bracket"></i></button>
+</nav>
+
+
         <div class="user-list-container">
             <h1><?php echo htmlspecialchars($page_title); ?></h1>
             <?php if (!empty($list_users)): ?>
