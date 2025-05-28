@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $fechaNacimiento = $_POST['fecha_usuario'];
 
 
-    $check_query = "SELECT idUsuario FROM Usuarios WHERE nomUs = ? OR correo = ? AND estado = 1";
+    $check_query = "SELECT idUsuario FROM Usuarios WHERE (nomUs = ? OR correo = ?) AND estado = 1";
     $check_stmt = mysqli_prepare($conn, $check_query);
     mysqli_stmt_bind_param($check_stmt, "ss", $nombreUsuario, $email);
     mysqli_stmt_execute($check_stmt);

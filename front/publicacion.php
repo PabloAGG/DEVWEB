@@ -113,6 +113,7 @@ function marcarNotificacionLeida($conn, $idNotificacion) {
     <title><?php echo htmlspecialchars($publicacion['titulo'] ?? 'Publicación'); ?> - DEVWEB</title>
     <link rel="stylesheet" href="../css/estiloslog.css">
     <link rel="stylesheet" href="../css/Publicacion.css">
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://kit.fontawesome.com/093074d40c.js" crossorigin="anonymous"></script>
 </head>

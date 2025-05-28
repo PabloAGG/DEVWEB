@@ -355,3 +355,113 @@ justify-content: space-between;
   .comentario-contenido span { font-size: 0.75em; }
   .comentario-contenido p { font-size: 0.9em; }
 }
+
+  
+.notificaciones {
+    position: relative; 
+    margin-right: 20px; 
+}
+
+#btn-notificaciones {
+    background: none;
+    border: none;
+    color: #e1e1e1; 
+    font-size: 20px;
+    cursor: pointer;
+    padding: 0; 
+    position: relative; 
+    transition: color 0.3s ease;
+}
+
+#btn-notificaciones:hover {
+    color: #fff;
+}
+
+
+#contador-notificaciones {
+    position: absolute;
+    top: -8px; 
+    right: -8px; 
+    background-color: red; 
+    color: white; 
+    border-radius: 50%; 
+    padding: 2px 5px; 
+    font-size: 10px; 
+    font-weight: bold;
+    line-height: 1; 
+    min-width: 18px; 
+    text-align: center;
+    display: none; 
+}
+
+#lista-notificaciones {
+    display: none; 
+    position: absolute;
+    top: 40px; 
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    width: 300px; 
+    max-height: 400px; 
+    overflow-y: auto; 
+    z-index: 1050; 
+}
+
+#lista-notificaciones p {
+    margin: 5px 0;
+    padding: 5px;
+    border-bottom: 1px solid #eee;
+    color: #333;
+}
+
+#lista-notificaciones p:last-child {
+    border-bottom: none;
+}
+
+.notificacion-item {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 5px;
+}
+
+.notificacion-item a {
+      text-decoration: none;
+      color: #007bff;
+      display: block; 
+}
+  .notificacion-item a:hover {
+      text-decoration: underline;
+}
+
+.notificacion-item p {
+    margin: 0 0 5px 0;
+    color: #333;
+}
+
+.notificacion-item small {
+    display: block;
+    color: #666;
+    font-size: 0.8em;
+}
+
+.notificacion-no-leida {
+      background-color: #eef; 
+      font-weight: bold; 
+}
+
+.notificacion-leida {
+      color: #555; 
+}
+
+.marcar-leida {
+    font-size: 0.8em;
+    margin-top: 5px;
+    color: #007bff;
+    cursor: pointer;
+}
+.marcar-leida:hover {
+      text-decoration: underline;
+}

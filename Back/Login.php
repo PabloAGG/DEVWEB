@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = trim($_POST['password_user']);
 
     // Consulta para buscar el usuario por nombre de usuario o correo electrónico
-    $query = "SELECT * FROM Usuarios WHERE nomUs = ? OR correo = ? AND estado = 1";
+    $query = "SELECT * FROM Usuarios WHERE (nomUs = ? OR correo = ?) AND estado = 1";
 $stmt = mysqli_prepare($conn, $query);
 mysqli_stmt_bind_param($stmt, "ss", $usuarioOEmail, $usuarioOEmail);
 mysqli_stmt_execute($stmt);

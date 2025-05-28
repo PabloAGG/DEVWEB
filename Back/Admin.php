@@ -38,7 +38,7 @@ if ($row = mysqli_fetch_assoc($result)) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crea una Publicacion</title>
+    <title>Panel de Administracion</title>
     <link rel="stylesheet" href="../css/estiloslog.css">
     <link rel="stylesheet" href="../css/Admin.css">
 
@@ -75,9 +75,7 @@ if ($row = mysqli_fetch_assoc($result)) {
 
     </main>
 
-    <footer>
-        <p id="datos">DEVWEB<br>Pablo Garcia 2006335<br>Jorge Rodriguez 2007179</p>
-    </footer>
+  
 <script src="../js/Admin.js"></script>
 </body>
 

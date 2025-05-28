@@ -35,6 +35,7 @@ CREATE TABLE Categorias (
     nombre VARCHAR(50) UNIQUE COMMENT 'Nombre único de la categoría'
 ) COMMENT='Categorías disponibles para clasificar las publicaciones';
 
+select * from publicaciones;
 -- Tabla de publicaciones realizadas por los usuarios
 CREATE TABLE Publicaciones (
     idPubli INT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'Identificador único de la publicación',
@@ -43,7 +44,7 @@ CREATE TABLE Publicaciones (
     categoria VARCHAR(50) COMMENT "categoría asociada a la publicación",
     estado BOOLEAN DEFAULT 1 COMMENT 'Estado de la publicación: 1=activa, 0=eliminada',
     idUsuario INT COMMENT 'Usuario autor de la publicación',
-    fechaC DATE DEFAULT CURRENT_TIMESTAMP() COMMENT 'Fecha de creación de la publicación', -- Se crea como DATE inicialmente
+    fechaC DATE DEFAULT CURRENT_TIMESTAMP() COMMENT 'Fecha de creación de la publicación', 
     fechaM DATE NULL COMMENT 'Fecha de última modificación',
     nLikes INT DEFAULT 0,
     FOREIGN KEY (idUsuario) REFERENCES Usuarios(idUsuario),
