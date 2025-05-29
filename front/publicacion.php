@@ -119,7 +119,7 @@ function marcarNotificacionLeida($conn, $idNotificacion) {
 </head>
 <body class="cuerpo">
 <header>
-<div class="logo">  <a href="dashboard.php"><img src="LOGOWEB.jpg" width="60px" height="60px" alt="Logo DEVWEB"></a></div>
+ <div class="logo">  <a href="dashboard.php"><img src="LOGOWEB.jpg" width="60px" height="60px" alt="Logo DEVWEB"></a></div>
  <div class="barrPrin">
 <button onclick="location.href='dashboard.php'">Inicio</button>
 <button onclick="location.href='Perfil.php'">Perfil</button>
@@ -130,31 +130,39 @@ function marcarNotificacionLeida($conn, $idNotificacion) {
 <input type="text" class="search-bar" placeholder="Buscar...">
  <button class="search-button"><i class="fa-solid fa-magnifying-glass"></i></button>
  </div>
- <div class="notificaciones">
- <button id="btn-notificaciones" title="Notificaciones">
-<i class="fa-solid fa-bell"></i>
-<span id="contador-notificaciones" class="contador-notificaciones">0</span>
- </button>
-         <div id="lista-notificaciones" class="lista-notificaciones">
- <p>Cargando notificaciones...</p>
- </div>
-         </div>
-
-<button id="openChatButton" title="Abrir Chat">
-    <i class="fas fa-comments"></i> </button>
-
-    <div id="chatFollowersModal" class="chat-modal" style="display:none;">
-    <div class="chat-modal-content">
-        <span class="chat-close-button" onclick="document.getElementById('chatFollowersModal').style.display='none'">&times;</span>
-        <h2>Iniciar chat con:</h2>
-        <div id="chatFollowersList" class="chat-user-list">
-            </div>
+<div class="notificaciones">
+    <button id="btn-notificaciones" title="Notificaciones">
+        <i class="fa-solid fa-bell"></i>
+        <span id="contador-notificaciones" class="contador-notificaciones">0</span>
+    </button>
+    <div id="lista-notificaciones" class="lista-notificaciones">
+        <p>Cargando notificaciones...</p>
     </div>
 </div>
 
- <div class="identificador">
- <button onclick="location.href='Perfil.php'"><?php echo htmlspecialchars($user_name); ?></button>
- </div>
+<div class="chat-modal-trigger">
+    <button id="openChatButton" title="Abrir Chat">
+        <i class="fas fa-comments"></i>
+    </button>
+    <div id="chatFollowersModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close-button" onclick="document.getElementById('chatFollowersModal').style.display='none'">&times;</span>
+            <h2>Iniciar un Chat</h2>
+            <div class="chat-contacts-section">
+                <h3>Siguiendo</h3>
+                <div id="chatFollowedList" class="chat-user-list"></div>
+            </div>
+            <div class="chat-contacts-section">
+                <h3>Otras Conversaciones</h3>
+                <div id="chatOthersList" class="chat-user-list"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="identificador">
+    <button onclick="location.href='Perfil.php'"><?php echo htmlspecialchars($user_name); ?></button>
+</div>
 </header>
 
 

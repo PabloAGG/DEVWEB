@@ -563,3 +563,78 @@ ul.pagination {
      /* left: 50%; transform: translateX(-50%); ya heredado */
   }
 }
+
+/* Agrega esto al final de tu archivo Dashboard.css o donde tengas los estilos de modales */
+
+/* Estilo base para el modal del chat */
+/* Igual que #lista-notificaciones, pero para el chat */
+.chat-modal-trigger { position: relative; display: inline-block; }
+#chatFollowersModal {
+    display: none;
+    position: absolute;
+    top: 40px;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    width: 300px; /* Igual que #lista-notificaciones */
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: 1100;
+    font-family: inherit;
+}
+
+#chatFollowersModal h2 {
+    font-size: 1rem;
+    color: #222;
+    margin: 0 0 10px 0;
+    font-weight: normal;
+    padding: 0;
+}
+
+#chatFollowersModal .chat-contacts-section h3 {
+    font-size: 1em;
+    color: #222;
+    margin: 10px 0 5px 0;
+    font-weight: bold;
+    border: none;
+    padding: 0;
+}
+
+#chatFollowersModal .chat-contacts-section:not(:last-child) {
+    border-bottom: 1px solid #eee;
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+}
+
+#chatFollowersModal .chat-user-list {
+    margin-bottom: 0;
+    padding-left: 0;
+}
+
+#chatFollowersModal .user-item {
+    padding: 5px 0;
+    color: #333;
+    font-size: 0.98em;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+#chatFollowersModal .user-item:hover {
+    background: #f5f5f5;
+}
+
+#chatFollowersModal .close-button {
+    position: absolute;
+    top: 7px;
+    right: 10px;
+    font-size: 1.1em;
+    color: #888;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 2;
+}

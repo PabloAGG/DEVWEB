@@ -19,6 +19,7 @@ CREATE TABLE Usuarios (
     fechaM DATE NULL COMMENT 'Fecha de modificación del registro',
     tipo_Img NVARCHAR(100) NULL COMMENT 'Tipo MIME de la imagen'
 ) COMMENT='Tabla que almacena la información de los usuarios de la página';
+
 Create table Seguidores(
 idSeguidores int not null auto_increment primary key comment'identificador de la fila seguidores',
 idSeguido int not null comment'usuario que fue seguido dentro de la app',
@@ -410,3 +411,26 @@ FROM Publicaciones
 WHERE estado = 1 -- Solo publicaciones activas
 ORDER BY Likes DESC; -- Ordenar por número de likes descendente
 -- CONTRASENA BDD JORGE 9na]H36az*rcut)z
+
+drop view if exists consulta_pubLikes;
+drop view if exists consulta_usNew;
+drop view if exists consulta_usComent;
+drop view if exists consulta_usPubli;
+drop view if exists consulta_uslikes;
+drop view if exists comentarios_publicacion;
+drop view if exists datos_sesion;
+drop view if exists publicaciones_mas_comentadas;
+drop view if exists publicaciones_mas_likes;
+drop view if exists ultimas_publicaciones;
+-- Eliminar las vistas si existen
+drop view if exists datos_sesion;
+drop view if exists comentarios_publicacion;
+
+drop view if exists publicaciones_mas_comentadas;
+drop view if exists publicaciones_mas_likes;
+drop view if exists ultimas_publicaciones;
+-- Eliminar las vistas si existen   
+
+-- NOTIFICACIONES DE SEGUIR
+ALTER TABLE Notificaciones
+MODIFY tipo ENUM('like', 'comentario', 'compartir', 'follow') NOT NULL COMMENT 'Tipo de notificación';

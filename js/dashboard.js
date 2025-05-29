@@ -2,150 +2,139 @@ document.addEventListener("DOMContentLoaded", function () {
     // --- Manejo de mensajes de URL (existente) ---
     const urlParams = new URLSearchParams(window.location.search);
     const error = urlParams.get('error');
-    const succes = urlParams.get('succes'); // Corregido 'succes' a 'success' si es el nombre correcto esperado
+    const succes = urlParams.get('succes'); // Considera cambiar 'succes' a 'success' en el backend para consistencia
 
     if (error === 'formato_invalido') {
-        alert('Formato de contenido inválido.'); // Mensaje más claro
+        alert('Formato de contenido inválido.');
     } else if (error === 'fallo_crear') {
-        alert('Error al crear la publicación, inténtalo más tarde.'); // Mensaje más claro
+        alert('Error al crear la publicación, inténtalo más tarde.');
     }
-    if (succes === 'publicacion_creada') { // Usar 'success' consistente
-        alert('Publicación creada correctamente.'); // Mensaje más claro
+    if (succes === 'publicacion_creada') {
+        alert('Publicación creada correctamente.');
     }
 
     // --- Validación del formulario de publicación (existente) ---
-    // Se asume que hay un formulario con id="formPublicacion" o similar,
-    // o que 'form' siempre selecciona el formulario correcto en la página.
-    // Si hay múltiples formularios, considera usar un selector más específico (ej. '#id-de-tu-formulario-publicacion').
-     const form = document.querySelector("form"); // asegúrate de poner el <form> real
-     const fileInput = document.getElementById("ffoto");
+    // Asume que tu formulario tiene name="titleP", name="descP", name="select" para los campos
+    const formPublicacion = document.querySelector("form#formPublicacion"); // Sé más específico con el selector del formulario
+    const fileInput = document.getElementById("ffoto");
 
-     if (form) { // Añadir verificación para asegurarse de que el formulario existe
-          form.addEventListener("submit", function (e) {
-               const title = form.titleP;
-               const desc = form.descP;
-               const categoria = form.select;
+    if (formPublicacion) {
+        formPublicacion.addEventListener("submit", function (e) {
+            const title = formPublicacion.titleP; // Accede a los campos por su 'name'
+            const desc = formPublicacion.descP;
+            const categoria = formPublicacion.select; // Asumiendo que el select tiene name="select"
 
-               if (!title.value.trim()) {
-                   title.setCustomValidity("Por favor, ingresa un título.");
-                   e.preventDefault();
-                   return;
-               } else {
-                   title.setCustomValidity(""); // Limpiar error si es válido
-               }
+            let isValid = true;
 
-               if (!desc.value.trim()) {
-                  desc.setCustomValidity("La descripción no puede estar vacía.");
-                   e.preventDefault();
-                   return;
-               } else {
-                   desc.setCustomValidity(""); // Limpiar error si es válido
-               }
+            if (!title || !title.value.trim()) {
+                alert("Por favor, ingresa un título."); // O usa setCustomValidity y reportValidity
+                // title?.setCustomValidity("Por favor, ingresa un título.");
+                // title?.reportValidity();
+                isValid = false;
+            } else {
+                // title?.setCustomValidity("");
+            }
 
-               if (!categoria.value) {
-                  categoria.setCustomValidity("Debes seleccionar una categoría.");
-                   e.preventDefault();
-                   return;
-               } else {
-                   categoria.setCustomValidity(""); // Limpiar error si es válido
-               }
+            if (!desc || !desc.value.trim()) {
+                alert("La descripción не может быть пустой.");
+                // desc?.setCustomValidity("La descripción no puede estar vacía.");
+                // desc?.reportValidity();
+                isValid = false;
+            } else {
+                // desc?.setCustomValidity("");
+            }
 
-               // Validación de archivo (si existe)
-               if (fileInput && fileInput.files.length > 0) { // Verificar si fileInput existe
-                   const file = fileInput.files[0];
-                   const validTypes = ["image/jpeg", "image/png", "video/mp4"];
-                   // Corregido tamaño máximo a 10 MB, estaba 64MB por error
-                   const maxSize = 10 * 1024 * 1024; // 10 MB
+            if (!categoria || !categoria.value) {
+                alert("Debes seleccionar una categoría.");
+                // categoria?.setCustomValidity("Debes seleccionar una categoría.");
+                // categoria?.reportValidity();
+                isValid = false;
+            } else {
+                // categoria?.setCustomValidity("");
+            }
 
-                   if (!validTypes.includes(file.type)) {
-                      fileInput.setCustomValidity("Solo se permiten imágenes .jpg/.png o videos .mp4");
-                       e.preventDefault();
-                       return;
-                   }
+            if (fileInput && fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                const validTypes = ["image/jpeg", "image/png", "video/mp4"];
+                const maxSize = 10 * 1024 * 1024; // 10 MB
 
-                   if (file.size > maxSize) {
-                       fileInput.setCustomValidity("El archivo no puede superar los 10 MB.");
-                       e.preventDefault();
-                       return;
-                   }
-                    // Limpiar custom validity si el archivo es válido
-                   fileInput.setCustomValidity("");
-               } else if (fileInput) {
-                    // Si el campo de archivo existe pero no hay archivo seleccionado, limpiar cualquier error previo
-                   fileInput.setCustomValidity("");
-               }
-           });
-     } else {
-         console.error("Formulario de publicación no encontrado.");
-     }
+                if (!validTypes.includes(file.type)) {
+                    alert("Solo se permiten imágenes .jpg/.png o videos .mp4");
+                    // fileInput.setCustomValidity("Solo se permiten imágenes .jpg/.png o videos .mp4");
+                    // fileInput.reportValidity();
+                    isValid = false;
+                } else {
+                    // fileInput.setCustomValidity("");
+                }
+
+                if (file.size > maxSize) {
+                    alert("El archivo no puede superar los 10 MB.");
+                    // fileInput.setCustomValidity("El archivo no puede superar los 10 MB.");
+                    // fileInput.reportValidity();
+                    isValid = false;
+                } else {
+                    // fileInput.setCustomValidity("");
+                }
+            }
+            
+            if (!isValid) {
+                e.preventDefault(); // Detener el envío del formulario si hay errores
+            }
+        });
+    } else {
+        console.warn("Formulario de publicación ('form#formPublicacion') no encontrado. La validación no se activará.");
+    }
 
 
-    // --- Funcionalidad de Notificaciones (Modificada) ---
-    // Asegúrate de que jQuery esté cargado antes de este script.
-    // El HTML para #btn-notificaciones, #contador-notificaciones y #lista-notificaciones
-    // debe existir en tu dashboard.php (ver recomendaciones de HTML previas).
-
-    // Ocultar al inicio
+    // --- Funcionalidad de Notificaciones ---
     $('#lista-notificaciones').hide();
-    $('#contador-notificaciones').hide(); // Ocultar contador si está en 0
+    $('#contador-notificaciones').hide();
 
-    // Cargar notificaciones y contador al inicio
     cargarNotificaciones();
     actualizarContadorNotificaciones();
 
-    // Opcional: Polling para notificaciones nuevas (ajusta el intervalo)
-    // Verificar contador cada 15 segundos
     setInterval(actualizarContadorNotificaciones, 15000);
-     // Si quieres recargar la lista completa periódicamente, úsalo con precaución
-     // setInterval(cargarNotificaciones, 30000); // Ejemplo: recargar lista cada 30 segundos
 
-    // Toggle de la lista de notificaciones al hacer clic en el icono
     $('#btn-notificaciones').on('click', function(e) {
-        e.stopPropagation(); // Evita que el clic se propague y cierre la lista inmediatamente
+        e.stopPropagation();
         $('#lista-notificaciones').toggle();
-         // Opcional: Si la lista se abre, marca todas las visibles como leídas en la UI
-        // Esto no las marca en la DB, solo cambia la apariencia hasta la próxima carga
-        // $('#lista-notificaciones .notificacion-no-leida').removeClass('notificacion-no-leida').addClass('notificacion-leida');
+        // Si la lista es visible y hay notificaciones, es un buen momento para recargarlas
+        // o al menos actualizar sus estados si es necesario.
+        if ($('#lista-notificaciones').is(':visible')) {
+            cargarNotificaciones();
+        }
     });
 
-    // Cierra la lista de notificaciones si se hace clic fuera de ella
     $(document).on('click', function(e) {
         if (!$(e.target).closest('.notificaciones').length) {
             $('#lista-notificaciones').hide();
         }
     });
 
-    // Manejar clic en "Marcar como leída" (delegación de eventos)
-    // Usamos .on() para manejar clicks en elementos que se añaden dinámicamente
     $('#lista-notificaciones').on('click', '.marcar-leida', async function(e) {
-        e.preventDefault(); // Previene el comportamiento por defecto del enlace
-        e.stopPropagation(); // Evita que el clic se propague al contenedor del item
-        const idNotificacion = $(this).data('idnotificacion'); // Obtener el ID del data-attribute
-        const notificacionItem = $(this).closest('.notificacion-item');
+        e.preventDefault();
+        e.stopPropagation();
+        const idNotificacion = $(this).data('idnotificacion');
+        const notificacionItemDiv = $(this).closest('.notificacion-item'); // Div padre del item
+        const csrfToken = window.csrf_token || ''; // Obtener de variable global
 
         try {
             const response = await fetch('../Back/marcar_notificacion_leida.php', {
-                method: 'POST', // o 'GET', según cómo implementes marcar_notificacion_leida.php
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded' // Si envías por POST
-                },
-                body: new URLSearchParams({ // Si envías por POST
-                    'idNotificacion': idNotificacion
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({ 
+                    'idNotificacion': idNotificacion,
+                    'csrf_token': csrfToken // Enviar CSRF token
                 })
             });
-
             const data = await response.json();
-
             if (data.success) {
-                // Actualizar visualmente la notificación en la lista
-                notificacionItem.removeClass('notificacion-no-leida').addClass('notificacion-leida');
+                notificacionItemDiv.removeClass('notificacion-no-leida').addClass('notificacion-leida');
                 $(this).remove(); // Eliminar el enlace "Marcar como leída"
-
-                // Actualizar el contador de notificaciones no leídas
                 actualizarContadorNotificaciones();
             } else {
                 console.error('Error al marcar notificación como leída:', data.message);
-                alert('Error al marcar notificación como leída: ' + data.message); // Feedback al usuario
+                alert('Error al marcar notificación como leída: ' + (data.message || 'Error desconocido'));
             }
         } catch (error) {
             console.error('Error en la petición AJAX para marcar como leída:', error);
@@ -153,159 +142,170 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-     // Delegación de eventos para hacer clic en cualquier parte del item de notificación
-     // excepto en el enlace "Marcar como leída"
-     $('#lista-notificaciones').on('click', '.notificacion-item', function(e) {
-         // Verifica si el clic no fue en el enlace "Marcar como leída"
-         if (!$(e.target).hasClass('marcar-leida')) {
-             const publiId = $(this).data('idpublicacion'); // Obtener el ID de la publicación asociado
-             const idNotificacion = $(this).data('idnotificacion'); // Obtener el ID de la notificación
+    // NUEVO MANEJADOR DE CLIC PARA ITEMS DE NOTIFICACIÓN (redirige y puede marcar como leída)
+    $('#lista-notificaciones').on('click', '.notificacion-item', async function(e) {
+        // No hacer nada si se hizo clic en el enlace "Marcar como leída"
+        if ($(e.target).hasClass('marcar-leida') || $(e.target).closest('.marcar-leida').length) {
+            return;
+        }
+        e.stopPropagation();
 
-             if (publiId) {
-                  // Opcional: Marcar como leída ANTES de redirigir (vía AJAX)
-                  // Solo si la notificación no está ya marcada como leída
-                  if (!$(this).hasClass('notificacion-leida')) {
-                      marcarNotificacionLeidaAjax(idNotificacion); // Llama a la función AJAX
-                  }
-                 // Redirigir a la publicación relevante
-                 window.location.href = 'publicacion.php?id=' + publiId;
-             }
-         }
-     });
+        const idNotificacion = $(this).data('idnotificacion');
+        const redirectUrl = $(this).data('redirect-url'); // URL a la que redirigir
+        const isUnread = $(this).hasClass('notificacion-no-leida');
+        const csrfToken = window.csrf_token || '';
 
-
+        if (isUnread && idNotificacion) {
+            try {
+                const response = await fetch('../Back/marcar_notificacion_leida.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: new URLSearchParams({ 
+                        'idNotificacion': idNotificacion,
+                        'csrf_token': csrfToken 
+                    })
+                });
+                const data = await response.json();
+                if (data.success) {
+                    $(this).removeClass('notificacion-no-leida').addClass('notificacion-leida');
+                    $(this).find('.marcar-leida').remove();
+                    actualizarContadorNotificaciones();
+                } else {
+                    console.error('Error al marcar notificación como leída al hacer clic en item:', data.message);
+                }
+            } catch (error) {
+                console.error('Error en AJAX al marcar como leída (clic en item):', error);
+            } finally {
+                if (redirectUrl && redirectUrl !== '#') {
+                    window.location.href = redirectUrl;
+                }
+            }
+        } else {
+            // Si ya está leída o no hay ID, simplemente redirigir si hay URL
+            if (redirectUrl && redirectUrl !== '#') {
+                window.location.href = redirectUrl;
+            }
+        }
+    });
 }); // Fin de DOMContentLoaded
 
-// --- Funciones de Notificaciones (Modificadas) ---
 
-// Función para cargar la lista de notificaciones (ahora manejando JSON y construyendo mensaje)
 function cargarNotificaciones() {
     $.ajax({
         url: '../Back/obtener_notificaciones.php',
         type: 'GET',
-        dataType: 'json', // Esperamos que el servidor devuelva JSON
+        dataType: 'json',
         success: function(notificaciones) {
             const listaHtml = $('#lista-notificaciones');
-            listaHtml.empty(); // Limpiar lista actual
+            listaHtml.empty();
 
             if (notificaciones.length === 0) {
-                listaHtml.append('<p>No tienes notificaciones.</p>');
+                listaHtml.append('<p class="pnotis">No tienes notificaciones nuevas.</p>');
             } else {
                 notificaciones.forEach(notificacion => {
-                    // Construir el HTML para cada notificación
-                    const itemClass = notificacion.leida ? 'notificacion-item notificacion-leida' : 'notificacion-item notificacion-no-leida';
-                    // Incluir data-attributes para ID de notificación y publicación
-                    const itemDataAttributes = `data-idnotificacion="${notificacion.idNotificacion}" data-idpublicacion="${notificacion.idPublicacion}"`;
-                    const linkLeida = notificacion.leida ? '' : `<a href="#" class="marcar-leida" data-idnotificacion="${notificacion.idNotificacion}">Marcar como leída</a>`;
-                    // El enlace principal ahora está implícito en el click del div '.notificacion-item'
+                    const itemClass = notificacion.leida == '1' ? 'notificacion-item notificacion-leida' : 'notificacion-item notificacion-no-leida';
+                    const idNotif = notificacion.idNotificacion;
+                    const idUsuarioEmite = notificacion.idUsuarioEmite; // Para enlace de 'follow'
+                    const idPublicacion = notificacion.idPublicacion; // Para enlace de 'like'/'comentario'
+                    
+                    let iconoHtml = '';
+                    let mensajeMostrado = ''; // El mensaje que se va a mostrar
+                    let redirectUrl = '#'; // URL a la que el item completo redirigirá
 
-                    // *** MODIFICACION CLAVE AQUI ***
-                    // Construir el texto del mensaje basado en el tipo de notificación
-                    let mensajeTexto = '';
-                    // Puedes ajustar las frases según tus necesidades
                     switch (notificacion.tipo) {
                         case 'like':
-                            mensajeTexto = ` le dio me gusta a tu publicación.`;
+                            iconoHtml = '<i class="fa-solid fa-thumbs-up fa-fw"></i> ';
+                            // Para 'like', el mensaje es "Usuario X le dio me gusta..."
+                            mensajeMostrado = htmlspecialchars(notificacion.usuarioEmiteNombre) + " le dio me gusta a tu publicación.";
+                            if (idPublicacion) {
+                                redirectUrl = `publicacion.php?id=${idPublicacion}&notif_id=${idNotif}`;
+                            }
                             break;
                         case 'comentario':
-                            mensajeTexto = ` comentó en tu publicación.`;
+                            iconoHtml = '<i class="fa-solid fa-comment fa-fw"></i> ';
+                            // Para 'comentario', el mensaje es "Usuario X comentó..."
+                            mensajeMostrado = htmlspecialchars(notificacion.usuarioEmiteNombre) + " comentó en tu publicación.";
+                            if (idPublicacion) {
+                                redirectUrl = `publicacion.php?id=${idPublicacion}&notif_id=${idNotif}`;
+                            }
                             break;
-                        // Agrega casos para otros tipos de notificación si los tienes
-                        // case 'compartir':
-                        //     mensajeTexto = ` compartió tu publicación.`;
-                        //     break;
+                        case 'follow':
+                            iconoHtml = '<i class="fa-solid fa-user-plus fa-fw"></i> ';
+                            // Para 'follow', el mensaje ya viene completo desde el backend como "UsuarioX ha comenzado a seguirte."
+                            // Tu script de INSERT ya lo guarda bien.
+                            mensajeMostrado = htmlspecialchars(notificacion.mensaje);
+                            if (idUsuarioEmite) {
+                                redirectUrl = `PerfilExt.php?id=${idUsuarioEmite}&notif_id=${idNotif}`;
+                            }
+                            break;
                         default:
-                            // En caso de tipo desconocido, puedes usar el mensaje original (con precaución)
-                             // Si usas este, puede reaparecer "El usuario" si el mensaje original es "Nombre El usuario..."
-                             mensajeTexto = `: ${notificacion.mensaje}`;
-                            // Una alternativa más segura si el tipo es desconocido es un mensaje genérico:
-                            // mensajeTexto = ` tienes una nueva notificación.`;
+                            iconoHtml = '<i class="fa-solid fa-bell fa-fw"></i> ';
+                            // Para tipos desconocidos, mostrar el mensaje del backend directamente.
+                            // Esto también evita la duplicación si 'mensaje' ya es completo.
+                            mensajeMostrado = htmlspecialchars(notificacion.mensaje);
+                            // Considerar si estos tipos deben tener un redirectUrl o no.
                             break;
                     }
-                    // *** FIN MODIFICACION CLAVE ***
 
+                    // Notificación de escritorio (si el permiso está concedido y la pestaña no está activa)
+                    if ("Notification" in window && Notification.permission === "granted" && notificacion.leida == '0' && document.hidden) {
+                        new Notification("DEVWEB", {
+                            body: notificacion.mensaje, // Usar el mensaje original para la notificación de escritorio
+                            icon: "../front/LOGOWEB.jpg" // Asegúrate que esta ruta es correcta
+                        });
+                    }
+
+                    const fechaFormateada = htmlspecialchars(notificacion.fechaCreacion);
+                    const linkLeidaHtml = notificacion.leida == '1' ? '' : `<a href="#" class="marcar-leida" data-idnotificacion="${idNotif}">Marcar como leída</a>`;
+                    
+                    // Construir el contenido del item
+                    // Añadimos data-redirect-url al div principal
                     const itemHtml = `
-                        <div class="${itemClass}" ${itemDataAttributes}>
-                            <p><strong>${htmlspecialchars(notificacion.usuarioEmiteNombre)}</strong>${htmlspecialchars(mensajeTexto)}</p>
-                            <small>${htmlspecialchars(notificacion.fechaCreacion)}</small>
-                            ${linkLeida}
-                        </div>
-                    `; // Ya no usamos notificacion.mensaje.replace(...)
-
+                        <div class="${itemClass}" data-idnotificacion="${idNotif}" data-redirect-url="${redirectUrl}">
+                            ${iconoHtml}
+                            <span class="notificacion-mensaje-principal">${mensajeMostrado}</span>
+                            <small class="notificacion-fecha">(${fechaFormateada})</small>
+                            ${linkLeidaHtml}
+                        </div>`;
+                    
                     listaHtml.append(itemHtml);
                 });
             }
         },
         error: function(xhr, status, error) {
-             // Manejo de errores más detallado
-             console.error("Error al cargar notificaciones:", status, error, xhr.responseText);
-            $('#lista-notificaciones').html('<p>Error al cargar las notificaciones.</p>');
+            console.error("Error al cargar notificaciones:", status, error, xhr.responseText);
+            $('#lista-notificaciones').html('<p class="pnotis">Error al cargar las notificaciones.</p>');
         }
     });
 }
 
-// Función para actualizar solo el contador de notificaciones no leídas
 function actualizarContadorNotificaciones() {
     $.ajax({
         url: '../Back/obtener_cantidad_no_leidas.php',
         type: 'GET',
         success: function(cantidad) {
             const contador = $('#contador-notificaciones');
-            const numCantidad = parseInt(cantidad); // Convertir a número
-
+            const numCantidad = parseInt(cantidad);
             contador.text(numCantidad);
-
             if (numCantidad > 0) {
-                contador.show(); // Mostrar si hay notificaciones no leídas
-                 // Opcional: Si hay notificaciones no leídas, precarga la lista (si no la cargas ya periódicamente)
-                 // cargarNotificaciones();
+                contador.show();
             } else {
-                contador.hide(); // Ocultar si no hay
+                contador.hide();
             }
         },
         error: function() {
-             console.error("Error al obtener contador de notificaciones.");
-            $('#contador-notificaciones').text('!'); // Indica error
-            $('#contador-notificaciones').show(); // Mostrar indicador de error
+            console.error("Error al obtener contador de notificaciones.");
+            // $('#contador-notificaciones').text('!').show(); // Opcional: Indicar error
         }
     });
 }
 
-// Función AJAX separada para marcar como leída (usada al hacer clic en el item completo)
-// Esto evita la redirección inmediata si el usuario solo quería marcar como leído y seguir en el dashboard
-async function marcarNotificacionLeidaAjax(idNotificacion) {
-     try {
-           const response = await fetch('../Back/marcar_notificacion_leida.php', {
-               method: 'POST', // o 'GET'
-               headers: {
-                   'Content-Type': 'application/x-www-form-urlencoded'
-               },
-               body: new URLSearchParams({
-                   'idNotificacion': idNotificacion
-               })
-           });
-           const data = await response.json();
-           if (data.success) {
-               console.log(`Notificación ${idNotificacion} marcada como leída.`);
-                actualizarContadorNotificaciones(); // Actualizar contador
-                // Encuentra el item en la lista visible y actualiza su clase
-                $(`#lista-notificaciones div[data-idnotificacion="${idNotificacion}"]`)
-                    .removeClass('notificacion-no-leida')
-                    .addClass('notificacion-leida')
-                    .find('.marcar-leida').remove(); // Eliminar el enlace "Marcar como leída"
-           } else {
-               console.error('Error al marcar notificación como leída (AJAX):', data.message);
-           }
-       } catch (error) {
-           console.error('Error en la petición AJAX para marcar como leída:', error);
-       }
-}
+// La función marcarNotificacionLeidaAjax ya no es necesaria aquí si el manejador de .notificacion-item la cubre.
+// La eliminamos para evitar duplicidad, ya que el manejador de .marcar-leida y .notificacion-item hacen el fetch.
 
-
-// Función para escapar HTML (útil para datos recibidos por AJAX)
 function htmlspecialchars(str) {
     if (typeof str !== 'string') {
-        return str; // Retorna el valor si no es string (ej. null, number)
+        return str === null || typeof str === 'undefined' ? '' : String(str);
     }
     const map = {
         '&': '&amp;',
@@ -317,9 +317,6 @@ function htmlspecialchars(str) {
     return str.replace(/[&<>"']/g, function(m) { return map[m]; });
 }
 
-
-// --- Funcionalidad para mostrar/ocultar formulario de publicación (existente) ---
-// Asumiendo que tienes un botón que llama a esta función
 function toggleForm() {
     const form = document.getElementById("EspPub");
     if (form) {

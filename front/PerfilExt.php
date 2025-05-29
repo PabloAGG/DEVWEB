@@ -17,10 +17,7 @@ if($perfil_id == $user_sesion_id){
      exit();
 }
 
-if ($perfil_id === null) {
-    echo "Error: No se ha especificado un ID de perfil.";
-    exit(); // O podrías redirigir a una página de error
-}
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax']) && $_POST['ajax'] === 'true') {
     header('Content-Type: application/json');
@@ -78,7 +75,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax']) && $_POST['aj
                 mysqli_stmt_bind_param($stmtInsertSeguidor, 'ii', $idPerfilVisitado, $idUsuarioSesion);
                 if (mysqli_stmt_execute($stmtInsertSeguidor)) {
                     $dbActionSuccess = true;
-                } else {
+                } 
+                if ($dbActionSuccess) 
+                { // Asegúrate que la acción de seguir fue realmente exitosa y es un nuevo seguimiento
+    // Crear notificación para el usuario que está SIENDO SEGUIDO
+    $idUsuarioQueSigue = $idUsuarioSesion; // Usuario que realiza la acción (el que está en sesión)
+    $nombreUsuarioQueSigue = $_SESSION['user_name']; // Nombre del usuario que sigue
+    $idUsuarioSeguido = $idPerfilVisitado; // Usuario que es seguido (el perfil que se está visitando)
+
+    $mensajeNotificacion = htmlspecialchars($nombreUsuarioQueSigue) . " ha comenzado a seguirte.";
+    $tipoNotificacion = 'follow'; // El nuevo tipo que añadiste al ENUM
+
+    // Preparar la inserción de la notificación
+    // idPublicacion será NULL para este tipo de notificación
+    $stmtNotif = mysqli_prepare($conn, "INSERT INTO Notificaciones (idUsuarioRecibe, idUsuarioEmite, tipo, mensaje, idPublicacion) VALUES (?, ?, ?, ?, NULL)");
+    if ($stmtNotif) {
+        mysqli_stmt_bind_param($stmtNotif, 'iiss', $idUsuarioSeguido, $idUsuarioQueSigue, $tipoNotificacion, $mensajeNotificacion);
+        mysqli_stmt_execute($stmtNotif);
+        mysqli_stmt_close($stmtNotif);
+    } else {
+        // Opcional: Registrar error si la preparación de la notificación falla
+        error_log("Error al preparar la notificación de seguimiento: " . mysqli_error($conn));
+    }
+}
+                
+                
+                else {
                     $response['message'] = 'Error al intentar seguir al usuario: ' . mysqli_stmt_error($stmtInsertSeguidor);
                 }
                 mysqli_stmt_close($stmtInsertSeguidor);
@@ -225,7 +247,7 @@ function marcarNotificacionLeida($conn, $idNotificacion) {
 
 <body class="cuerpo">
 <header>
-   <div class="logo">  <a href="dashboard.php"><img src="LOGOWEB.jpg" width="60px" height="60px" alt="Logo DEVWEB"></a></div>
+ <div class="logo">  <a href="dashboard.php"><img src="LOGOWEB.jpg" width="60px" height="60px" alt="Logo DEVWEB"></a></div>
  <div class="barrPrin">
 <button onclick="location.href='dashboard.php'">Inicio</button>
 <button onclick="location.href='Perfil.php'">Perfil</button>
@@ -236,32 +258,39 @@ function marcarNotificacionLeida($conn, $idNotificacion) {
 <input type="text" class="search-bar" placeholder="Buscar...">
  <button class="search-button"><i class="fa-solid fa-magnifying-glass"></i></button>
  </div>
- <div class="notificaciones">
- <button id="btn-notificaciones" title="Notificaciones">
-<i class="fa-solid fa-bell"></i>
-<span id="contador-notificaciones" class="contador-notificaciones">0</span>
- </button>
-         <div id="lista-notificaciones" class="lista-notificaciones">
- <p>Cargando notificaciones...</p>
- </div>
-         </div>
-
-<button id="openChatButton" title="Abrir Chat">
-    <i class="fas fa-comments"></i> </button>
-
-    <div id="chatFollowersModal" class="chat-modal" style="display:none;">
-    <div class="chat-modal-content">
-        <span class="chat-close-button" onclick="document.getElementById('chatFollowersModal').style.display='none'">&times;</span>
-        <h2>Iniciar chat con:</h2>
-        <div id="chatFollowersList" class="chat-user-list">
-            </div>
+<div class="notificaciones">
+    <button id="btn-notificaciones" title="Notificaciones">
+        <i class="fa-solid fa-bell"></i>
+        <span id="contador-notificaciones" class="contador-notificaciones">0</span>
+    </button>
+    <div id="lista-notificaciones" class="lista-notificaciones">
+        <p>Cargando notificaciones...</p>
     </div>
 </div>
 
+<div class="chat-modal-trigger">
+    <button id="openChatButton" title="Abrir Chat">
+        <i class="fas fa-comments"></i>
+    </button>
+    <div id="chatFollowersModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close-button" onclick="document.getElementById('chatFollowersModal').style.display='none'">&times;</span>
+            <h2>Iniciar un Chat</h2>
+            <div class="chat-contacts-section">
+                <h3>Siguiendo</h3>
+                <div id="chatFollowedList" class="chat-user-list"></div>
+            </div>
+            <div class="chat-contacts-section">
+                <h3>Otras Conversaciones</h3>
+                <div id="chatOthersList" class="chat-user-list"></div>
+            </div>
+        </div>
+    </div>
+</div>
 
- <div class="identificador">
- <button onclick="location.href='Perfil.php'"><?php echo htmlspecialchars($user_name); ?></button>
- </div>
+<div class="identificador">
+    <button onclick="location.href='Perfil.php'"><?php echo htmlspecialchars($user_name); ?></button>
+</div>
 </header>
 
 
