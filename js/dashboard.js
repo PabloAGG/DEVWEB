@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // --- Validación del formulario de publicación (existente) ---
     // Asume que tu formulario tiene name="titleP", name="descP", name="select" para los campos
-    const formPublicacion = document.querySelector("form#formPublicacion"); // Sé más específico con el selector del formulario
+    const formPublicacion = document.querySelector("form#espPubform"); // Sé más específico con el selector del formulario
     const fileInput = document.getElementById("ffoto");
 
     if (formPublicacion) {
@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             if (!desc || !desc.value.trim()) {
-                alert("La descripción не может быть пустой.");
+                alert("La descripción no puede estar vacía.");
                 // desc?.setCustomValidity("La descripción no puede estar vacía.");
                 // desc?.reportValidity();
                 isValid = false;
