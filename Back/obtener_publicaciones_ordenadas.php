@@ -13,19 +13,17 @@ $query = "";
 // Definir la consulta base según el orden
 switch ($orden) {
     case 'seguidos':
-         $queryBase ="SELECT
-    up.*,(SELECT COUNT(*) FROM Likes WHERE idPublicacion = up.idPubli AND idUsuario = ?) AS hasLiked,
-    CASE
-        WHEN s.idSeguidor IS NOT NULL THEN 1
-        ELSE 0
-    END AS es_autor_seguido
-FROM
-    ultimas_publicaciones up
-LEFT JOIN
-    Seguidores s ON up.idUsuario = s.idSeguido AND s.idSeguidor = ? 
-ORDER BY
-    es_autor_seguido DESC,
-    up.fechaC DESC ";
+        $queryBase = "SELECT
+        up.*,
+        (SELECT COUNT(*) FROM Likes WHERE idPublicacion = up.idPubli AND idUsuario = ?) AS hasLiked
+    FROM
+        ultimas_publicaciones up
+    INNER JOIN
+        Seguidores s ON up.idUsuario = s.idSeguido
+    WHERE
+        s.idSeguidor = ?
+    ORDER BY
+        up.fechaC DESC";
         break;
 
     case 'ultimas':
