@@ -86,6 +86,17 @@ function marcarNotificacionLeida($conn, $idNotificacion) {
  ?>
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Pagina principal</title>
+<link rel="stylesheet" href="../css/estiloslog.css">
+<link rel="stylesheet" href="../css/Dashboard.css">
+<link rel="stylesheet" href="../css/BusqAv.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://kit.fontawesome.com/093074d40c.js" crossorigin="anonymous"></script>
+</head>
+<body class="cuerpo">
 <header>
  <div class="logo">  <a href="dashboard.php"><img src="LOGOWEB.jpg" width="60px" height="60px" alt="Logo DEVWEB"></a></div>
  <div class="barrPrin">

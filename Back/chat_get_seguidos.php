@@ -27,7 +27,7 @@ $followed_user_ids = []; // Para no repetir usuarios en la lista 'others'
 $sql_seguidos = "SELECT u.idUsuario, u.nomUs
                  FROM usuarios u 
                  INNER JOIN seguidores s ON u.idUsuario = s.idSeguido
-                 WHERE s.idSeguidor = ?";
+                 WHERE s.idSeguidor = ? and u.estado = 1"; // Aseguramos que el usuario está activo
 
 if ($stmt_seguidos = $conn->prepare($sql_seguidos)) {
     $stmt_seguidos->bind_param("i", $id_usuario_actual);

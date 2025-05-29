@@ -161,7 +161,7 @@ function marcarNotificacionLeida($conn, $idNotificacion) {
 
         <div class="contenedor-input">
             <span class="icono"><i class="fa-solid fa-cake-candles"></i></span>
-            <input type="date" name="fecha_usuario" placeholder="<?php echo $birth_date?>" required>
+            <input type="date" name="fecha_usuario" value="<?php echo $birth_date?>" required>
             <label for="fecha_usuario">Fecha de nacimiento</label>
         </div>
          <label for="#"> <input type="checkbox" name="psw-change" id="psw-change" onclick="togglePasswordVisibility()">Cambiar contraseña</label><br>

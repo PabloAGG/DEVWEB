@@ -67,7 +67,7 @@ if ($show_mode === 'follows') {
     $sql_list = "SELECT u.idUsuario, u.nomUs, u.nombre, u.imagen, u.tipo_Img 
                  FROM Usuarios u 
                  JOIN Seguidores s ON u.idUsuario = s.idSeguido 
-                 WHERE s.idSeguidor = ?";
+                 WHERE s.idSeguidor = ? and u.estado = 1"; // Aseguramos que el usuario está activo
     $stmt_list = mysqli_prepare($conn, $sql_list);
     mysqli_stmt_bind_param($stmt_list, 'i', $user_sesion_id);
 } elseif ($show_mode === 'followers') {
@@ -76,7 +76,7 @@ if ($show_mode === 'follows') {
     $sql_list = "SELECT u.idUsuario, u.nomUs, u.nombre, u.imagen, u.tipo_Img 
                  FROM Usuarios u 
                  JOIN Seguidores s ON u.idUsuario = s.idSeguidor 
-                 WHERE s.idSeguido = ?";
+                 WHERE s.idSeguido = ? and u.estado = 1"; // Aseguramos que el usuario está activo
     $stmt_list = mysqli_prepare($conn, $sql_list);
     mysqli_stmt_bind_param($stmt_list, 'i', $user_sesion_id);
 } else {
@@ -166,7 +166,7 @@ function marcarNotificacionLeida($conn, $idNotificacion) {
 </div>
 
 <div class="identificador">
-    <button onclick="location.href='Perfil.php'"><?php echo htmlspecialchars($user_name); ?></button>
+    <button onclick="location.href='Perfil.php'"><?php echo htmlspecialchars($user_sesion_name); ?></button>
 </div>
 </header>
 
